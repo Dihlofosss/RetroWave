@@ -16,6 +16,7 @@ public class Audio : MonoBehaviour
 
     public void PlayNext()
     {
+        UI_Fader.OnClick();
         if (audioSource.isPlaying)
             audioSource.Stop();
         currentTrack++;
@@ -27,6 +28,7 @@ public class Audio : MonoBehaviour
 
     public void PlayPrevious()
     {
+        UI_Fader.OnClick();
         if (audioSource.isPlaying)
             audioSource.Stop();
         currentTrack--;
@@ -38,6 +40,7 @@ public class Audio : MonoBehaviour
 
     public void PlayPause()
     {
+        UI_Fader.OnClick();
         if (audioSource.isPlaying)
             audioSource.Pause();
         else

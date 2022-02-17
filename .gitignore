@@ -6,3 +6,5 @@ obj
 Profiling
 Temp
 UserSettings
+*.csproj
+*.sln

@@ -7,8 +7,8 @@ public class Spectrum : MonoBehaviour
     private float[] draw_spectrum_L = new float[128];
     private float[] draw_spectrum_R = new float[128];
 
-    //[SerializeField]
-    //private AudioSource source;
+    [SerializeField]
+    private AudioSource source;
 
     private Renderer mRender;
     private MaterialPropertyBlock mBlock;
@@ -35,10 +35,10 @@ public class Spectrum : MonoBehaviour
 
         mRender.GetPropertyBlock(mBlock);
 
-        AudioListener.GetSpectrumData(rt_spectrum_L, 0, FFTWindow.Rectangular);
-        AudioListener.GetSpectrumData(rt_spectrum_R, 1, FFTWindow.Rectangular);
-        //source.GetSpectrumData(rt_spectrum_L, 0, FFTWindow.Rectangular);
-        //source.GetSpectrumData(rt_spectrum_R, 1, FFTWindow.Rectangular);
+        //AudioListener.GetSpectrumData(rt_spectrum_L, 0, FFTWindow.Rectangular);
+        //AudioListener.GetSpectrumData(rt_spectrum_R, 1, FFTWindow.Rectangular);
+        source.GetSpectrumData(rt_spectrum_L, 0, FFTWindow.Rectangular);
+        source.GetSpectrumData(rt_spectrum_R, 1, FFTWindow.Rectangular);
 
         for (short i = 0; i < 128; i++)
         {
@@ -59,6 +59,8 @@ public class Spectrum : MonoBehaviour
         //mRender.material.mainTexture = texture;
         mBlock.SetTexture(textureID, texture);
         mRender.SetPropertyBlock(mBlock);
+
+        //Debug.Log(AudioSettings.dspTime);
     }
 
     private Color getColor(float value)
