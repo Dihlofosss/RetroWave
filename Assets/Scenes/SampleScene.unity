@@ -159,7 +159,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 640, y: 0}
+  m_AnchoredPosition: {x: 536.25, y: 0}
   m_SizeDelta: {x: 0, y: 263.7857}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &93885511
@@ -306,7 +306,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1066.6667, y: 0}
+  m_AnchoredPosition: {x: 893.75, y: 0}
   m_SizeDelta: {x: 0, y: 263.7857}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &683629887
@@ -619,6 +619,7 @@ MonoBehaviour:
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
+  m_AMDFSR: 3
   m_Antialiasing: 1
   m_AntialiasingQuality: 0
   m_StopNaN: 1
@@ -1380,7 +1381,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 213.33334, y: 0}
+  m_AnchoredPosition: {x: 178.75, y: 0}
   m_SizeDelta: {x: 0, y: 263.7857}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2041089850
