@@ -6,8 +6,8 @@ public class UI_Fader : MonoBehaviour
     private float hideDelay, transitionSpeed;
     private float alpha;
     private bool isHidden;
-    private static bool isActive;
-    float timeBeforeHide;
+    private bool isActive = false;
+    private float timeBeforeHide;
     private CanvasGroup canvasGroup;
     // Start is called before the first frame update
     void Start()
@@ -65,9 +65,15 @@ public class UI_Fader : MonoBehaviour
         }
     }
 
-    public static void OnClick()
+    public void ToggleActive()
+    {
+        isActive = !isActive;
+        Debug.Log("clicked");
+    }
+
+    public void KeepActive()
     {
         isActive = true;
-        Debug.Log("clicked");
+        timeBeforeHide = hideDelay;
     }
 }
