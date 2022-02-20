@@ -10,5 +10,6 @@ public class ForceSettings : MonoBehaviour
         //QualitySettings.vSyncCount = 0;
         QualitySettings.maxQueuedFrames = 2;
         Application.targetFrameRate = 120;
+        QualitySettings.antiAliasing = 2;
     }
 }

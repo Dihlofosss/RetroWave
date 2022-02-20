@@ -9,14 +9,14 @@ public class UI_Fader : MonoBehaviour
     private bool isActive = false;
     private float timeBeforeHide;
     private CanvasGroup canvasGroup;
-    // Start is called before the first frame update
+    private UnityEngine.UI.Image[] images;
     void Start()
     {
         canvasGroup = GetComponent<CanvasGroup>();
         timeBeforeHide = hideDelay;
+        images = GetComponentsInChildren<UnityEngine.UI.Image>();
+        //Hide();
     }
-
-    // Update is called once per frame
     void Update()
     {
         if (!isActive)
@@ -42,6 +42,11 @@ public class UI_Fader : MonoBehaviour
         {
             alpha = 0;
             isHidden = true;
+            foreach (var image in images)
+            {
+                image.raycastTarget = false;
+            }
+            images[0].raycastTarget = true;
         }
     }
 
@@ -52,6 +57,10 @@ public class UI_Fader : MonoBehaviour
         {
             alpha = 1;
             isHidden = false;
+            foreach (var image in images)
+            {
+                image.raycastTarget = true;
+            }
         }
     }
 
