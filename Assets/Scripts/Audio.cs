@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
@@ -7,11 +8,13 @@ public class Audio : MonoBehaviour
     [SerializeField]
     private List<AudioClip> clips;
     private AudioSource audioSource;
+    private bool _isPlaying;
 
     private short currentTrack;
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        audioSource.volume = 0;
     }
 
     public void PlayNext()
@@ -39,8 +42,30 @@ public class Audio : MonoBehaviour
     public void PlayPause()
     {
         if (audioSource.isPlaying)
-            audioSource.Pause();
+            StartCoroutine(Pause());
         else
-            audioSource.Play();
+            StartCoroutine(Play());
+    }
+
+    IEnumerator Play()
+    {
+        audioSource.Play();
+        while (audioSource.volume < 1f )
+        {
+            audioSource.volume += Time.deltaTime * 2;
+            yield return null;
+        }
+        audioSource.volume = 1f;
+    }
+
+    IEnumerator Pause()
+    {
+        while (audioSource.volume > 0f)
+        {
+            audioSource.volume -= Time.deltaTime * 2;
+            yield return null;
+        }
+        audioSource.volume = 0f;
+        audioSource.Pause();
     }
 }

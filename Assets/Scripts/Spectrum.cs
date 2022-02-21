@@ -60,11 +60,11 @@ public class Spectrum : MonoBehaviour
             texture.SetPixel(0, 255 - i, getColor(draw_spectrum_L[i]));
         }
         texture.Apply();
-        if (graphFadeIn < 1)
-        {
-            graphFadeIn += Time.deltaTime;
-            mBlock.SetFloat(graphFadeInID, graphFadeIn);
-        }
+        //if (graphFadeIn < 1)
+        //{
+        //    graphFadeIn += Time.deltaTime;
+        //    mBlock.SetFloat(graphFadeInID, graphFadeIn);
+        //}
         //mRender.material.mainTexture = texture;
         mBlock.SetTexture(textureID, texture);
         mRender.SetPropertyBlock(mBlock);
