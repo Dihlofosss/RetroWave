@@ -1,15 +1,15 @@
 using UnityEngine;
-using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class ForceSettings : MonoBehaviour
 {
-    //public ScriptableRendererData asset;
+    public UniversalRenderPipelineAsset asset;
     void Awake()
     {
-        //QualitySettings.vSyncCount = 0;
+        QualitySettings.vSyncCount = 1;
         QualitySettings.maxQueuedFrames = 2;
-        Application.targetFrameRate = 120;
-        QualitySettings.antiAliasing = 2;
-        
+        Application.targetFrameRate = 30;
+        QualitySettings.antiAliasing = 1;
+        asset.msaaSampleCount = 1;
     }
 }

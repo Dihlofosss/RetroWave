@@ -225,7 +225,7 @@ MonoBehaviour:
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
-  m_AMDFSR: 3
+  m_AMDFSR: 1
   m_Antialiasing: 1
   m_AntialiasingQuality: 0
   m_StopNaN: 1
@@ -264,6 +264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de531c4dff480ff49b7455fe71b838fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  asset: {fileID: 11400000, guid: ad3889af1edb90b4e9b7a97c28685461, type: 2}
 --- !u!81 &963194234
 AudioListener:
   m_ObjectHideFlags: 0
@@ -359,7 +360,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 33153703098740393, guid: 9800bcdf4964f964c96e29fe903a9b23, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1073.125
+      value: 562.5
       objectReference: {fileID: 0}
     - target: {fileID: 33153703098740393, guid: 9800bcdf4964f964c96e29fe903a9b23, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -379,7 +380,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 33153703583655889, guid: 9800bcdf4964f964c96e29fe903a9b23, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 643.875
+      value: 337.5
       objectReference: {fileID: 0}
     - target: {fileID: 33153703583655889, guid: 9800bcdf4964f964c96e29fe903a9b23, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -399,7 +400,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 33153704457125038, guid: 9800bcdf4964f964c96e29fe903a9b23, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 214.625
+      value: 112.5
       objectReference: {fileID: 0}
     - target: {fileID: 33153704457125038, guid: 9800bcdf4964f964c96e29fe903a9b23, type: 3}
       propertyPath: m_AnchoredPosition.y

@@ -15,18 +15,14 @@ public class Spectrum : MonoBehaviour
     private Texture2D texture;
     private int textureID;
     private int boolID;
-    private int graphFadeInID;
     [SerializeField, Range(0,1)]
     private float fade = 0.9f;
-    private float graphFadeIn = 0;
     
 
-    // Start is called before the first frame update
     void Start()
     {
         boolID = Shader.PropertyToID("_Hexagonal");
         textureID = Shader.PropertyToID("_MainTex");
-        graphFadeInID = Shader.PropertyToID("_FadeIn");
         mRender = GetComponent<Renderer>();
         texture = new Texture2D(1, 256, TextureFormat.R8, true);
         mBlock = new MaterialPropertyBlock();
@@ -60,12 +56,6 @@ public class Spectrum : MonoBehaviour
             texture.SetPixel(0, 255 - i, getColor(draw_spectrum_L[i]));
         }
         texture.Apply();
-        //if (graphFadeIn < 1)
-        //{
-        //    graphFadeIn += Time.deltaTime;
-        //    mBlock.SetFloat(graphFadeInID, graphFadeIn);
-        //}
-        //mRender.material.mainTexture = texture;
         mBlock.SetTexture(textureID, texture);
         mRender.SetPropertyBlock(mBlock);
 
