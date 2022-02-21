@@ -1,15 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class ForceSettings : MonoBehaviour
 {
-    // Start is called before the first frame update
+    //public ScriptableRendererData asset;
     void Awake()
     {
         //QualitySettings.vSyncCount = 0;
         QualitySettings.maxQueuedFrames = 2;
         Application.targetFrameRate = 120;
         QualitySettings.antiAliasing = 2;
+        
     }
 }

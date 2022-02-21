@@ -6,9 +6,10 @@ using UnityEngine;
 public class Audio : MonoBehaviour
 {
     [SerializeField]
+    private float audioFade;
+    [SerializeField]
     private List<AudioClip> clips;
     private AudioSource audioSource;
-    private bool _isPlaying;
 
     private short currentTrack;
     void Start()
@@ -52,7 +53,7 @@ public class Audio : MonoBehaviour
         audioSource.Play();
         while (audioSource.volume < 1f )
         {
-            audioSource.volume += Time.deltaTime * 2;
+            audioSource.volume += Time.deltaTime / audioFade;
             yield return null;
         }
         audioSource.volume = 1f;
@@ -62,7 +63,7 @@ public class Audio : MonoBehaviour
     {
         while (audioSource.volume > 0f)
         {
-            audioSource.volume -= Time.deltaTime * 2;
+            audioSource.volume -= Time.deltaTime / audioFade;
             yield return null;
         }
         audioSource.volume = 0f;

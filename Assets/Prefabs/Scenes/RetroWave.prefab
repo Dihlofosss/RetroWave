@@ -738,6 +738,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9c4b553f1e0d5d408dbcfc107f1b9fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioFade: 0.3
   clips:
   - {fileID: 8300000, guid: 310df5e2eeae15841a7d3dcf6c676216, type: 3}
   - {fileID: 8300000, guid: 5e6d5268e649a9845b2c3fc869f11987, type: 3}

@@ -490,7 +490,7 @@ namespace UnityEngine.Rendering.Universal
 
             //commented due to this part causing null point exception on the compile time
             //if (baseCameraAdditionalData.amdFSR != UniversalAdditionalCameraData.AMDFSR.Disabled && !isStackedRendering)
-            //    baseCameraData.enableFSR = true;
+                baseCameraData.enableFSR = true;
 
 #if ENABLE_VR && ENABLE_XR_MODULE
             var originalTargetDesc = baseCameraData.cameraTargetDescriptor;
