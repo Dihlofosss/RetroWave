@@ -58,8 +58,6 @@ public class Spectrum : MonoBehaviour
         texture.Apply();
         mBlock.SetTexture(textureID, texture);
         mRender.SetPropertyBlock(mBlock);
-
-        //Debug.Log(AudioSettings.dspTime);
     }
 
     private Color getColor(float value)

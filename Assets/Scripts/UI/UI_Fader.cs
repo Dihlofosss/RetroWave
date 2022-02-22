@@ -77,7 +77,6 @@ public class UI_Fader : MonoBehaviour
     public void ToggleActive()
     {
         isActive = !isActive;
-        Debug.Log("clicked");
     }
 
     public void KeepActive()
