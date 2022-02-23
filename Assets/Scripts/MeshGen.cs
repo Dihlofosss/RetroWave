@@ -1,6 +1,7 @@
 using static Unity.Mathematics.math;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 [RequireComponent(typeof(Mesh), typeof(MeshFilter))]
 public class MeshGen : MonoBehaviour
@@ -13,6 +14,8 @@ public class MeshGen : MonoBehaviour
     private int[] tris;
     private Vector2[] uv;
     private float[] sound = new float[64];
+    private bool isPaused = true;
+    private float _pauseScale = 0;
     private int gridWidth, gridLength;
 
     [SerializeField]
@@ -59,7 +62,11 @@ public class MeshGen : MonoBehaviour
 
     void Update()
     {
-        counter += Time.deltaTime;
+        if (isPaused)
+            return;
+
+        counter += Time.deltaTime * _pauseScale;
+        //counter *= _pauseScale;
         if(counter >= 1)
         {
             counter = frac(counter);
@@ -102,7 +109,7 @@ public class MeshGen : MonoBehaviour
         for(short i = 0; i < verts.Count; i++)
         {
             //verts[i].z -= Time.deltaTime;
-            verts[i] = new Vector3(verts[i].x, verts[i].y, verts[i].z + Time.deltaTime);
+            verts[i] = new Vector3(verts[i].x, verts[i].y, verts[i].z + Time.deltaTime * _pauseScale);
         }
         mesh.vertices = verts.ToArray();
     }
@@ -158,5 +165,35 @@ public class MeshGen : MonoBehaviour
     private Color floatToColor(float value)
     {
         return new Color(value, value, value);
+    }
+
+    IEnumerator Pause()
+    {
+        while(_pauseScale > 0)
+        {
+            _pauseScale -= Time.deltaTime * 3f;
+            yield return null;
+        }
+        _pauseScale = 0;
+        isPaused = true;
+    }
+
+    IEnumerator UnPause()
+    {
+        isPaused = false;
+        while (_pauseScale < 1)
+        {
+            _pauseScale += Time.deltaTime * 3f;
+            yield return null;
+        }
+        _pauseScale = 1;
+    }
+
+    public void PauseToggle()
+    {
+        if (isPaused)
+            StartCoroutine(UnPause());
+        else
+            StartCoroutine(Pause());
     }
 }
