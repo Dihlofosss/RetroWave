@@ -2,17 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayList : MonoBehaviour
+[CreateAssetMenu(fileName = "Playlist", menuName = "ScriptableObjects/Audio/Playlist", order = 1)]
+public class PlayList : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
+    public List<AudioClip> clips;
+
+    private short _currentTrack;
+
+    public AudioClip GetNext()
     {
-        
+        _currentTrack++;
+        if (_currentTrack >= clips.Count)
+            _currentTrack = 0;
+        return clips[_currentTrack];
     }
 
-    // Update is called once per frame
-    void Update()
+    public AudioClip GetPrevious()
     {
-        
+        _currentTrack++;
+        if (_currentTrack < 0)
+            _currentTrack = (short)(clips.Count - 1);
+        return clips[_currentTrack];
+    }
+
+    public AudioClip GetCurrent()
+    {
+        return clips[_currentTrack];
     }
 }

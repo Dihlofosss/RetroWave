@@ -8,24 +8,22 @@ public class Audio : MonoBehaviour
     [SerializeField]
     private float audioFade;
     [SerializeField]
-    private List<AudioClip> clips;
+    private PlayList playList;
     private AudioSource audioSource;
 
-    private short currentTrack;
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
         audioSource.volume = 0;
+        audioSource.clip = playList.GetCurrent();
     }
 
     public void PlayNext()
     {
         if (audioSource.isPlaying)
             audioSource.Stop();
-        currentTrack++;
-        if (currentTrack >= clips.Count)
-            currentTrack = 0;
-        audioSource.clip = clips[currentTrack];
+        
+        audioSource.clip = playList.GetNext();
         audioSource.Play();
     }
 
@@ -33,10 +31,7 @@ public class Audio : MonoBehaviour
     {
         if (audioSource.isPlaying)
             audioSource.Stop();
-        currentTrack--;
-        if (currentTrack < 0)
-            currentTrack = (short)(clips.Count - 1);
-        audioSource.clip = clips[currentTrack];
+        audioSource.clip = playList.GetPrevious();
         audioSource.Play();
     }
 
