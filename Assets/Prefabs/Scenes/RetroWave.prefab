@@ -516,6 +516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   source: {fileID: 33153704372367086}
+  palette: {fileID: 11400000, guid: 3c5cc53c39241c84ca9fcf48b5339a8c, type: 2}
   fade: 0.97
 --- !u!1 &33153704613780302
 GameObject:
@@ -856,7 +857,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7515392044324085846, guid: 214f313064b310e409cf84ac8425e97e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 240.20833
+      value: 240.04167
       objectReference: {fileID: 0}
     - target: {fileID: 7515392044324085846, guid: 214f313064b310e409cf84ac8425e97e, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1038,7 +1039,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7515392044324085846, guid: 214f313064b310e409cf84ac8425e97e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1201.0416
+      value: 1200.2084
       objectReference: {fileID: 0}
     - target: {fileID: 7515392044324085846, guid: 214f313064b310e409cf84ac8425e97e, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1196,7 +1197,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7515392044324085846, guid: 214f313064b310e409cf84ac8425e97e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 720.62494
+      value: 720.12506
       objectReference: {fileID: 0}
     - target: {fileID: 7515392044324085846, guid: 214f313064b310e409cf84ac8425e97e, type: 3}
       propertyPath: m_AnchoredPosition.y

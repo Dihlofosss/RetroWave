@@ -9,23 +9,31 @@ public class Spectrum : MonoBehaviour
 
     [SerializeField]
     private AudioSource source;
+    [SerializeField]
+    private ColorPalette palette;
 
     private Renderer mRender;
     private MaterialPropertyBlock mBlock;
     private Texture2D texture;
-    private int textureID;
-    private int boolID;
+    private int textureID, boolID, baseColor, peakColor;
     [SerializeField, Range(0,1)]
     private float fade = 0.9f;
     
 
-    void Start()
+    private void Awake()
     {
         boolID = Shader.PropertyToID("_Hexagonal");
         textureID = Shader.PropertyToID("_MainTex");
+        baseColor = Shader.PropertyToID("_Color_Base");
+        peakColor = Shader.PropertyToID("_Color_Peak");
         mRender = GetComponent<Renderer>();
         texture = new Texture2D(1, 256, TextureFormat.R8, true);
         mBlock = new MaterialPropertyBlock();
+        mRender.GetPropertyBlock(mBlock);
+        mBlock.SetColor(baseColor, palette.getDefaultRingColor());
+        mBlock.SetColor(peakColor, palette.getPeakRingColor());
+        mBlock.SetTexture(textureID, texture);
+        mRender.SetPropertyBlock(mBlock);
     }
 
     // Update is called once per frame
