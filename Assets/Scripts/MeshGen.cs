@@ -95,7 +95,7 @@ public class MeshGen : MonoBehaviour
                 height *= 0.1f;
             verts.Insert(0, new Vector3(i, height , shift - length));
             
-            colors.Insert(0, Color.Lerp(palette.getDefaultGridColor(), palette.getPe(), height / 3f));
+            colors.Insert(0, Color.Lerp(palette.getDefaultGridColor(), palette.getPeakGridColor(), height / 3f));
         }
         verts.TrimExcess();
         mesh.vertices = verts.ToArray();

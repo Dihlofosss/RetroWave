@@ -18,7 +18,7 @@ public class PlayList : ScriptableObject
 
     public AudioClip GetPrevious()
     {
-        _currentTrack++;
+        _currentTrack--;
         if (_currentTrack < 0)
             _currentTrack = (short)(clips.Count - 1);
         return clips[_currentTrack];
