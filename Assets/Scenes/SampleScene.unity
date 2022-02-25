@@ -195,7 +195,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.5}
+  m_LocalPosition: {x: 0, y: 0.5, z: 1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -226,7 +226,7 @@ MonoBehaviour:
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
   m_AMDFSR: 3
-  m_Antialiasing: 1
+  m_Antialiasing: 0
   m_AntialiasingQuality: 0
   m_StopNaN: 1
   m_Dithering: 0
@@ -380,7 +380,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 33153703583655889, guid: 9800bcdf4964f964c96e29fe903a9b23, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 476.62506
+      value: 625.125
       objectReference: {fileID: 0}
     - target: {fileID: 33153703583655889, guid: 9800bcdf4964f964c96e29fe903a9b23, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -424,7 +424,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3848631530533637695, guid: 9800bcdf4964f964c96e29fe903a9b23, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 794.37506
+      value: 1041.875
       objectReference: {fileID: 0}
     - target: {fileID: 3848631530533637695, guid: 9800bcdf4964f964c96e29fe903a9b23, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -436,11 +436,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3939735147590165384, guid: 9800bcdf4964f964c96e29fe903a9b23, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 318
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3939735147590165384, guid: 9800bcdf4964f964c96e29fe903a9b23, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 259.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3939735147590165384, guid: 9800bcdf4964f964c96e29fe903a9b23, type: 3}
       propertyPath: m_LocalPosition.z
@@ -492,7 +492,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7292103675608401970, guid: 9800bcdf4964f964c96e29fe903a9b23, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 158.87502
+      value: 208.375
       objectReference: {fileID: 0}
     - target: {fileID: 7292103675608401970, guid: 9800bcdf4964f964c96e29fe903a9b23, type: 3}
       propertyPath: m_AnchoredPosition.y

@@ -16,11 +16,9 @@ public class MeshGen : MonoBehaviour
     private float[] sound = new float[64];
     private bool isPaused = true;
     private float _pauseScale = 0;
-    private int gridWidth, gridLength;
 
     [SerializeField]
-    private Color lowColor, highColor;
-
+    private ColorPalette palette;
     [SerializeField]
     private int width, length;
     [SerializeField]
@@ -48,7 +46,7 @@ public class MeshGen : MonoBehaviour
             {
                 verts.Add(new Vector3(x, 0, z));
                 uv[i] = new Vector2(x, z);
-                colors.Add(lowColor);
+                colors.Add(palette.getDefaultGridColor());
             }
         }
         mesh.vertices = verts.ToArray();
@@ -97,7 +95,7 @@ public class MeshGen : MonoBehaviour
                 height *= 0.1f;
             verts.Insert(0, new Vector3(i, height , shift - length));
             
-            colors.Insert(0, Color.Lerp(lowColor, highColor, height / 3f));
+            colors.Insert(0, Color.Lerp(palette.getDefaultGridColor(), palette.getPe(), height / 3f));
         }
         verts.TrimExcess();
         mesh.vertices = verts.ToArray();

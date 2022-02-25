@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 
@@ -20,19 +19,12 @@ public class Audio : MonoBehaviour
 
     public void PlayNext()
     {
-        if (audioSource.isPlaying)
-            audioSource.Stop();
-        
-        audioSource.clip = playList.GetNext();
-        audioSource.Play();
+        StartCoroutine(SwitchTrack(true));
     }
 
     public void PlayPrevious()
     {
-        if (audioSource.isPlaying)
-            audioSource.Stop();
-        audioSource.clip = playList.GetPrevious();
-        audioSource.Play();
+        StartCoroutine(SwitchTrack(false));
     }
 
     public void PlayPause()
@@ -63,5 +55,29 @@ public class Audio : MonoBehaviour
         }
         audioSource.volume = 0f;
         audioSource.Pause();
+    }
+
+    IEnumerator SwitchTrack(bool isForward)
+    {
+        if (audioSource.isPlaying)
+        {
+            while (audioSource.volume > 0f)
+            {
+                audioSource.volume -= Time.deltaTime / audioFade;
+                yield return null;
+            }
+            audioSource.volume = 0f;
+        }
+        audioSource.Stop();
+
+        audioSource.clip = isForward ? playList.GetNext() : playList.GetPrevious();
+
+        audioSource.Play();
+        while (audioSource.volume < 1f)
+        {
+            audioSource.volume += Time.deltaTime / audioFade;
+            yield return null;
+        }
+        audioSource.volume = 1f;
     }
 }
