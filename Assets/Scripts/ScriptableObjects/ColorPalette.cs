@@ -3,34 +3,34 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ColorPalete", menuName = "ScriptableObjects/ColorPreset", order = 1)]
 public class ColorPalette : ScriptableObject
 {
-    [SerializeField, ColorUsage(false,true)]
-    private Color32 defaultRingColor, peakRingColor;
+    [SerializeField, ColorUsage(false ,true)]
+    private Color defaultRingColor, peakRingColor;
     [SerializeField]
-    private Color32 defaultGridColor, peakGridColor;
+    private Color defaultGridColor, peakGridColor;
     [SerializeField]
-    private Color32 mainSkyColor, fadeSkyColor;
+    private Color mainSkyColor, fadeSkyColor;
 
-    public Color32 getDefaultRingColor()
+    public Color getDefaultRingColor()
     {
         return defaultRingColor;
     }
-    public Color32 getPeakRingColor()
+    public Color getPeakRingColor()
     {
         return peakRingColor;
     }
-    public Color32 getDefaultGridColor()
+    public Color getDefaultGridColor()
     {
         return defaultGridColor;
     }
-    public Color32 getPeakGridColor()
+    public Color getPeakGridColor()
     {
         return peakGridColor;
     }
-    public Color32 getMainSkyColor()
+    public Color getMainSkyColor()
     {
         return mainSkyColor;
     }
-    public Color32 getFadeSkyColor()
+    public Color getFadeSkyColor()
     {
         return fadeSkyColor;
     }
