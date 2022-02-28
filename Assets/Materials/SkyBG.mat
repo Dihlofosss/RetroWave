@@ -114,6 +114,7 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _SunSize: 0.1
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
@@ -124,4 +125,5 @@ Material:
     - _FadeSkyColor: {r: 0.4352941, g: 0, b: 0.772549, a: 0}
     - _MainSkyColor: {r: 1, g: 0.7215686, b: 0, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _SunColor: {r: 1, g: 0, b: 0.254902, a: 0}
   m_BuildTextureStacks: []

@@ -187,7 +187,7 @@ public class MeshGen : MonoBehaviour
         _pauseScale = 1;
     }
 
-    public void PauseToggle()
+    public void PlayPause()
     {
         if (isPaused)
             StartCoroutine(UnPause());

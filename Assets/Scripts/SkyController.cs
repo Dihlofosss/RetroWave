@@ -18,6 +18,7 @@ public class SkyController : MonoBehaviour
 
         mBlock.SetColor("_MainSkyColor", colorPalette.getMainSkyColor());
         mBlock.SetColor("_FadeSkyColor", colorPalette.getFadeSkyColor());
+        mBlock.SetColor("_SunColor", colorPalette.getSunColor());
 
         mRenderer.SetPropertyBlock(mBlock);
     }

@@ -18,3 +18,4 @@ MonoBehaviour:
   peakGridColor: {r: 0, g: 1, b: 0.9804301, a: 0}
   mainSkyColor: {r: 1, g: 0.81995153, b: 0, a: 0}
   fadeSkyColor: {r: 0, g: 0.77254903, b: 0.68317837, a: 0}
+  sunColor: {r: 2, g: 0.11764706, b: 0, a: 0}

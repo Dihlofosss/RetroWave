@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f301533153c521408d721a307db8e0d, type: 3}
   m_Name: Default
   m_EditorClassIdentifier: 
-  defaultRingColor: {r: 2.9960785, g: 0, b: 2.5254903, a: 0}
-  peakRingColor: {r: 2.9960785, g: 1.9294118, b: 0, a: 0}
-  defaultGridColor: {r: 0, g: 0.6666665, b: 1, a: 0}
-  peakGridColor: {r: 1, g: 0.33333334, b: 0, a: 0}
-  mainSkyColor: {r: 1, g: 0.72156864, b: 0, a: 0}
-  fadeSkyColor: {r: 0.43529412, g: 0, b: 0.77254903, a: 0}
+  defaultRingColor: {r: 0, g: 2.9960785, b: 2.4879684, a: 0}
+  peakRingColor: {r: 2.9960785, g: 0, b: 0.18546481, a: 0}
+  defaultGridColor: {r: 1, g: 0.029393088, b: 0, a: 0}
+  peakGridColor: {r: 0, g: 1, b: 0.9804301, a: 0}
+  mainSkyColor: {r: 1, g: 0.81995153, b: 0, a: 0}
+  fadeSkyColor: {r: 0, g: 0.77254903, b: 0.68317837, a: 0}
+  sunColor: {r: 2, g: 0.11764706, b: 0, a: 0}

@@ -13,6 +13,6 @@ public class AnimatorController : MonoBehaviour
     private void PlayPause()
     {
         _audio.PlayPause();
-        _meshGen.PauseToggle();
+        _meshGen.PlayPause();
     }
 }

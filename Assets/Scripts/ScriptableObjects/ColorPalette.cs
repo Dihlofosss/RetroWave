@@ -9,6 +9,8 @@ public class ColorPalette : ScriptableObject
     private Color defaultGridColor, peakGridColor;
     [SerializeField]
     private Color mainSkyColor, fadeSkyColor;
+    [SerializeField, ColorUsage(false, true)]
+    private Color sunColor;
 
     public Color getDefaultRingColor()
     {
@@ -35,6 +37,11 @@ public class ColorPalette : ScriptableObject
         return fadeSkyColor;
     }
 
+    public Color getSunColor()
+    {
+        return sunColor;
+    }
+
     public void Apply(ColorPalette palette)
     {
         defaultRingColor = palette.getDefaultRingColor();
@@ -43,5 +50,6 @@ public class ColorPalette : ScriptableObject
         peakRingColor = palette.getPeakRingColor();
         peakGridColor = palette.getPeakGridColor();
         fadeSkyColor = palette.getFadeSkyColor();
+        sunColor = palette.getSunColor();
     }
 }
