@@ -18,7 +18,9 @@ public class Spectrum : MonoBehaviour
     private int textureID, boolID, baseColor, peakColor;
     [SerializeField, Range(0,1)]
     private float fade = 0.9f;
-    
+
+    private GameObject[] spectrumParts;
+
 
     private void Awake()
     {
@@ -34,6 +36,11 @@ public class Spectrum : MonoBehaviour
         mBlock.SetColor(peakColor, palette.getPeakRingColor());
         mBlock.SetTexture(textureID, texture);
         mRender.SetPropertyBlock(mBlock);
+    }
+
+    private void Start()
+    {
+        GenQuad();
     }
 
     // Update is called once per frame
@@ -79,5 +86,51 @@ public class Spectrum : MonoBehaviour
         mRender.GetPropertyBlock(mBlock);
         mBlock.SetFloat(boolID, 1 - mBlock.GetFloat(boolID));
         mRender.SetPropertyBlock(mBlock);
+    }
+
+    private void GenQuad()
+    {
+        spectrumParts = new GameObject[2];
+        Vector3[] vertsLeft = new Vector3[4];
+        Vector3[] vertsRight = new Vector3[4];
+        Vector2[] uvLeft = new Vector2[4];
+        Vector2[] uvRight = new Vector2[4];
+
+        int[] tris = new int[6];
+
+        for (short i = 0, y = 0; y < 2; y++)
+        {
+            for(short x = 0; x < 2; x++)
+            {
+                vertsLeft[i] = new Vector3(x * 0.5f - 0.5f, y - 0.5f, 0f);
+                vertsRight[i] = new Vector3(x * 0.5f, y - 0.5f, 0f);
+                uvLeft[i] = new Vector2(x * 0.5f, y);
+                uvRight[i] = new Vector2(x * 0.5f + 0.5f, y);
+            }
+        }
+        Vector3[][] verts = new Vector3[][] { vertsLeft, vertsRight };
+        Vector2[][] uvs = new Vector2[][] { uvLeft, uvRight };
+
+        tris[0] = 0;
+        tris[3] = tris[2] = 1;
+        tris[4] = tris[1] = 2;
+        tris[5] = 3;
+        
+        for (short i = 0; i < (short)transform.childCount; i++)
+        {
+            spectrumParts[i] = transform.GetChild(i).gameObject;
+            MeshFilter filter = spectrumParts[i].AddComponent(typeof(MeshFilter)) as MeshFilter;
+            MeshRenderer renderer = spectrumParts[i].AddComponent(typeof(MeshRenderer)) as MeshRenderer;
+
+            filter.mesh = new Mesh();
+            filter.mesh.vertices = verts[i];
+            filter.mesh.triangles = tris;
+            filter.mesh.uv = uvs[i];
+            //filter.mesh.RecalculateNormals();
+            //filter.mesh.RecalculateBounds();
+
+
+
+        }
     }
 }

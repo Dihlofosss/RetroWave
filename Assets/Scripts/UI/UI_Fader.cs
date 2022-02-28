@@ -10,6 +10,7 @@ public class UI_Fader : MonoBehaviour
     private float timeBeforeHide;
     private CanvasGroup canvasGroup;
     private UnityEngine.UI.Image[] images;
+
     void Start()
     {
         canvasGroup = GetComponent<CanvasGroup>();
