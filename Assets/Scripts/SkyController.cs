@@ -13,6 +13,7 @@ public class SkyController : MonoBehaviour
     private void Awake()
     {
         mRenderer = GetComponent<MeshRenderer>();
+        mBlock = new MaterialPropertyBlock();
         mRenderer.GetPropertyBlock(mBlock);
 
         mBlock.SetColor("_MainSkyColor", colorPalette.getMainSkyColor());

@@ -34,4 +34,14 @@ public class ColorPalette : ScriptableObject
     {
         return fadeSkyColor;
     }
+
+    public void Apply(ColorPalette palette)
+    {
+        defaultRingColor = palette.getDefaultRingColor();
+        defaultGridColor = palette.getDefaultGridColor();
+        mainSkyColor = palette.getMainSkyColor();
+        peakRingColor = palette.getPeakRingColor();
+        peakGridColor = palette.getPeakGridColor();
+        fadeSkyColor = palette.getFadeSkyColor();
+    }
 }

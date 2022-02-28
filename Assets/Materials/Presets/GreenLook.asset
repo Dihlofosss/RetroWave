@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f301533153c521408d721a307db8e0d, type: 3}
+  m_Name: GreenLook
+  m_EditorClassIdentifier: 
+  defaultRingColor: {r: 0, g: 2.9960785, b: 2.4879684, a: 0}
+  peakRingColor: {r: 2.9960785, g: 0, b: 0.18546481, a: 0}
+  defaultGridColor: {r: 1, g: 0.029393088, b: 0, a: 0}
+  peakGridColor: {r: 0, g: 1, b: 0.9804301, a: 0}
+  mainSkyColor: {r: 1, g: 0.81995153, b: 0, a: 0}
+  fadeSkyColor: {r: 0, g: 0.77254903, b: 0.68317837, a: 0}
