@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEditor.Animations;
 
 public class AnimatorController : MonoBehaviour
 {
@@ -7,7 +6,7 @@ public class AnimatorController : MonoBehaviour
     private MeshGen _meshGen;
     private Animator _animator;
     [SerializeField]
-    private UnityEditor.Animations.AnimatorController _controller;
+    private RuntimeAnimatorController _controller;
     private void Awake()
     {
         _audio = GetComponentInChildren<Audio>();
