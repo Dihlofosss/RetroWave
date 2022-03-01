@@ -5,7 +5,7 @@ public class ColorPalette : ScriptableObject
 {
     [SerializeField, ColorUsage(false ,true)]
     private Color defaultRingColor, peakRingColor;
-    [SerializeField, ColorUsage(false)]
+    [SerializeField, ColorUsage(false, true)]
     private Color defaultGridColor, peakGridColor;
     [SerializeField, ColorUsage(false)]
     private Color mainSkyColor, fadeSkyColor;

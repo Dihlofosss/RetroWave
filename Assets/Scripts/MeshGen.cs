@@ -18,7 +18,7 @@ public class MeshGen : MonoBehaviour
     private float _pauseScale = 0;
 
     [SerializeField]
-    private ColorPalette palette;
+    private ColorPalette colorPalette;
     [SerializeField]
     private int width, length;
     [SerializeField]
@@ -27,15 +27,23 @@ public class MeshGen : MonoBehaviour
 
     private void Awake()
     {
-        mesh = new Mesh();
-        mesh.name = "Procedural Grid";
+        mesh = new Mesh
+        {
+            name = "Procedural Grid"
+        };
         GetComponent<MeshFilter>().mesh = mesh;
 
-        //verts = new Vector3[(width + 1) * (length + 1)];
         tris = new int[4 * width * length * 6];
         uv = new Vector2[(width * 2 + 1) * (length * 2 + 1)];
         texture = new Texture2D(128, 128, TextureFormat.R8, true);
         texture.anisoLevel = 8;
+
+        MeshRenderer renderer = GetComponent<MeshRenderer>();
+        MaterialPropertyBlock mBlock = new MaterialPropertyBlock();
+        renderer.GetPropertyBlock(mBlock);
+        mBlock.SetColor("_MainSkyColor", colorPalette.getMainSkyColor());
+        mBlock.SetColor("_FadeSkyColor", colorPalette.getFadeSkyColor());
+        renderer.SetPropertyBlock(mBlock);
     }
 
     void Start()
@@ -46,7 +54,7 @@ public class MeshGen : MonoBehaviour
             {
                 verts.Add(new Vector3(x, 0, z));
                 uv[i] = new Vector2(x, z);
-                colors.Add(palette.getDefaultGridColor());
+                colors.Add(colorPalette.getDefaultGridColor());
             }
         }
         mesh.vertices = verts.ToArray();
@@ -95,7 +103,7 @@ public class MeshGen : MonoBehaviour
                 height *= 0.1f;
             verts.Insert(0, new Vector3(i, height , shift - length));
             
-            colors.Insert(0, Color.Lerp(palette.getDefaultGridColor(), palette.getPeakGridColor(), height / 3f));
+            colors.Insert(0, Color.Lerp(colorPalette.getDefaultGridColor(), colorPalette.getPeakGridColor(), height / 3f));
         }
         verts.TrimExcess();
         mesh.vertices = verts.ToArray();

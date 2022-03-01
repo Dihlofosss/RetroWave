@@ -11,6 +11,8 @@ public class Spectrum : MonoBehaviour
     private AudioSource source;
     [SerializeField]
     private ColorPalette palette;
+    [SerializeField]
+    private Material material;
 
     private Renderer mRender;
     private MaterialPropertyBlock mBlock;
@@ -20,10 +22,12 @@ public class Spectrum : MonoBehaviour
     private float fade = 0.9f;
 
     private GameObject[] spectrumParts;
+    private Renderer[] renderers;
 
 
     private void Awake()
     {
+        GenQuad();
         boolID = Shader.PropertyToID("_Hexagonal");
         textureID = Shader.PropertyToID("_MainTex");
         baseColor = Shader.PropertyToID("_Color_Base");
@@ -31,24 +35,25 @@ public class Spectrum : MonoBehaviour
         mRender = GetComponent<Renderer>();
         texture = new Texture2D(1, 256, TextureFormat.R8, true);
         mBlock = new MaterialPropertyBlock();
-        mRender.GetPropertyBlock(mBlock);
-        mBlock.SetColor(baseColor, palette.getDefaultRingColor());
-        mBlock.SetColor(peakColor, palette.getPeakRingColor());
-        mBlock.SetTexture(textureID, texture);
-        mRender.SetPropertyBlock(mBlock);
-    }
-
-    private void Start()
-    {
-        GenQuad();
+        for(short i = 0; i < 2; i++)
+        {
+            renderers[i].GetPropertyBlock(mBlock);
+            mBlock.SetColor(baseColor, palette.getDefaultRingColor());
+            mBlock.SetColor(peakColor, palette.getPeakRingColor());
+            mBlock.SetTexture(textureID, texture);
+            renderers[i].SetPropertyBlock(mBlock);
+        }
+        //mRender.GetPropertyBlock(mBlock);
+       // mBlock.SetColor(baseColor, palette.getDefaultRingColor());
+        //mBlock.SetColor(peakColor, palette.getPeakRingColor());
+        //mBlock.SetTexture(textureID, texture);
+        //mRender.SetPropertyBlock(mBlock);
     }
 
     // Update is called once per frame
     void Update()
     {
         float soft = fade * Mathf.Clamp01(1 - Time.deltaTime);
-
-        mRender.GetPropertyBlock(mBlock);
 
         //AudioListener.GetSpectrumData(rt_spectrum_L, 0, FFTWindow.Rectangular);
         //AudioListener.GetSpectrumData(rt_spectrum_R, 1, FFTWindow.Rectangular);
@@ -71,8 +76,12 @@ public class Spectrum : MonoBehaviour
             texture.SetPixel(0, 255 - i, getColor(draw_spectrum_L[i]));
         }
         texture.Apply();
-        mBlock.SetTexture(textureID, texture);
-        mRender.SetPropertyBlock(mBlock);
+        for (short i = 0; i < 2; i++)
+        {
+            renderers[i].GetPropertyBlock(mBlock);
+            mBlock.SetTexture(textureID, texture);
+            renderers[i].SetPropertyBlock(mBlock);
+        }
     }
 
     private Color getColor(float value)
@@ -91,16 +100,20 @@ public class Spectrum : MonoBehaviour
     private void GenQuad()
     {
         spectrumParts = new GameObject[2];
+        renderers = new Renderer[2];
+
         Vector3[] vertsLeft = new Vector3[4];
         Vector3[] vertsRight = new Vector3[4];
         Vector2[] uvLeft = new Vector2[4];
         Vector2[] uvRight = new Vector2[4];
 
+        string[] names = { "LeftPart", "RightPart" };
+
         int[] tris = new int[6];
 
         for (short i = 0, y = 0; y < 2; y++)
         {
-            for(short x = 0; x < 2; x++)
+            for(short x = 0; x < 2; x++, i++)
             {
                 vertsLeft[i] = new Vector3(x * 0.5f - 0.5f, y - 0.5f, 0f);
                 vertsRight[i] = new Vector3(x * 0.5f, y - 0.5f, 0f);
@@ -116,21 +129,25 @@ public class Spectrum : MonoBehaviour
         tris[4] = tris[1] = 2;
         tris[5] = 3;
         
-        for (short i = 0; i < (short)transform.childCount; i++)
+        for (short i = 0; i< 2; i++)
         {
-            spectrumParts[i] = transform.GetChild(i).gameObject;
+            spectrumParts[i] = new GameObject(names[i]);
+            //spectrumParts[i].name = names[i];
+            spectrumParts[i].transform.position = transform.position;
+            spectrumParts[i].transform.SetParent(transform);
+
             MeshFilter filter = spectrumParts[i].AddComponent(typeof(MeshFilter)) as MeshFilter;
             MeshRenderer renderer = spectrumParts[i].AddComponent(typeof(MeshRenderer)) as MeshRenderer;
+            renderers[i] = renderer;
 
-            filter.mesh = new Mesh();
-            filter.mesh.vertices = verts[i];
-            filter.mesh.triangles = tris;
-            filter.mesh.uv = uvs[i];
-            //filter.mesh.RecalculateNormals();
-            //filter.mesh.RecalculateBounds();
-
-
-
+            filter.mesh = new Mesh
+            {
+                vertices = verts[i],
+                triangles = tris,
+                uv = uvs[i]
+            };
+            filter.mesh.RecalculateNormals();
+            renderer.material = material;
         }
     }
 }
