@@ -175,9 +175,11 @@ public class MeshGen : MonoBehaviour
 
     IEnumerator Pause()
     {
-        while(_pauseScale > 0)
+        float timer = 1;
+        while (timer > 0)
         {
-            _pauseScale -= Time.deltaTime * 3f;
+            timer -= Time.deltaTime * 2f;
+            _pauseScale = smoothstep(0, 1, timer);
             yield return null;
         }
         _pauseScale = 0;
@@ -187,9 +189,11 @@ public class MeshGen : MonoBehaviour
     IEnumerator UnPause()
     {
         isPaused = false;
-        while (_pauseScale < 1)
+        float timer = 0;
+        while (timer < 1)
         {
-            _pauseScale += Time.deltaTime * 3f;
+            timer += Time.deltaTime * 2f;
+            _pauseScale = smoothstep(0, 1, timer);
             yield return null;
         }
         _pauseScale = 1;
