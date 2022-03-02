@@ -8,17 +8,20 @@ public class MeshGen : MonoBehaviour
 {
     private Mesh mesh;
 
-    private Texture2D texture;
-    private List<Vector3> verts = new List<Vector3>();
-    private List<Color> colors = new List<Color>();
-    private int[] tris;
-    private Vector2[] uv;
-    private float[] sound = new float[64];
-    private bool isPaused = true;
+    private Texture2D _texture;
+    private List<Vector3> _verts = new List<Vector3>();
+    private List<Color> _colors = new List<Color>();
+    private int[] _tris;
+    private Vector2[] _uv;
+    private float[] _sound = new float[64];
+    private bool _pauseToggle = true;
+    private bool _isPaused;
     private float _pauseScale = 0;
 
     [SerializeField]
     private ColorPalette colorPalette;
+    [SerializeField]
+    private SceneStatus sceneStatus;
     [SerializeField]
     private int width, length;
     [SerializeField]
@@ -33,10 +36,10 @@ public class MeshGen : MonoBehaviour
         };
         GetComponent<MeshFilter>().mesh = mesh;
 
-        tris = new int[4 * width * length * 6];
-        uv = new Vector2[(width * 2 + 1) * (length * 2 + 1)];
-        texture = new Texture2D(128, 128, TextureFormat.R8, true);
-        texture.anisoLevel = 8;
+        _tris = new int[4 * width * length * 6];
+        _uv = new Vector2[(width * 2 + 1) * (length * 2 + 1)];
+        _texture = new Texture2D(128, 128, TextureFormat.R8, true);
+        _texture.anisoLevel = 8;
 
         MeshRenderer renderer = GetComponent<MeshRenderer>();
         MaterialPropertyBlock mBlock = new MaterialPropertyBlock();
@@ -52,14 +55,14 @@ public class MeshGen : MonoBehaviour
         {
             for(short x = (short)-width; x <= width; x++, i++)
             {
-                verts.Add(new Vector3(x, 0, z));
-                uv[i] = new Vector2(x, z);
-                colors.Add(colorPalette.getDefaultGridColor());
+                _verts.Add(new Vector3(x, 0, z));
+                _uv[i] = new Vector2(x, z);
+                _colors.Add(colorPalette.getDefaultGridColor());
             }
         }
-        mesh.vertices = verts.ToArray();
-        mesh.uv = uv;
-        mesh.colors = colors.ToArray();
+        mesh.vertices = _verts.ToArray();
+        mesh.uv = _uv;
+        mesh.colors = _colors.ToArray();
         
         rebuildTris();
         if(useTexture)
@@ -68,7 +71,13 @@ public class MeshGen : MonoBehaviour
 
     void Update()
     {
-        if (isPaused)
+        if (_pauseToggle != sceneStatus.IsPaused())
+        {
+            _pauseToggle = sceneStatus.IsPaused();
+            PlayPause();
+        }
+
+        if (_isPaused)
             return;
 
         counter += Time.deltaTime * _pauseScale;
@@ -85,39 +94,39 @@ public class MeshGen : MonoBehaviour
     private void rebuildVerts(float shift)
     {
         float height;
-        AudioListener.GetSpectrumData(sound, 0, FFTWindow.Rectangular);
+        AudioListener.GetSpectrumData(_sound, 0, FFTWindow.Rectangular);
         //remove last poly row
-        for(int i = verts.Count; i <= verts.Count - (2 * width); i--)
+        for(int i = _verts.Count; i <= _verts.Count - (2 * width); i--)
         {
-            verts.RemoveAt(i - 1);
-            colors.RemoveAt(i - 1);
+            _verts.RemoveAt(i - 1);
+            _colors.RemoveAt(i - 1);
         }
         //add vert for 1st poly row
         for(int i = width; i >= -width; i--)
         {
             height = Mathf.Abs(i) - width / 4;
-            height = 1 - Mathf.Pow(1 - sound[Mathf.Abs(Mathf.Abs((int)height) - (width / 2))], 2);
+            height = 1 - Mathf.Pow(1 - _sound[Mathf.Abs(Mathf.Abs((int)height) - (width / 2))], 2);
             height *= 3f;
 
             if (i < 2 && i > -2)
                 height *= 0.1f;
-            verts.Insert(0, new Vector3(i, height , shift - length));
+            _verts.Insert(0, new Vector3(i, height , shift - length));
             
-            colors.Insert(0, Color.Lerp(colorPalette.getDefaultGridColor(), colorPalette.getPeakGridColor(), height / 3f));
+            _colors.Insert(0, Color.Lerp(colorPalette.getDefaultGridColor(), colorPalette.getPeakGridColor(), height / 3f));
         }
-        verts.TrimExcess();
-        mesh.vertices = verts.ToArray();
-        mesh.colors = colors.ToArray();
+        _verts.TrimExcess();
+        mesh.vertices = _verts.ToArray();
+        mesh.colors = _colors.ToArray();
     }
 
     private void moveGrid()
     {
-        for(short i = 0; i < verts.Count; i++)
+        for(short i = 0; i < _verts.Count; i++)
         {
             //verts[i].z -= Time.deltaTime;
-            verts[i] = new Vector3(verts[i].x, verts[i].y, verts[i].z + Time.deltaTime * _pauseScale);
+            _verts[i] = new Vector3(_verts[i].x, _verts[i].y, _verts[i].z + Time.deltaTime * _pauseScale);
         }
-        mesh.vertices = verts.ToArray();
+        mesh.vertices = _verts.ToArray();
     }
 
     private void rebuildTris()
@@ -126,13 +135,13 @@ public class MeshGen : MonoBehaviour
         {
             for (short x = 0; x < width * 2; x++, ti += 6, vi++)
             {
-                tris[ti] = vi;
-                tris[ti + 3] = tris[ti + 2] = vi + 1;
-                tris[ti + 4] = tris[ti + 1] = vi + width * 2 + 1;
-                tris[ti + 5] = vi + width * 2 + 2;
+                _tris[ti] = vi;
+                _tris[ti + 3] = _tris[ti + 2] = vi + 1;
+                _tris[ti + 4] = _tris[ti + 1] = vi + width * 2 + 1;
+                _tris[ti + 5] = vi + width * 2 + 2;
             }
         }
-        mesh.triangles = tris;
+        mesh.triangles = _tris;
         mesh.RecalculateNormals();
         //mesh.no
         mesh.RecalculateBounds();
@@ -140,28 +149,28 @@ public class MeshGen : MonoBehaviour
 
     private void generateGridTexture()
     {
-        float value = (float) 1 / texture.width;
+        float value = (float) 1 / _texture.width;
         float modW;
         float modH;
-        for(short height = 0; height < texture.height; height++)
+        for(short height = 0; height < _texture.height; height++)
         {
-            modH = abs(((float)height * 2) - texture.height) * value;
+            modH = abs(((float)height * 2) - _texture.height) * value;
             modH = pow(modH, 10);
             modH = 1 - modH;
-            for (short width = 0; width < texture.width; width++)
+            for (short width = 0; width < _texture.width; width++)
             {
-                modW = abs(((float)width * 2) - texture.width) * value;
+                modW = abs(((float)width * 2) - _texture.width) * value;
                 modW = pow(modW, 10);
                 modW = 1 - modW;
                 
-                texture.SetPixel(height, width, floatToColor(smoothstep(0.65f, 0.8f, 1 - (modH * modW))));
+                _texture.SetPixel(height, width, floatToColor(smoothstep(0.65f, 0.8f, 1 - (modH * modW))));
             }
         }
-        texture.Apply();
+        _texture.Apply();
         MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
         MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
         meshRenderer.GetPropertyBlock(propertyBlock);
-        propertyBlock.SetTexture("_MainTex", texture);
+        propertyBlock.SetTexture("_MainTex", _texture);
         propertyBlock.SetFloat("_UseTexture", 1);
         meshRenderer.SetPropertyBlock(propertyBlock);
         //GetComponent<MeshRenderer>().material.SetFloat("_UseTexture", 1);
@@ -175,18 +184,18 @@ public class MeshGen : MonoBehaviour
 
     IEnumerator Pause()
     {
-        while(_pauseScale > 0)
+        while (_pauseScale > 0)
         {
             _pauseScale -= Time.deltaTime * 3f;
             yield return null;
         }
         _pauseScale = 0;
-        isPaused = true;
+        _isPaused = true;
     }
 
-    IEnumerator UnPause()
+    IEnumerator Play()
     {
-        isPaused = false;
+        _isPaused = false;
         while (_pauseScale < 1)
         {
             _pauseScale += Time.deltaTime * 3f;
@@ -197,9 +206,11 @@ public class MeshGen : MonoBehaviour
 
     public void PlayPause()
     {
-        if (isPaused)
-            StartCoroutine(UnPause());
-        else
+        StopCoroutine(Pause());
+        StopCoroutine(Play());
+        if (sceneStatus.IsPaused())
             StartCoroutine(Pause());
+        else
+            StartCoroutine(Play());
     }
 }
