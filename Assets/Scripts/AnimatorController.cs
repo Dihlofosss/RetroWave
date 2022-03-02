@@ -3,16 +3,19 @@ using UnityEngine;
 public class AnimatorController : MonoBehaviour
 {
     private Audio _audio;
-    private MeshGen _meshGen;
     private Animator _animator;
+
+    [SerializeField]
+    private SceneStatus sceneStatus;
     [SerializeField]
     private RuntimeAnimatorController _controller;
+
     private void Awake()
     {
         _audio = GetComponentInChildren<Audio>();
-        _meshGen = GetComponentInChildren<MeshGen>();
         _animator = GetComponent<Animator>();
         _animator.enabled = false;
+        sceneStatus.SetPuase(true);
     }
 
     private void Start()
@@ -21,9 +24,19 @@ public class AnimatorController : MonoBehaviour
         _animator.enabled = true;
     }
 
-    private void PlayPause()
+    public void PlayPause()
     {
+        //sceneStatus.PauseToggle();
         _audio.PlayPause();
-        _meshGen.PlayPause();
+    }
+
+    public void NextTrack()
+    {
+        _audio.PlayNext();
+    }
+
+    public void PreviousTrack()
+    {
+        _audio.PlayPrevious();
     }
 }

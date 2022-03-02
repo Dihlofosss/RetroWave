@@ -195,6 +195,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorPalette: {fileID: 11400000, guid: 3c5cc53c39241c84ca9fcf48b5339a8c, type: 2}
+  sceneStatus: {fileID: 11400000, guid: 9c06aae9973875944961130cbd0bf83e, type: 2}
+  sunriseCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.2
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.28289488
+      outWeight: 0.10307011
+    - serializedVersion: 3
+      time: 0.8
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.07456154
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &33153703439403318
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,6 +333,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorPalette: {fileID: 11400000, guid: 3c5cc53c39241c84ca9fcf48b5339a8c, type: 2}
+  sceneStatus: {fileID: 11400000, guid: 9c06aae9973875944961130cbd0bf83e, type: 2}
   width: 20
   length: 30
   useTexture: 1
@@ -339,7 +383,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -435,6 +479,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioFade: 0.3
   playList: {fileID: 11400000, guid: 9052874b834f19c4fa78f6504012b20e, type: 2}
+  sceneStatus: {fileID: 11400000, guid: 9c06aae9973875944961130cbd0bf83e, type: 2}
 --- !u!1 &33153704400916934
 GameObject:
   m_ObjectHideFlags: 0
@@ -792,6 +837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54080d5f7e08a8240b75f82bfd255dfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneStatus: {fileID: 11400000, guid: 9c06aae9973875944961130cbd0bf83e, type: 2}
   _controller: {fileID: 9100000, guid: 6cac8cf0819dab243899fd30b718968c, type: 2}
 --- !u!114 &1062478086098371218
 MonoBehaviour:
@@ -1248,7 +1294,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7515392044324085847, guid: 214f313064b310e409cf84ac8425e97e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7515392044324085847, guid: 214f313064b310e409cf84ac8425e97e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -1269,7 +1315,7 @@ PrefabInstance:
     - target: {fileID: 7515392044324085847, guid: 214f313064b310e409cf84ac8425e97e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 33153704372367084}
+      objectReference: {fileID: 3369654258252971972}
     - target: {fileID: 7515392044324085847, guid: 214f313064b310e409cf84ac8425e97e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -1316,7 +1362,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7515392044324085847, guid: 214f313064b310e409cf84ac8425e97e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Audio, Assembly-CSharp
+      value: AnimatorController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7515392044324085847, guid: 214f313064b310e409cf84ac8425e97e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
