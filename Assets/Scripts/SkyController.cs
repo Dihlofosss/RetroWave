@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class SkyController : MonoBehaviour
 {
@@ -43,5 +44,20 @@ public class SkyController : MonoBehaviour
         _sunRise = sunriseCurve.Evaluate(sceneStatus.GetPlaybackTime());
         mBlock.SetFloat(_SunriseID, _sunRise);
         mRenderer.SetPropertyBlock(mBlock);
+    }
+
+    IEnumerator Sunrise()
+    {
+        float counter = 0;
+        while (counter < 1)
+        {
+            //_sunRise += Time.deltaTime * _pauseScale;
+        }
+        yield return null;
+    }
+
+    IEnumerator SUnset()
+    {
+        yield return null;
     }
 }
