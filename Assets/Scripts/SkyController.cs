@@ -8,13 +8,16 @@ public class SkyController : MonoBehaviour
     [SerializeField]
     private SceneStatus sceneStatus;
     [SerializeField]
+    private float _sunSpeed;
+    [SerializeField]
     private AnimationCurve sunriseCurve;
 
     private MeshRenderer mRenderer;
     private MaterialPropertyBlock mBlock;
 
-    private float _sunRise = 0;
+    private float _sunRise, _sunTimer;
     private int _mainSkyColorID, _fadeSkyColorID, _SunColor, _SunriseID;
+    private bool _sunDirection;
 
     private void Awake()
     {
@@ -30,34 +33,46 @@ public class SkyController : MonoBehaviour
         mBlock.SetColor(_mainSkyColorID, colorPalette.getMainSkyColor());
         mBlock.SetColor(_fadeSkyColorID, colorPalette.getFadeSkyColor());
         mBlock.SetColor(_SunColor, colorPalette.getSunColor());
-        mBlock.SetFloat(_SunriseID, sceneStatus.GetSunrise());
+        mBlock.SetFloat(_SunriseID, _sunRise);
 
         mRenderer.SetPropertyBlock(mBlock);
     }
 
     private void Update()
     {
-        if (_sunRise == sunriseCurve.Evaluate(sceneStatus.GetPlaybackTime()))
+        if (sceneStatus.IsPaused())
             return;
 
-        //_sunRise = sceneStatus.GetSunrise();
-        _sunRise = sunriseCurve.Evaluate(sceneStatus.GetPlaybackTime());
+        _sunTimer -= Time.deltaTime;
+
+        if(_sunTimer < 0)
+        {
+            _sunTimer = Random.Range(3f, 5f) * 60f;
+            StartCoroutine(SunMove(_sunDirection));
+            _sunDirection = !_sunDirection;
+        }
+
+        if (_sunRise == 0 || _sunRise == 1f)
+            return;
+
         mBlock.SetFloat(_SunriseID, _sunRise);
         mRenderer.SetPropertyBlock(mBlock);
     }
 
-    IEnumerator Sunrise()
+    IEnumerator SunMove(bool reverse)
     {
-        float counter = 0;
-        while (counter < 1)
+        float counter = 0f;
+        while (counter < 1f)
         {
-            //_sunRise += Time.deltaTime * _pauseScale;
+            if(sceneStatus.IsPaused())
+            {
+                yield return new WaitWhile(() => sceneStatus.IsPaused());
+            }
+            counter += Time.deltaTime * _sunSpeed;
+            _sunRise = !reverse ? sunriseCurve.Evaluate(counter) : sunriseCurve.Evaluate(1 - counter);
+            sceneStatus.SetSunrise(_sunRise);
+            yield return null;
         }
-        yield return null;
-    }
-
-    IEnumerator SUnset()
-    {
-        yield return null;
+        _sunRise = !reverse ? 1f : 0f;
     }
 }

@@ -3614,10 +3614,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1977.0001220703125,
-            "y": 299.0,
+            "x": -1982.857177734375,
+            "y": 298.8571472167969,
             "width": 128.0,
-            "height": 94.0
+            "height": 93.71429443359375
         }
     },
     "m_Slots": [
@@ -4392,10 +4392,10 @@
         "m_Expanded": false,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -2729.0,
+            "x": -2667.4287109375,
             "y": 448.0,
-            "width": 95.0,
-            "height": 77.0
+            "width": 92.57129669189453,
+            "height": 76.0
         }
     },
     "m_Slots": [
@@ -4993,7 +4993,7 @@
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 2,
     "m_Hidden": false,
-    "m_Value": 0.46000000834465029,
+    "m_Value": 1.0,
     "m_FloatType": 1,
     "m_RangeValues": {
         "x": 0.0,
@@ -5212,10 +5212,10 @@
         "m_Expanded": false,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -2108.000244140625,
-            "y": 299.0000305175781,
-            "width": 126.0001220703125,
-            "height": 94.0
+            "x": -2108.571533203125,
+            "y": 298.8571472167969,
+            "width": 125.71436309814453,
+            "height": 93.71429443359375
         }
     },
     "m_Slots": [
@@ -6670,7 +6670,7 @@
     },
     "m_Name": "Split",
     "m_DrawState": {
-        "m_Expanded": true,
+        "m_Expanded": false,
         "m_Position": {
             "serializedVersion": "2",
             "x": -1968.0001220703125,
@@ -8572,7 +8572,7 @@
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
-    "m_Value": false
+    "m_Value": true
 }
 
 {
@@ -8978,7 +8978,7 @@
     },
     "m_Name": "Tiling And Offset",
     "m_DrawState": {
-        "m_Expanded": true,
+        "m_Expanded": false,
         "m_Position": {
             "serializedVersion": "2",
             "x": -2729.000244140625,
@@ -9085,7 +9085,7 @@
     },
     "m_Name": "Multiply",
     "m_DrawState": {
-        "m_Expanded": true,
+        "m_Expanded": false,
         "m_Position": {
             "serializedVersion": "2",
             "x": -299.4285888671875,

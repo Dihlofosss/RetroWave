@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: SceneStatus
   m_EditorClassIdentifier: 
   _isPaused: 0
-  _currentTrackPlayback: 0.22277898
-  _sunRise: 0
+  _currentTrackPlayback: 0.7433196
+  _sunRise: 1

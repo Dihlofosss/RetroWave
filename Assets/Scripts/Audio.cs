@@ -10,7 +10,6 @@ public class Audio : MonoBehaviour
     private PlayList playList;
     [SerializeField]
     private SceneStatus sceneStatus;
-    //private bool _pauseToggle = true;
 
     private AudioSource audioSource;
     private float _currentTrackLength;
@@ -23,7 +22,6 @@ public class Audio : MonoBehaviour
         audioSource.clip = playList.GetCurrent();
         _currentTrackLength = audioSource.clip.length;
         _playtime = 0;
-        //_pauseToggle = sceneStatus.IsPaused();
     }
     
     private void Update()
@@ -33,16 +31,10 @@ public class Audio : MonoBehaviour
             _playtime += Time.deltaTime;
             sceneStatus.UpdatePlaybackTime(_playtime / _currentTrackLength);
         }
-            
-        /*
-        if(_pauseToggle != sceneStatus.IsPaused())
+        else if (sceneStatus.GetPlaybackTime() > 0.95f)
         {
-            _pauseToggle = sceneStatus.IsPaused();
-            PlayPause();
+            StartCoroutine(SwitchTrack(true));
         }
-        */
-
-
     }
 
     public void PlayNext()
@@ -69,7 +61,7 @@ public class Audio : MonoBehaviour
     IEnumerator Play()
     {
         audioSource.Play();
-        while (audioSource.volume < 1f )
+        while (audioSource.volume < 1f)
         {
             audioSource.volume += Time.deltaTime / audioFade;
             yield return null;
@@ -92,7 +84,7 @@ public class Audio : MonoBehaviour
     {
         if (audioSource.isPlaying)
         {
-            PlayPause();
+            StartCoroutine(Pause());
             yield return new WaitWhile(() => audioSource.isPlaying);
         }
         audioSource.Stop();
@@ -101,6 +93,6 @@ public class Audio : MonoBehaviour
         _currentTrackLength = audioSource.clip.length;
         _playtime = 0;
 
-        PlayPause();
+        StartCoroutine(Play());
     }
 }

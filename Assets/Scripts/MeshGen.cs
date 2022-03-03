@@ -17,6 +17,7 @@ public class MeshGen : MonoBehaviour
     private bool _pauseToggle = true;
     private bool _isPaused;
     private float _pauseScale = 0;
+    private float _globalPausingSpeed;
 
     [SerializeField]
     private ColorPalette colorPalette;
@@ -186,7 +187,7 @@ public class MeshGen : MonoBehaviour
     {
         while (_pauseScale > 0)
         {
-            _pauseScale -= Time.deltaTime * 3f;
+            _pauseScale -= Time.deltaTime / _globalPausingSpeed;
             yield return null;
         }
         _pauseScale = 0;
@@ -198,7 +199,7 @@ public class MeshGen : MonoBehaviour
         _isPaused = false;
         while (_pauseScale < 1)
         {
-            _pauseScale += Time.deltaTime * 3f;
+            _pauseScale += Time.deltaTime / _globalPausingSpeed;
             yield return null;
         }
         _pauseScale = 1;

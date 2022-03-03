@@ -6,6 +6,7 @@ public class PlayList : ScriptableObject
 {
     public List<AudioClip> clips;
 
+    [SerializeField]
     private short _currentTrack;
 
     public AudioClip GetNext()
@@ -27,5 +28,10 @@ public class PlayList : ScriptableObject
     public AudioClip GetCurrent()
     {
         return clips[_currentTrack];
+    }
+
+    public string getCurrentTrackName()
+    {
+        return clips[_currentTrack].name;
     }
 }

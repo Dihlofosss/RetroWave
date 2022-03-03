@@ -5,12 +5,20 @@ using UnityEngine;
 public class SceneStatus : ScriptableObject
 {
     [SerializeField]
+    private float PausingSpeed;
+    [SerializeField]
     private bool _isPaused;
 
     [SerializeField]
     private float _currentTrackPlayback;
     [SerializeField]
-    private float _sunRise = 0f;
+    private float _sunRise;
+
+    private void Awake()
+    {
+        _sunRise = 0f;
+        _currentTrackPlayback = 0f;
+    }
 
     public void SetPuase(bool value)
     {
@@ -25,6 +33,11 @@ public class SceneStatus : ScriptableObject
     public bool IsPaused()
     {
         return _isPaused;
+    }
+
+    public void SetSunrise(float value)
+    {
+        _sunRise = value;
     }
 
     public float GetSunrise()
