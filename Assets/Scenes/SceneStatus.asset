@@ -15,6 +15,6 @@ MonoBehaviour:
   speed: 2
   pauseFade: 0.3
   isPaused: 0
-  isSpectrumDivided: 1
-  _currentTrackPlayback: 0.5296748
-  _sunRise: 1
+  isSpectrumDivided: 0
+  _currentTrackPlayback: 0.043372817
+  _sunRise: 0.036959074

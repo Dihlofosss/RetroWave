@@ -17,6 +17,7 @@ public class AnimatorController : MonoBehaviour
         _animator = GetComponent<Animator>();
         _animator.enabled = false;
         sceneStatus.SetPuase(true);
+        sceneStatus.SetSunrise(0f);
         _animator.runtimeAnimatorController = _controller;
     }
 

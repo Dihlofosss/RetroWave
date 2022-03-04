@@ -100,10 +100,11 @@ public class MeshGen : MonoBehaviour
         float height;
         AudioListener.GetSpectrumData(_sound, 0, FFTWindow.Rectangular);
         //remove last poly row
-        for(int i = _verts.Count; i <= _verts.Count - (2 * width); i--)
+        int initialSize = _verts.Count;
+        for (int i = initialSize - 1; i >= initialSize - (2 * width) - 1; i--)
         {
-            _verts.RemoveAt(i - 1);
-            _colors.RemoveAt(i - 1);
+            _verts.RemoveAt(i);
+            _colors.RemoveAt(i);
         }
         //add vert for 1st poly row
         for(int i = width; i >= -width; i--)
@@ -118,7 +119,7 @@ public class MeshGen : MonoBehaviour
             
             _colors.Insert(0, Color.Lerp(colorPalette.getDefaultGridColor(), colorPalette.getPeakGridColor(), height / 3f));
         }
-        _verts.TrimExcess();
+        //_verts.TrimExcess();
         mesh.vertices = _verts.ToArray();
         mesh.colors = _colors.ToArray();
     }
@@ -147,8 +148,7 @@ public class MeshGen : MonoBehaviour
         }
         mesh.triangles = _tris;
         mesh.RecalculateNormals();
-        //mesh.no
-        mesh.RecalculateBounds();
+        //mesh.RecalculateBounds();
     }
 
     private void generateGridTexture()
