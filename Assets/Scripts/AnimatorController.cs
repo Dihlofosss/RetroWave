@@ -4,6 +4,7 @@ public class AnimatorController : MonoBehaviour
 {
     private Audio _audio;
     private Animator _animator;
+    private bool _isSpectrumDivided;
 
     [SerializeField]
     private SceneStatus sceneStatus;
@@ -16,12 +17,21 @@ public class AnimatorController : MonoBehaviour
         _animator = GetComponent<Animator>();
         _animator.enabled = false;
         sceneStatus.SetPuase(true);
+        _animator.runtimeAnimatorController = _controller;
     }
 
     private void Start()
     {
-        _animator.runtimeAnimatorController = _controller;
         _animator.enabled = true;
+    }
+
+    private void Update()
+    {
+        if(_isSpectrumDivided != sceneStatus.IsSpectrumDivided())
+        {
+            DivideTrigger();
+            _isSpectrumDivided = !_isSpectrumDivided;
+        }
     }
 
     public void PlayPause()
@@ -38,5 +48,10 @@ public class AnimatorController : MonoBehaviour
     public void PreviousTrack()
     {
         _audio.PlayPrevious();
+    }
+
+    public void DivideTrigger()
+    {
+        _animator.SetTrigger("Divide");
     }
 }

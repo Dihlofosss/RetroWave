@@ -4,8 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class Audio : MonoBehaviour
 {
-    [SerializeField]
-    private float audioFade;
+    private float _pauseFade;
     [SerializeField]
     private PlayList playList;
     [SerializeField]
@@ -22,6 +21,7 @@ public class Audio : MonoBehaviour
         audioSource.clip = playList.GetCurrent();
         _currentTrackLength = audioSource.clip.length;
         _playtime = 0;
+        _pauseFade = sceneStatus.GetPauseFade();
     }
     
     private void Update()
@@ -63,7 +63,7 @@ public class Audio : MonoBehaviour
         audioSource.Play();
         while (audioSource.volume < 1f)
         {
-            audioSource.volume += Time.deltaTime / audioFade;
+            audioSource.volume += Time.deltaTime / _pauseFade;
             yield return null;
         }
         audioSource.volume = 1f;
@@ -73,7 +73,7 @@ public class Audio : MonoBehaviour
     {
         while (audioSource.volume > 0f)
         {
-            audioSource.volume -= Time.deltaTime / audioFade;
+            audioSource.volume -= Time.deltaTime / _pauseFade;
             yield return null;
         }
         audioSource.volume = 0f;

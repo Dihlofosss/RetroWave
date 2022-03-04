@@ -128,7 +128,7 @@ Transform:
   m_GameObject: {fileID: 33153703415455637}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalScale: {x: 120, y: 120, z: 120}
   m_Children: []
   m_Father: {fileID: 3939735147590165384}
   m_RootOrder: 3
@@ -460,7 +460,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9c4b553f1e0d5d408dbcfc107f1b9fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioFade: 0.3
   playList: {fileID: 11400000, guid: 9052874b834f19c4fa78f6504012b20e, type: 2}
   sceneStatus: {fileID: 11400000, guid: 9c06aae9973875944961130cbd0bf83e, type: 2}
 --- !u!1 &33153704400916934
@@ -559,6 +558,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   source: {fileID: 33153704372367086}
   palette: {fileID: 11400000, guid: 3c5cc53c39241c84ca9fcf48b5339a8c, type: 2}
+  sceneStatus: {fileID: 11400000, guid: 9c06aae9973875944961130cbd0bf83e, type: 2}
   material: {fileID: 2100000, guid: b9c313ebb914d61409a42f309ea0abbd, type: 2}
   fade: 0.97
 --- !u!1 &33153704613780302

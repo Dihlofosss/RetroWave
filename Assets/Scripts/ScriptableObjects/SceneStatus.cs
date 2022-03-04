@@ -5,9 +5,13 @@ using UnityEngine;
 public class SceneStatus : ScriptableObject
 {
     [SerializeField]
-    private float PausingSpeed;
+    private float speed;
     [SerializeField]
-    private bool _isPaused;
+    private float pauseFade;
+    [SerializeField]
+    private bool isPaused;
+    [SerializeField]
+    private bool isSpectrumDivided;
 
     [SerializeField]
     private float _currentTrackPlayback;
@@ -18,21 +22,42 @@ public class SceneStatus : ScriptableObject
     {
         _sunRise = 0f;
         _currentTrackPlayback = 0f;
+        isSpectrumDivided = false;
+    }
+
+    public void DivideTrigger()
+    {
+        isSpectrumDivided = !isSpectrumDivided;
+    }
+
+    public bool IsSpectrumDivided()
+    {
+        return isSpectrumDivided;
+    }
+
+    public float GetSpeed()
+    {
+        return speed;
+    }
+
+    public float GetPauseFade()
+    {
+        return pauseFade;
     }
 
     public void SetPuase(bool value)
     {
-        _isPaused = value;
+        isPaused = value;
     }
 
     public void PauseToggle()
     {
-        _isPaused = !_isPaused;
+        isPaused = !isPaused;
     }
 
     public bool IsPaused()
     {
-        return _isPaused;
+        return isPaused;
     }
 
     public void SetSunrise(float value)

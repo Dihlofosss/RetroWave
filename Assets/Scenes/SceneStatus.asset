@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b42b6dd88540d724d99b8de67a8d5526, type: 3}
   m_Name: SceneStatus
   m_EditorClassIdentifier: 
-  _isPaused: 0
-  _currentTrackPlayback: 0.7433196
+  speed: 2
+  pauseFade: 0.3
+  isPaused: 0
+  isSpectrumDivided: 1
+  _currentTrackPlayback: 0.5296748
   _sunRise: 1

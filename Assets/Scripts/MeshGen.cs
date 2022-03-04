@@ -17,7 +17,8 @@ public class MeshGen : MonoBehaviour
     private bool _pauseToggle = true;
     private bool _isPaused;
     private float _pauseScale = 0;
-    private float _globalPausingSpeed;
+    private float _pauseFade;
+    private float _speed;
 
     [SerializeField]
     private ColorPalette colorPalette;
@@ -37,6 +38,8 @@ public class MeshGen : MonoBehaviour
         };
         GetComponent<MeshFilter>().mesh = mesh;
 
+        _pauseFade = sceneStatus.GetPauseFade();
+        _speed = sceneStatus.GetSpeed();
         _tris = new int[4 * width * length * 6];
         _uv = new Vector2[(width * 2 + 1) * (length * 2 + 1)];
         _texture = new Texture2D(128, 128, TextureFormat.R8, true);
@@ -81,7 +84,7 @@ public class MeshGen : MonoBehaviour
         if (_isPaused)
             return;
 
-        counter += Time.deltaTime * _pauseScale;
+        counter += Time.deltaTime * _pauseScale * _speed;
         //counter *= _pauseScale;
         if(counter >= 1)
         {
@@ -125,7 +128,7 @@ public class MeshGen : MonoBehaviour
         for(short i = 0; i < _verts.Count; i++)
         {
             //verts[i].z -= Time.deltaTime;
-            _verts[i] = new Vector3(_verts[i].x, _verts[i].y, _verts[i].z + Time.deltaTime * _pauseScale);
+            _verts[i] = new Vector3(_verts[i].x, _verts[i].y, _verts[i].z + Time.deltaTime * _pauseScale * _speed);
         }
         mesh.vertices = _verts.ToArray();
     }
@@ -187,7 +190,7 @@ public class MeshGen : MonoBehaviour
     {
         while (_pauseScale > 0)
         {
-            _pauseScale -= Time.deltaTime / _globalPausingSpeed;
+            _pauseScale -= Time.deltaTime / _pauseFade;
             yield return null;
         }
         _pauseScale = 0;
@@ -199,7 +202,7 @@ public class MeshGen : MonoBehaviour
         _isPaused = false;
         while (_pauseScale < 1)
         {
-            _pauseScale += Time.deltaTime / _globalPausingSpeed;
+            _pauseScale += Time.deltaTime / _pauseFade;
             yield return null;
         }
         _pauseScale = 1;

@@ -12,6 +12,8 @@ public class Spectrum : MonoBehaviour
     [SerializeField]
     private ColorPalette palette;
     [SerializeField]
+    private SceneStatus sceneStatus;
+    [SerializeField]
     private Material material;
 
     private Renderer mRender;
@@ -24,6 +26,8 @@ public class Spectrum : MonoBehaviour
     private GameObject[] spectrumParts;
     private Renderer[] renderers;
 
+    private bool _isDivided;
+
 
     private void Awake()
     {
@@ -35,7 +39,17 @@ public class Spectrum : MonoBehaviour
         mRender = GetComponent<Renderer>();
         texture = new Texture2D(1, 256, TextureFormat.R8, true);
         mBlock = new MaterialPropertyBlock();
-        for(short i = 0; i < 2; i++)
+        
+        //mRender.GetPropertyBlock(mBlock);
+        //mBlock.SetColor(baseColor, palette.getDefaultRingColor());
+        //mBlock.SetColor(peakColor, palette.getPeakRingColor());
+        //mBlock.SetTexture(textureID, texture);
+        //mRender.SetPropertyBlock(mBlock);
+    }
+
+    private void Start()
+    {
+        for (short i = 0; i < 2; i++)
         {
             renderers[i].GetPropertyBlock(mBlock);
             mBlock.SetColor(baseColor, palette.getDefaultRingColor());
@@ -43,11 +57,6 @@ public class Spectrum : MonoBehaviour
             mBlock.SetTexture(textureID, texture);
             renderers[i].SetPropertyBlock(mBlock);
         }
-        //mRender.GetPropertyBlock(mBlock);
-       // mBlock.SetColor(baseColor, palette.getDefaultRingColor());
-        //mBlock.SetColor(peakColor, palette.getPeakRingColor());
-        //mBlock.SetTexture(textureID, texture);
-        //mRender.SetPropertyBlock(mBlock);
     }
 
     // Update is called once per frame
@@ -72,8 +81,8 @@ public class Spectrum : MonoBehaviour
             else
                 draw_spectrum_R[i] *= soft;
 
-            texture.SetPixel(0, i, getColor(draw_spectrum_R[i]));
-            texture.SetPixel(0, 255 - i, getColor(draw_spectrum_L[i]));
+            texture.SetPixel(0, i, GetColor(draw_spectrum_R[i]));
+            texture.SetPixel(0, 255 - i, GetColor(draw_spectrum_L[i]));
         }
         texture.Apply();
         for (short i = 0; i < 2; i++)
@@ -82,9 +91,19 @@ public class Spectrum : MonoBehaviour
             mBlock.SetTexture(textureID, texture);
             renderers[i].SetPropertyBlock(mBlock);
         }
+        if (!_isDivided && sceneStatus.GetSunrise() > 0.85f)
+        {
+            _isDivided = !_isDivided;
+            sceneStatus.DivideTrigger();
+        }
+        else if(_isDivided && sceneStatus.GetSunrise() < 0.7f)
+        {
+            _isDivided = !_isDivided;
+            sceneStatus.DivideTrigger();
+        }
     }
 
-    private Color getColor(float value)
+    private Color GetColor(float value)
     {
         value = (1 - Mathf.Pow(1 - value, 6));
         return new Color(value, 0, 0);
@@ -132,7 +151,6 @@ public class Spectrum : MonoBehaviour
         for (short i = 0; i< 2; i++)
         {
             spectrumParts[i] = new GameObject(names[i]);
-            //spectrumParts[i].name = names[i];
             spectrumParts[i].transform.position = transform.position;
             spectrumParts[i].transform.SetParent(transform);
 

@@ -81,6 +81,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - BarsCount: 128
+    - Vector1_422813024c9a4e0499ba6a5255e2b457: 0
     - Vector1_746cee7579bc4b33bb91573da5b0753e: 1
     - _AlphaClip: 0
     - _Blend: 0
