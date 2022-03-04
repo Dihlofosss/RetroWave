@@ -17,12 +17,19 @@ public class SceneStatus : ScriptableObject
     private float _currentTrackPlayback;
     [SerializeField]
     private float _sunRise;
+    [SerializeField]
+    private float _trackDisplayTime;
 
     private void Awake()
     {
         _sunRise = 0f;
         _currentTrackPlayback = 0f;
         isSpectrumDivided = false;
+    }
+
+    public float GetTrackDisplayTime()
+    {
+        return _trackDisplayTime;
     }
 
     public void DivideTrigger()
