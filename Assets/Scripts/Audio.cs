@@ -18,10 +18,12 @@ public class Audio : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         audioSource.volume = 0;
-        audioSource.clip = playList.GetCurrent();
+        audioSource.clip = playList.GetCurrentTrack();
         _currentTrackLength = audioSource.clip.length;
         _playtime = 0;
         _pauseFade = sceneStatus.GetPauseFade();
+        sceneStatus.SetCurrentTrackID(playList.GetCurrentTrackID());
+        sceneStatus.SetCurrentTrackName(playList.getCurrentTrackName());
     }
     
     private void Update()
@@ -92,6 +94,8 @@ public class Audio : MonoBehaviour
         audioSource.clip = isForward ? playList.GetNext() : playList.GetPrevious();
         _currentTrackLength = audioSource.clip.length;
         _playtime = 0;
+        sceneStatus.SetCurrentTrackID(playList.GetCurrentTrackID());
+        sceneStatus.SetCurrentTrackName(playList.getCurrentTrackName());
 
         StartCoroutine(Play());
     }

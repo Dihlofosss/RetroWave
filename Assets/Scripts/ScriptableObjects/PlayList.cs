@@ -45,7 +45,7 @@ public class PlayList : ScriptableObject
         return clips[_currentTrack];
     }
 
-    public AudioClip GetCurrent()
+    public AudioClip GetCurrentTrack()
     {
         return clips[_currentTrack];
     }
@@ -53,5 +53,10 @@ public class PlayList : ScriptableObject
     public string getCurrentTrackName()
     {
         return clips[_currentTrack].name;
+    }
+
+    public short GetCurrentTrackID()
+    {
+        return _currentTrack;
     }
 }

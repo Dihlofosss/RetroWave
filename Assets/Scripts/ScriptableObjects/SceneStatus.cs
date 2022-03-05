@@ -5,31 +5,53 @@ using UnityEngine;
 public class SceneStatus : ScriptableObject
 {
     [SerializeField]
-    private float speed;
+    private float sceneSpeed;
     [SerializeField]
     private float pauseFade;
     [SerializeField]
-    private bool isPaused;
-    [SerializeField]
-    private bool isSpectrumDivided;
+    private bool isPaused, isSpectrumDivided;
 
+    [SerializeField]
+    private short _currentTrackID;
     [SerializeField]
     private float _currentTrackPlayback;
     [SerializeField]
-    private float _sunRise;
+    private string _currentTrackName;
     [SerializeField]
     private float _trackDisplayTime;
+    [SerializeField]
+    private float _sunRise;
 
-    private void Awake()
+    private void Start()
     {
         _sunRise = 0f;
         _currentTrackPlayback = 0f;
         isSpectrumDivided = false;
     }
 
+    public short GetCurrentTrackID()
+    {
+        return _currentTrackID;
+    }
+
+    public void SetCurrentTrackID(short value)
+    {
+        _currentTrackID = value;
+    }
+
     public float GetTrackDisplayTime()
     {
         return _trackDisplayTime;
+    }
+
+    public string GetCurrentTrackName()
+    {
+        return _currentTrackName;
+    }
+
+    public void SetCurrentTrackName(string value)
+    {
+        _currentTrackName = value;
     }
 
     public void DivideTrigger()
@@ -44,7 +66,7 @@ public class SceneStatus : ScriptableObject
 
     public float GetSpeed()
     {
-        return speed;
+        return sceneSpeed;
     }
 
     public float GetPauseFade()
