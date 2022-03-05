@@ -13,8 +13,6 @@ public class DisplayTrack : MonoBehaviour
     private short _currentTrack;
     private float _displayTime, _fadeTime, _countdown;
     private bool _isHidden;
-    private string _trackName;
-    // Start is called before the first frame update
 
     private void Awake()
     {
@@ -32,10 +30,8 @@ public class DisplayTrack : MonoBehaviour
         _isHidden = true;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        Debug.Log(_countdown);
         if (_countdown > 0)
         {
             _countdown -= Time.deltaTime;
@@ -44,7 +40,6 @@ public class DisplayTrack : MonoBehaviour
                 _currentTrack = sceneStatus.GetCurrentTrackID();
                 textMesh.text = sceneStatus.GetCurrentTrackName();
                 _countdown = _displayTime;
-                Debug.Log("new track");
                 return;
             }
         }
@@ -64,7 +59,6 @@ public class DisplayTrack : MonoBehaviour
         {
             _countdown = _displayTime;
             StartCoroutine(TrackNameFade(_isHidden));
-            Debug.Log("NrextTrack C");
         }
         yield return new WaitWhile(() => _countdown > 0);
 

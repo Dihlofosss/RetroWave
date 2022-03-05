@@ -22,7 +22,7 @@ public class SceneStatus : ScriptableObject
     [SerializeField]
     private float _sunRise;
 
-    private void Start()
+    private void Awake()
     {
         _sunRise = 0f;
         _currentTrackPlayback = 0f;

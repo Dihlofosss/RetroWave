@@ -41,7 +41,6 @@ public class AnimatorController : MonoBehaviour
 
     public void PlayPause()
     {
-        //sceneStatus.PauseToggle();
         _audio.PlayPause();
     }
 
