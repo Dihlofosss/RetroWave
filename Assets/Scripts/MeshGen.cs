@@ -167,7 +167,7 @@ public class MeshGen : MonoBehaviour
                 modW = pow(modW, 10);
                 modW = 1 - modW;
                 
-                _texture.SetPixel(height, width, floatToColor(smoothstep(0.65f, 0.8f, 1 - (modH * modW))));
+                _texture.SetPixel(height, width, FloatToColor(smoothstep(0.65f, 0.8f, 1 - (modH * modW))));
             }
         }
         _texture.Apply();
@@ -181,7 +181,7 @@ public class MeshGen : MonoBehaviour
         //GetComponent<MeshRenderer>().material.mainTexture = texture;
     }
 
-    private Color floatToColor(float value)
+    private Color FloatToColor(float value)
     {
         return new Color(value, value, value);
     }

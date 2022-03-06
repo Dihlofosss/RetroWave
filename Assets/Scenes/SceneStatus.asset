@@ -16,8 +16,8 @@ MonoBehaviour:
   pauseFade: 0.3
   isPaused: 0
   isSpectrumDivided: 0
-  _currentTrackID: 1
-  _currentTrackPlayback: 0.023281246
-  _currentTrackName: Pyramid - Astral
+  _currentTrackID: 2
+  _currentTrackPlayback: 0.02503812
+  _currentTrackName: PYLOT - A Race Against Time
   _trackDisplayTime: 3
-  _sunRise: 0.094802976
+  _sunRise: 0.01095218

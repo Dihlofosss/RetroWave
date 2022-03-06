@@ -14,7 +14,7 @@ public class Audio : MonoBehaviour
     private float _currentTrackLength;
     private float _playtime;
 
-    void Start()
+    void Awake()
     {
         audioSource = GetComponent<AudioSource>();
         audioSource.volume = 0;
