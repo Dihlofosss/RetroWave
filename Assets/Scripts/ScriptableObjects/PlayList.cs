@@ -1,13 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-using System;
 
 [System.Serializable]
 [CreateAssetMenu(fileName = "Playlist", menuName = "ScriptableObjects/Audio/Playlist", order = 1)]
 public class PlayList : ScriptableObject
 {
-    [NonSerialized]
     public List<AudioClip> clips;
 
     [SerializeField]
