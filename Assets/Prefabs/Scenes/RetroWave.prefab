@@ -316,11 +316,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e9e3da79f2e67d4dbab9550a104e8bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorPalette: {fileID: 11400000, guid: 3c5cc53c39241c84ca9fcf48b5339a8c, type: 2}
-  sceneStatus: {fileID: 11400000, guid: 9c06aae9973875944961130cbd0bf83e, type: 2}
-  width: 20
-  length: 30
-  useTexture: 1
+  _colorPalette: {fileID: 11400000, guid: 732dd645cff2f5142a9ec909b4190389, type: 2}
+  _sceneStatus: {fileID: 11400000, guid: 9c06aae9973875944961130cbd0bf83e, type: 2}
+  _tunnelBlock: {fileID: 9017662563113284226, guid: f36160cc719ca324cab5b0b71e7d12ee, type: 3}
+  _width: 20
+  _length: 30
+  _useTexture: 1
 --- !u!1 &33153704372367087
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ using System.Collections;
 [RequireComponent(typeof(Mesh), typeof(MeshFilter))]
 public class MeshGen : MonoBehaviour
 {
-    private Mesh mesh;
+    private Mesh _gridMesh, _tunnelMesh;
 
     private Texture2D _texture;
     private List<Vector3> _verts = new List<Vector3>();
@@ -20,79 +20,100 @@ public class MeshGen : MonoBehaviour
     private float _pauseFade;
     private float _speed;
 
+    //private GameObject[] _tunnel;
+
     [SerializeField]
-    private ColorPalette colorPalette;
+    private ColorPalette _colorPalette;
     [SerializeField]
-    private SceneStatus sceneStatus;
+    private SceneStatus _sceneStatus;
     [SerializeField]
-    private int width, length;
+    private GameObject _tunnelBlock; 
     [SerializeField]
-    private bool useTexture;
-    private float counter;
+    private int _width, _length;
+    [SerializeField]
+    private bool _useTexture;
+    private float _counter;
 
     private void Awake()
     {
-        mesh = new Mesh
+        _gridMesh = new Mesh
         {
             name = "Procedural Grid"
         };
-        GetComponent<MeshFilter>().mesh = mesh;
+        GetComponent<MeshFilter>().mesh = _gridMesh;
 
-        _pauseFade = sceneStatus.GetPauseFade();
-        _speed = sceneStatus.GetSpeed();
-        _tris = new int[4 * width * length * 6];
-        _uv = new Vector2[(width * 2 + 1) * (length * 2 + 1)];
+        _pauseFade = _sceneStatus.GetPauseFade();
+        _speed = _sceneStatus.GetSpeed();
+        _tris = new int[4 * _width * _length * 6];
+        _uv = new Vector2[(_width * 2 + 1) * (_length * 2 + 1)];
         _texture = new Texture2D(128, 128, TextureFormat.R8, true);
         _texture.anisoLevel = 8;
 
         MeshRenderer renderer = GetComponent<MeshRenderer>();
         MaterialPropertyBlock mBlock = new MaterialPropertyBlock();
         renderer.GetPropertyBlock(mBlock);
-        mBlock.SetColor("_MainSkyColor", colorPalette.getMainSkyColor());
-        mBlock.SetColor("_FadeSkyColor", colorPalette.getFadeSkyColor());
+        mBlock.SetColor("_MainSkyColor", _colorPalette.getMainSkyColor());
+        mBlock.SetColor("_FadeSkyColor", _colorPalette.getFadeSkyColor());
         renderer.SetPropertyBlock(mBlock);
     }
 
     void Start()
     {
-        for(short i = 0, z = (short)-length; z <= length; z++)
+        for (short i = 0, z = (short)-_length; z <= _length; z++)
         {
-            for(short x = (short)-width; x <= width; x++, i++)
+            for(short x = (short)-_width; x <= _width; x++, i++)
             {
                 _verts.Add(new Vector3(x, 0, z));
                 _uv[i] = new Vector2(x, z);
-                _colors.Add(colorPalette.getDefaultGridColor());
+                _colors.Add(_colorPalette.getDefaultGridColor());
             }
         }
-        mesh.vertices = _verts.ToArray();
-        mesh.uv = _uv;
-        mesh.colors = _colors.ToArray();
+        _gridMesh.vertices = _verts.ToArray();
+        _gridMesh.uv = _uv;
+        _gridMesh.colors = _colors.ToArray();
         
         rebuildTris();
-        if(useTexture)
+        if(_useTexture)
             generateGridTexture();
+        /*
+        _tunnel = new GameObject[_length * 2];
+        Mesh mesh = _tunnelBlock.GetComponent<MeshFilter>().sharedMesh;
+        _tunnelBlock.GetComponent<MeshRenderer>().sharedMaterial.mainTexture = _texture;
+        Color[] colors = new Color[mesh.colors.Length];
+        for (short i = 0; i < mesh.colors.Length; i++)
+        {
+            colors[i] = _colorPalette.getDefaultGridColor();
+        }
+        //mesh.colors = colors;
+
+        for (short i = 0; i < _tunnel.Length; i++)
+        {
+            _tunnel[i] = Instantiate(_tunnelBlock);
+            _tunnel[i].transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + i - _length);
+            _tunnel[i].transform.SetParent(transform);
+        }*/
     }
 
     void Update()
     {
-        if (_pauseToggle != sceneStatus.IsPaused())
+        if (_pauseToggle != _sceneStatus.IsPaused())
         {
-            _pauseToggle = sceneStatus.IsPaused();
+            _pauseToggle = _sceneStatus.IsPaused();
             PlayPause();
         }
 
         if (_isPaused)
             return;
 
-        counter += Time.deltaTime * _pauseScale * _speed;
+        _counter += Time.deltaTime * _pauseScale * _speed;
         //counter *= _pauseScale;
-        if(counter >= 1)
+        if(_counter >= 1)
         {
-            counter = frac(counter);
-            rebuildVerts(counter);
+            _counter = frac(_counter);
+            rebuildVerts(_counter);
         }
         moveGrid();
-        rebuildTris();
+        rebuildTris();  
     }
 
     private void rebuildVerts(float shift)
@@ -101,27 +122,27 @@ public class MeshGen : MonoBehaviour
         AudioListener.GetSpectrumData(_sound, 0, FFTWindow.Rectangular);
         //remove last poly row
         int initialSize = _verts.Count;
-        for (int i = initialSize - 1; i >= initialSize - (2 * width) - 1; i--)
+        for (int i = initialSize - 1; i >= initialSize - (2 * _width) - 1; i--)
         {
             _verts.RemoveAt(i);
             _colors.RemoveAt(i);
         }
         //add vert for 1st poly row
-        for(int i = width; i >= -width; i--)
+        for(int i = _width; i >= -_width; i--)
         {
-            height = Mathf.Abs(i) - width / 4;
-            height = 1 - Mathf.Pow(1 - _sound[Mathf.Abs(Mathf.Abs((int)height) - (width / 2))], 2);
+            height = Mathf.Abs(i) - _width / 4;
+            height = 1 - Mathf.Pow(1 - _sound[Mathf.Abs(Mathf.Abs((int)height) - (_width / 2))], 2);
             height *= 3f;
 
             if (i < 2 && i > -2)
                 height *= 0.1f;
-            _verts.Insert(0, new Vector3(i, height , shift - length));
+            _verts.Insert(0, new Vector3(i, height , shift - _length));
             
-            _colors.Insert(0, Color.Lerp(colorPalette.getDefaultGridColor(), colorPalette.getPeakGridColor(), height / 3f));
+            _colors.Insert(0, Color.Lerp(_colorPalette.getDefaultGridColor(), _colorPalette.getPeakGridColor(), height / 3f));
         }
         //_verts.TrimExcess();
-        mesh.vertices = _verts.ToArray();
-        mesh.colors = _colors.ToArray();
+        _gridMesh.vertices = _verts.ToArray();
+        _gridMesh.colors = _colors.ToArray();
     }
 
     private void moveGrid()
@@ -131,23 +152,28 @@ public class MeshGen : MonoBehaviour
             //verts[i].z -= Time.deltaTime;
             _verts[i] = new Vector3(_verts[i].x, _verts[i].y, _verts[i].z + Time.deltaTime * _pauseScale * _speed);
         }
-        mesh.vertices = _verts.ToArray();
+        _gridMesh.vertices = _verts.ToArray();
+        /*
+        for (short i = 0; i < _length * 2; i++)
+        {
+            _tunnel[i].transform.position = new Vector3(_tunnel[i].transform.position.x, _tunnel[i].transform.position.y, fmod(_tunnel[i].transform.position.z + Time.deltaTime * _pauseScale * _speed, _width * 2f));
+        }*/
     }
 
     private void rebuildTris()
     {
-        for (short ti = 0, vi = 0, y = 0; y < length * 2; y++, vi++)
+        for (short ti = 0, vi = 0, y = 0; y < _length * 2; y++, vi++)
         {
-            for (short x = 0; x < width * 2; x++, ti += 6, vi++)
+            for (short x = 0; x < _width * 2; x++, ti += 6, vi++)
             {
                 _tris[ti] = vi;
                 _tris[ti + 3] = _tris[ti + 2] = vi + 1;
-                _tris[ti + 4] = _tris[ti + 1] = vi + width * 2 + 1;
-                _tris[ti + 5] = vi + width * 2 + 2;
+                _tris[ti + 4] = _tris[ti + 1] = vi + _width * 2 + 1;
+                _tris[ti + 5] = vi + _width * 2 + 2;
             }
         }
-        mesh.triangles = _tris;
-        mesh.RecalculateNormals();
+        _gridMesh.triangles = _tris;
+        _gridMesh.RecalculateNormals();
         //mesh.RecalculateBounds();
     }
 
@@ -212,7 +238,7 @@ public class MeshGen : MonoBehaviour
     {
         StopCoroutine(Pause());
         StopCoroutine(Play());
-        if (sceneStatus.IsPaused())
+        if (_sceneStatus.IsPaused())
             StartCoroutine(Pause());
         else
             StartCoroutine(Play());
