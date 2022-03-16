@@ -30,8 +30,6 @@ public class MeshGen : MonoBehaviour
     private GameObject _tunnelBlock; 
     [SerializeField]
     private int _width, _length;
-    [SerializeField]
-    private bool _useTexture;
     private float _counter;
 
     private void Awake()
@@ -46,24 +44,27 @@ public class MeshGen : MonoBehaviour
         _speed = _sceneStatus.GetSpeed();
         _tris = new int[4 * _width * _length * 6];
         _uv = new Vector2[(_width * 2 + 1) * (_length * 2 + 1)];
-        _texture = new Texture2D(128, 128, TextureFormat.R8, true);
-        _texture.anisoLevel = 8;
-
-        MeshRenderer renderer = GetComponent<MeshRenderer>();
-        MaterialPropertyBlock mBlock = new MaterialPropertyBlock();
-        renderer.GetPropertyBlock(mBlock);
-        mBlock.SetColor("_MainSkyColor", _colorPalette.getMainSkyColor());
-        mBlock.SetColor("_FadeSkyColor", _colorPalette.getFadeSkyColor());
-        renderer.SetPropertyBlock(mBlock);
+        _texture = new Texture2D(128, 128, TextureFormat.R8, true)
+        {
+            anisoLevel = 8
+        };
     }
 
     void Start()
     {
-        for (short i = 0, z = (short)-_length; z <= _length; z++)
+        for (int i = 0, z = -_length; z <= _length; z++)
         {
-            for(short x = (short)-_width; x <= _width; x++, i++)
+            for(int x = -_width; x <= _width; x++, i++)
             {
-                _verts.Add(new Vector3(x, 0, z));
+                float ySpikeCoordinate = abs((float)x) / _width;
+                ySpikeCoordinate -= 0.5f;
+                ySpikeCoordinate *= 2f;
+                ySpikeCoordinate = abs(ySpikeCoordinate);
+                ySpikeCoordinate = 1f - ySpikeCoordinate;
+                ySpikeCoordinate *= Random.Range(0f, 1f);
+                ySpikeCoordinate = smoothstep(0f, 1f, ySpikeCoordinate);
+                ySpikeCoordinate *= 5f;
+                _verts.Add(new Vector3(x, ySpikeCoordinate * ((float)(z  + _length) / (_length)), z));
                 _uv[i] = new Vector2(x, z);
                 _colors.Add(_colorPalette.getDefaultGridColor());
             }
@@ -72,9 +73,10 @@ public class MeshGen : MonoBehaviour
         _gridMesh.uv = _uv;
         _gridMesh.colors = _colors.ToArray();
         
-        rebuildTris();
-        if(_useTexture)
-            generateGridTexture();
+        RebuildTris();
+        GenerateGridTexture();
+
+        StartCoroutine(Play());
         /*
         _tunnel = new GameObject[_length * 2];
         Mesh mesh = _tunnelBlock.GetComponent<MeshFilter>().sharedMesh;
@@ -110,13 +112,14 @@ public class MeshGen : MonoBehaviour
         if(_counter >= 1)
         {
             _counter = frac(_counter);
-            rebuildVerts(_counter);
+            RebuildVerts(_counter);
+            _gridMesh.RecalculateBounds();
         }
-        moveGrid();
-        rebuildTris();  
+        MoveGrid();
+        //rebuildTris();  
     }
 
-    private void rebuildVerts(float shift)
+    private void RebuildVerts(float shift)
     {
         float height;
         AudioListener.GetSpectrumData(_sound, 0, FFTWindow.Rectangular);
@@ -131,25 +134,29 @@ public class MeshGen : MonoBehaviour
         for(int i = _width; i >= -_width; i--)
         {
             height = Mathf.Abs(i) - _width / 4;
-            height = 1 - Mathf.Pow(1 - _sound[Mathf.Abs(Mathf.Abs((int)height) - (_width / 2))], 2);
-            height *= 3f;
+            height = 1 - Mathf.Pow(1 - _sound[Mathf.Abs(Mathf.Abs((int)height) - (_width / 2))], 3);
+            height *= 4f;
+            if(_sceneStatus.IsPaused())
+            {
+                height = (Mathf.Abs(i) / ((float)_width));
+                height = (1f - Mathf.Abs((height - 0.5f) * 2f)) * Random.Range(0f, 4f);
+            }
 
-            if (i < 2 && i > -2)
-                height *= 0.1f;
+            if (i > -2 && i < 2)
+                height *= 0.05f;
             _verts.Insert(0, new Vector3(i, height , shift - _length));
             
-            _colors.Insert(0, Color.Lerp(_colorPalette.getDefaultGridColor(), _colorPalette.getPeakGridColor(), height / 3f));
+            _colors.Insert(0, Color.Lerp(_colorPalette.getDefaultGridColor(), _colorPalette.getPeakGridColor(), height / 4f));
         }
         //_verts.TrimExcess();
         _gridMesh.vertices = _verts.ToArray();
         _gridMesh.colors = _colors.ToArray();
     }
 
-    private void moveGrid()
+    private void MoveGrid()
     {
-        for(short i = 0; i < _verts.Count; i++)
+        for(int i = 0; i < _verts.Count; i++)
         {
-            //verts[i].z -= Time.deltaTime;
             _verts[i] = new Vector3(_verts[i].x, _verts[i].y, _verts[i].z + Time.deltaTime * _pauseScale * _speed);
         }
         _gridMesh.vertices = _verts.ToArray();
@@ -160,11 +167,11 @@ public class MeshGen : MonoBehaviour
         }*/
     }
 
-    private void rebuildTris()
+    private void RebuildTris()
     {
-        for (short ti = 0, vi = 0, y = 0; y < _length * 2; y++, vi++)
+        for (int ti = 0, vi = 0, y = 0; y < _length * 2; y++, vi++)
         {
-            for (short x = 0; x < _width * 2; x++, ti += 6, vi++)
+            for (int x = 0; x < _width * 2; x++, ti += 6, vi++)
             {
                 _tris[ti] = vi;
                 _tris[ti + 3] = _tris[ti + 2] = vi + 1;
@@ -174,10 +181,9 @@ public class MeshGen : MonoBehaviour
         }
         _gridMesh.triangles = _tris;
         _gridMesh.RecalculateNormals();
-        //mesh.RecalculateBounds();
     }
 
-    private void generateGridTexture()
+    private void GenerateGridTexture()
     {
         float value = (float) 1 / _texture.width;
         float modW;
@@ -201,7 +207,6 @@ public class MeshGen : MonoBehaviour
         MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
         meshRenderer.GetPropertyBlock(propertyBlock);
         propertyBlock.SetTexture("_MainTex", _texture);
-        propertyBlock.SetFloat("_UseTexture", 1);
         meshRenderer.SetPropertyBlock(propertyBlock);
         //GetComponent<MeshRenderer>().material.SetFloat("_UseTexture", 1);
         //GetComponent<MeshRenderer>().material.mainTexture = texture;

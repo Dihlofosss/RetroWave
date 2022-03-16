@@ -129,7 +129,7 @@ Transform:
   m_GameObject: {fileID: 33153703415455637}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 120, y: 120, z: 120}
+  m_LocalScale: {x: 200, y: 200, z: 200}
   m_Children: []
   m_Father: {fileID: 3939735147590165384}
   m_RootOrder: 4
@@ -197,7 +197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorPalette: {fileID: 11400000, guid: 3c5cc53c39241c84ca9fcf48b5339a8c, type: 2}
   sceneStatus: {fileID: 11400000, guid: 9c06aae9973875944961130cbd0bf83e, type: 2}
-  _sunSpeed: 0.01
+  _sunSpeed: 0.005
   sunriseCurve:
     serializedVersion: 2
     m_Curve:
@@ -249,7 +249,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 33153703439403318}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 30}
+  m_LocalPosition: {x: 0, y: 0, z: 50}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3939735147590165384}
@@ -319,8 +319,8 @@ MonoBehaviour:
   _colorPalette: {fileID: 11400000, guid: 732dd645cff2f5142a9ec909b4190389, type: 2}
   _sceneStatus: {fileID: 11400000, guid: 9c06aae9973875944961130cbd0bf83e, type: 2}
   _tunnelBlock: {fileID: 9017662563113284226, guid: f36160cc719ca324cab5b0b71e7d12ee, type: 3}
-  _width: 20
-  _length: 30
+  _width: 32
+  _length: 50
   _useTexture: 1
 --- !u!1 &33153704372367087
 GameObject:

@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneSpeed: 2
   pauseFade: 0.3
-  isPaused: 0
+  isPaused: 1
   isSpectrumDivided: 0
-  _currentTrackID: 2
-  _currentTrackPlayback: 0.02503812
-  _currentTrackName: PYLOT - A Race Against Time
+  _currentTrackID: 5
+  _currentTrackPlayback: 0
+  _currentTrackName: Anzo - Flare
   _trackDisplayTime: 3
-  _sunRise: 0.01095218
+  _sunRise: 0
