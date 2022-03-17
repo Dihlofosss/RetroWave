@@ -29,7 +29,7 @@ public class MeshGen : MonoBehaviour
     [SerializeField]
     private GameObject _tunnelBlock; 
     [SerializeField]
-    private int _width, _length;
+    private short _width, _length;
     private float _counter;
 
     private void Awake()
@@ -247,5 +247,10 @@ public class MeshGen : MonoBehaviour
             StartCoroutine(Pause());
         else
             StartCoroutine(Play());
+    }
+
+    public short GetWidth()
+    {
+        return _width;
     }
 }

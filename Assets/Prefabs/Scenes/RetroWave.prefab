@@ -197,7 +197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorPalette: {fileID: 11400000, guid: 3c5cc53c39241c84ca9fcf48b5339a8c, type: 2}
   sceneStatus: {fileID: 11400000, guid: 9c06aae9973875944961130cbd0bf83e, type: 2}
-  _sunSpeed: 0.005
+  _sunSpeed: 0.01
   sunriseCurve:
     serializedVersion: 2
     m_Curve:
@@ -234,6 +234,7 @@ GameObject:
   - component: {fileID: 33153703439403315}
   - component: {fileID: 33153703439403316}
   - component: {fileID: 33153703439403317}
+  - component: {fileID: 7219410197023606422}
   m_Layer: 0
   m_Name: MeshGen
   m_TagString: Untagged
@@ -321,7 +322,25 @@ MonoBehaviour:
   _tunnelBlock: {fileID: 9017662563113284226, guid: f36160cc719ca324cab5b0b71e7d12ee, type: 3}
   _width: 32
   _length: 50
-  _useTexture: 1
+--- !u!114 &7219410197023606422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 33153703439403318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c0849f0940536a44bf306d61ae749f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _colorPalette: {fileID: 11400000, guid: 732dd645cff2f5142a9ec909b4190389, type: 2}
+  _sceneStatus: {fileID: 11400000, guid: 9c06aae9973875944961130cbd0bf83e, type: 2}
+  _bridgeMaterial: {fileID: 2100000, guid: 70a10abfc9f2ad54da9ad56391a408bc, type: 2}
+  _bridgeBlock: {fileID: 525930323440409114, guid: 14528f6be283006499ff720d4fa2d795, type: 3}
+  _pillar: {fileID: -8116138440861595531, guid: 14528f6be283006499ff720d4fa2d795, type: 3}
+  _lamps: {fileID: -3523090151155557286, guid: 14528f6be283006499ff720d4fa2d795, type: 3}
+  _bridgeBlockSize: 4
 --- !u!1 &33153704372367087
 GameObject:
   m_ObjectHideFlags: 0
@@ -855,7 +874,7 @@ MonoBehaviour:
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
-  m_AMDFSR: 2
+  m_AMDFSR: 1
   m_Antialiasing: 1
   m_AntialiasingQuality: 0
   m_StopNaN: 0
