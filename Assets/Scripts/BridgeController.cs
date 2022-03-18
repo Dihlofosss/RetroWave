@@ -97,6 +97,7 @@ public class BridgeController : MonoBehaviour
             if (!gameObjects[i].activeSelf)
             {
                 gameObjects[i].SetActive(true);
+                gameObjects[i].transform.rotation = Quaternion.Euler(-90f, Random.Range(-30f, 30f), 0f);
                 return;
             }
         }
