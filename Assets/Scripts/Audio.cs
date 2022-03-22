@@ -19,6 +19,7 @@ public class Audio : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         audioSource.volume = 0;
         audioSource.clip = playList.GetCurrentTrack();
+        audioSource.outputAudioMixerGroup = playList.GetMixer();
         _currentTrackLength = audioSource.clip.length;
         _playtime = 0;
         _pauseFade = sceneStatus.GetPauseFade();

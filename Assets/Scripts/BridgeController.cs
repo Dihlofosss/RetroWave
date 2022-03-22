@@ -5,6 +5,8 @@ using UnityEngine;
 public class BridgeController : MonoBehaviour
 {
     [SerializeField]
+    private PlayList _sfx;
+    [SerializeField]
     private ColorPalette _colorPalette;
     [SerializeField]
     private SceneStatus _sceneStatus;
@@ -75,6 +77,19 @@ public class BridgeController : MonoBehaviour
             GetGameobject(_lamps, xPosition).transform.SetParent(_bridgeTile.transform);
         }
         _bridgeTile.transform.SetPositionAndRotation(new Vector3(0f, 0f, -5f), Quaternion.Euler(-90f, 0f, 0f));
+        _bridgeTile.AddComponent<AudioSource>();
+        AudioSource audio = _bridgeTile.GetComponent<AudioSource>();
+        {
+            audio.bypassEffects = true;
+            audio.bypassListenerEffects = true;
+            audio.mute = false;
+            audio.playOnAwake = true;
+            audio.minDistance = .5f;
+            audio.maxDistance = 2f;
+            audio.spatialBlend = 1f;
+            audio.outputAudioMixerGroup = _sfx.GetMixer();
+            audio.clip = _sfx.GetNext();
+        }
         return _bridgeTile;
     }
 

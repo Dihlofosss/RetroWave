@@ -2,10 +2,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
-[System.Serializable]
+//[System.Serializable]
 [CreateAssetMenu(fileName = "Playlist", menuName = "ScriptableObjects/Audio/Playlist", order = 1)]
 public class PlayList : ScriptableObject
 {
+    //[System.NonSerialized]
+    public UnityEngine.Audio.AudioMixerGroup mixer;
+
+    //[System.NonSerialized]
     public List<AudioClip> clips;
 
     [SerializeField]
@@ -15,16 +19,19 @@ public class PlayList : ScriptableObject
 
     private void Awake()
     {
-        jsonSaveFile = Application.persistentDataPath + "playlist.json";
+        jsonSaveFile = Application.persistentDataPath + name + "playlist.json";
 
         if (!File.Exists(jsonSaveFile))
         {
-            File.Create(jsonSaveFile);            
+            File.Create(jsonSaveFile);
+            File.WriteAllText(jsonSaveFile, JsonUtility.ToJson(this));
         }
         else
         {
             JsonUtility.FromJsonOverwrite(File.ReadAllText(jsonSaveFile), this);
         }
+
+        Debug.Log(jsonSaveFile);
     }
 
     public AudioClip GetNext()
@@ -58,5 +65,10 @@ public class PlayList : ScriptableObject
     public short GetCurrentTrackID()
     {
         return _currentTrack;
+    }
+
+    public UnityEngine.Audio.AudioMixerGroup GetMixer()
+    {
+        return mixer;
     }
 }

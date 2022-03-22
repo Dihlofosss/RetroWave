@@ -334,6 +334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c0849f0940536a44bf306d61ae749f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sfx: {fileID: 11400000, guid: b0e32d3555025e24aa4d6439dfa989bf, type: 2}
   _colorPalette: {fileID: 11400000, guid: 732dd645cff2f5142a9ec909b4190389, type: 2}
   _sceneStatus: {fileID: 11400000, guid: 9c06aae9973875944961130cbd0bf83e, type: 2}
   _bridgeMaterial: {fileID: 2100000, guid: 70a10abfc9f2ad54da9ad56391a408bc, type: 2}

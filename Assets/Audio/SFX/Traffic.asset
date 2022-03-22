@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4cf4c0b4eea971418cdc0df2d7f31b3, type: 3}
+  m_Name: Traffic
+  m_EditorClassIdentifier: 
+  mixer: {fileID: 24300002, guid: 1b831f0ab1cc2d84eb634fc3503e2ec1, type: 2}
+  clips:
+  - {fileID: 8300000, guid: 80830350665f5474ab03defbd698c71c, type: 3}
+  - {fileID: 8300000, guid: 2a7ac49be175e7b43a217fcb1ac633a7, type: 3}
+  - {fileID: 8300000, guid: 00318ebfea8351445b47b42ec9752bd5, type: 3}
+  _currentTrack: 1
