@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!244 &-7797254392267048890
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 215f8f18d88a4584ca2a7021ca956464
+  m_EffectName: Lowpass Simple
+  m_MixLevel: 043261064f2f0424190965afe703cab9
+  m_Parameters:
+  - m_ParameterName: Cutoff freq
+    m_GUID: de5b43b3d20e24e4783049684d664780
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!241 &24100000
 AudioMixerController:
   m_ObjectHideFlags: 0
@@ -11,17 +27,20 @@ AudioMixerController:
   m_MasterGroup: {fileID: 24300002}
   m_Snapshots:
   - {fileID: 24500006}
+  - {fileID: 534148683995366278}
   m_StartSnapshot: {fileID: 24500006}
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
   m_UpdateMode: 0
-  m_ExposedParameters: []
+  m_ExposedParameters:
+  - guid: de5b43b3d20e24e4783049684d664780
+    name: MyExposedParam
   m_AudioMixerGroupViews:
   - guids:
     - f642a16a0c58a5e4d92b49b1b02182b3
     name: View
   m_CurrentViewIndex: 0
-  m_TargetSnapshot: {fileID: 24500006}
+  m_TargetSnapshot: {fileID: 534148683995366278}
 --- !u!243 &24300002
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -37,6 +56,7 @@ AudioMixerGroupController:
   m_Send: 00000000000000000000000000000000
   m_Effects:
   - {fileID: 24400004}
+  - {fileID: -7797254392267048890}
   m_UserColorIndex: 0
   m_Mute: 0
   m_Solo: 0
@@ -61,8 +81,47 @@ AudioMixerSnapshotController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Snapshot
+  m_Name: Normal
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: c6487e211d1f1f944ace828f6a8ccd48
-  m_FloatValues: {}
+  m_FloatValues:
+    cc830b230d19a174daf80e96edb6d333: 0.743
+    8e620643727cf4c469dbd8913566919c: 0
+    73b9a4a37b09c2d4cb088a64bb34074d: -7267
+    de5b43b3d20e24e4783049684d664780: 22000
+    4b525a04084602e42812db7ec5ea148f: 0
+    4fefd55426051f94fa95efa800167182: 2185
+    2bcbe074c16fd6641b59a9bb062bb8b9: 2
+    d8ac833521a389049874bb288013aa23: 1.23
+    373cf40752d9f064b9dc129e15966fe8: 0
+    4942f3170a43a314eab737fe4426de0c: 22000
+    2b3895a8d87d218408046531985799ae: 0.3
+    d084996c058556046be124c3bd2daf03: 0.313
+    34bab5bc1d8d6444bb73b8572c4c6643: 1545
+    faae6a6df50604a4f949634839e4eac9: -29.1
+  m_TransitionOverrides: {}
+--- !u!245 &534148683995366278
+AudioMixerSnapshotController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Lowpass
+  m_AudioMixer: {fileID: 24100000}
+  m_SnapshotID: 3e5b50e50ad0236408e026a4f936ac48
+  m_FloatValues:
+    cc830b230d19a174daf80e96edb6d333: 0.743
+    8e620643727cf4c469dbd8913566919c: 0
+    73b9a4a37b09c2d4cb088a64bb34074d: -7267
+    de5b43b3d20e24e4783049684d664780: 500
+    4b525a04084602e42812db7ec5ea148f: 0
+    4fefd55426051f94fa95efa800167182: 2185
+    2bcbe074c16fd6641b59a9bb062bb8b9: 2
+    d8ac833521a389049874bb288013aa23: 1.23
+    373cf40752d9f064b9dc129e15966fe8: 0
+    4942f3170a43a314eab737fe4426de0c: 22000
+    2b3895a8d87d218408046531985799ae: 0.3
+    d084996c058556046be124c3bd2daf03: 0.313
+    34bab5bc1d8d6444bb73b8572c4c6643: 1545
+    faae6a6df50604a4f949634839e4eac9: -29.1
   m_TransitionOverrides: {}
