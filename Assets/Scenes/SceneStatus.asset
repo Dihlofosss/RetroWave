@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b42b6dd88540d724d99b8de67a8d5526, type: 3}
   m_Name: SceneStatus
   m_EditorClassIdentifier: 
-  sceneSpeed: 2
+  sceneSpeed: 3
   pauseFade: 0.3
   isPaused: 1
   isSpectrumDivided: 0

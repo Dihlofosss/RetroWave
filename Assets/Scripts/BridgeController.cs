@@ -26,7 +26,7 @@ public class BridgeController : MonoBehaviour
 
     private void Awake()
     {
-        _bridgesPool = new GameObject[16];
+        _bridgesPool = new GameObject[8];
         //_bridgeLength = (short)(GetComponent<MeshGen>().GetWidth() / _bridgeBlockSize);
         _bridgeMaterial.SetColor("_ElementsColor", _colorPalette.getDefaultGridColor());
         _bridgeLength = GetComponent<MeshGen>().GetWidth();
@@ -42,7 +42,7 @@ public class BridgeController : MonoBehaviour
             _bridgesPool[i].transform.SetParent(transform);
             _bridgesPool[i].SetActive(false);
         }
-        _timer = 3.5f;
+        _timer = 2.5f;
         ActivateNewObject(_bridgesPool);
         StartCoroutine(UnfakeSpeed());
     }
@@ -53,7 +53,7 @@ public class BridgeController : MonoBehaviour
         if(_timer <= 0)
         {
             ActivateNewObject(_bridgesPool);
-            _timer = Random.Range(8f, 20f);
+            _timer = Random.Range(5f, 15f);
         }
         MoveObjects(_bridgesPool);
         _timer -= Time.deltaTime;
@@ -76,16 +76,17 @@ public class BridgeController : MonoBehaviour
             GetGameobject(_bridgeBlock, xPosition).transform.SetParent(_bridgeTile.transform);
             GetGameobject(_lamps, xPosition).transform.SetParent(_bridgeTile.transform);
         }
-        _bridgeTile.transform.SetPositionAndRotation(new Vector3(0f, 0f, -5f), Quaternion.Euler(-90f, 0f, 0f));
+        _bridgeTile.transform.SetPositionAndRotation(new Vector3(0f, 0f, -10f), Quaternion.Euler(-90f, 0f, 0f));
         _bridgeTile.AddComponent<AudioSource>();
         AudioSource audio = _bridgeTile.GetComponent<AudioSource>();
         {
             audio.bypassEffects = true;
+            audio.loop = true;
             audio.bypassListenerEffects = true;
             audio.mute = false;
             audio.playOnAwake = true;
             audio.minDistance = .5f;
-            audio.maxDistance = 2f;
+            audio.maxDistance = 3f;
             audio.spatialBlend = 1f;
             audio.outputAudioMixerGroup = _sfx.GetMixer();
             audio.clip = _sfx.GetNext();
@@ -136,7 +137,7 @@ public class BridgeController : MonoBehaviour
 
     private IEnumerator UnfakeSpeed()
     {
-        float timer = 5f;
+        float timer = 6f;
         while(timer > 0f)
         {
             timer -= Time.deltaTime;
