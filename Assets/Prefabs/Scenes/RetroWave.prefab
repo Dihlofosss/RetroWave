@@ -771,6 +771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6f0686e89f8e2d41b4f2c4cbacbd348, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playList: {fileID: 11400000, guid: 9052874b834f19c4fa78f6504012b20e, type: 2}
   hideDelay: 5
   transitionSpeed: 0.5
 --- !u!1 &2025484798720484564

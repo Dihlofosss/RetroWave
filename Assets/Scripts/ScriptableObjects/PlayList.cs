@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
-//[System.Serializable]
+[System.Serializable]
 [CreateAssetMenu(fileName = "Playlist", menuName = "ScriptableObjects/Audio/Playlist", order = 1)]
 public class PlayList : ScriptableObject
 {
@@ -23,7 +23,7 @@ public class PlayList : ScriptableObject
 
         if (!File.Exists(jsonSaveFile))
         {
-            File.Create(jsonSaveFile);
+            //File.Create(jsonSaveFile);
             File.WriteAllText(jsonSaveFile, JsonUtility.ToJson(this));
         }
         else

@@ -3,6 +3,8 @@ using UnityEngine;
 public class UI_Fader : MonoBehaviour
 {
     [SerializeField]
+    private PlayList playList;
+    [SerializeField]
     private float hideDelay, transitionSpeed;
     private float alpha;
     private bool isHidden;
@@ -10,9 +12,11 @@ public class UI_Fader : MonoBehaviour
     private float timeBeforeHide;
     private CanvasGroup canvasGroup;
     private UnityEngine.UI.Image[] images;
+    private UnityEngine.Audio.AudioMixerGroup _mixerGroup;
 
     void Start()
     {
+        _mixerGroup = playList.GetMixer();
         canvasGroup = GetComponent<CanvasGroup>();
         timeBeforeHide = hideDelay;
         images = GetComponentsInChildren<UnityEngine.UI.Image>();
