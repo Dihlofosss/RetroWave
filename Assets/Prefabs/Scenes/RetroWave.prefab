@@ -774,6 +774,9 @@ MonoBehaviour:
   playList: {fileID: 11400000, guid: 9052874b834f19c4fa78f6504012b20e, type: 2}
   hideDelay: 5
   transitionSpeed: 0.5
+  _snapshots:
+  - {fileID: 24500006, guid: 5422bc3f0b5b54d46a3ad7405ab92221, type: 2}
+  - {fileID: 534148683995366278, guid: 5422bc3f0b5b54d46a3ad7405ab92221, type: 2}
 --- !u!1 &2025484798720484564
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class UI_Fader : MonoBehaviour
 {
@@ -6,82 +7,75 @@ public class UI_Fader : MonoBehaviour
     private PlayList playList;
     [SerializeField]
     private float hideDelay, transitionSpeed;
-    private float alpha;
-    private bool isHidden;
     private bool isActive = false;
     private float timeBeforeHide;
     private CanvasGroup canvasGroup;
     private UnityEngine.UI.Image[] images;
-    private UnityEngine.Audio.AudioMixerGroup _mixerGroup;
+    [SerializeField]
+    //private UnityEngine.Audio.AudioMixerGroup _mixerGroup;
+    private UnityEngine.Audio.AudioMixerSnapshot[] _snapshots;
+    private IEnumerator timer;
 
     void Start()
     {
-        _mixerGroup = playList.GetMixer();
+        //_mixerGroup = playList.GetMixer();
         canvasGroup = GetComponent<CanvasGroup>();
         timeBeforeHide = hideDelay;
         images = GetComponentsInChildren<UnityEngine.UI.Image>();
+        timer = AliveTimer();
         //Hide();
     }
-    void Update()
+
+    private IEnumerator AliveTimer()
     {
-        if (!isActive)
+        //timeBeforeHide = hideDelay;
+        while(timeBeforeHide > 0)
         {
-            if (isHidden)
-                return;
-            else
-                Hide();
+            timeBeforeHide -= Time.deltaTime;
+            yield return null;
         }
+        isActive = !isActive;
+        StartCoroutine(HideUnhide(isActive));
+    }
+
+    private IEnumerator HideUnhide(bool isUnhide)
+    {
+        if (isUnhide)
+            _snapshots[1].TransitionTo(transitionSpeed);
         else
+            _snapshots[0].TransitionTo(transitionSpeed);
+
+        for(float transition = 0f; transition < 1f; transition += Time.deltaTime / transitionSpeed)
         {
-            Unhide();
-            HideCountdown();
+            canvasGroup.alpha = isUnhide ? transition : 1f - transition;
+            yield return null;
         }
+        canvasGroup.alpha = isUnhide ? 1f : 0f;
 
-        canvasGroup.alpha = alpha;
-    }
-
-    private void Hide()
-    {
-        alpha -= Time.deltaTime / transitionSpeed;
-        if (alpha <= 0)
+        if(isUnhide)
         {
-            alpha = 0;
-            isHidden = true;
-            foreach (var image in images)
-            {
-                image.raycastTarget = false;
-            }
-            images[0].raycastTarget = true;
-        }
-    }
-
-    private void Unhide()
-    {
-        alpha += Time.deltaTime / transitionSpeed;
-        if (alpha >= 1)
-        {
-            alpha = 1;
-            isHidden = false;
-            foreach (var image in images)
-            {
-                image.raycastTarget = true;
-            }
-        }
-    }
-
-    private void HideCountdown()
-    {
-        timeBeforeHide -= Time.deltaTime;
-        if(timeBeforeHide <= 0)
-        {
-            isActive = false;
             timeBeforeHide = hideDelay;
+            StartCoroutine(timer);
         }
+
+        foreach (var image in images)
+        {
+            image.raycastTarget = isUnhide;
+        }
+        images[0].raycastTarget = true;
+
+        yield return null;
     }
 
     public void ToggleActive()
     {
         isActive = !isActive;
+        if(!isActive)
+        {
+            StopCoroutine(timer);
+            Debug.Log("coroutineStop");
+        }
+        StartCoroutine(HideUnhide(isActive));
     }
 
     public void KeepActive()
