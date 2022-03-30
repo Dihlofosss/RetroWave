@@ -21,17 +21,10 @@ public class PlayList : ScriptableObject
     {
         jsonSaveFile = Application.persistentDataPath + name + "playlist.json";
 
-        if (!File.Exists(jsonSaveFile))
-        {
-            //File.Create(jsonSaveFile);
-            File.WriteAllText(jsonSaveFile, JsonUtility.ToJson(this));
-        }
-        else
+        if (File.Exists(jsonSaveFile))
         {
             JsonUtility.FromJsonOverwrite(File.ReadAllText(jsonSaveFile), this);
         }
-
-        Debug.Log(jsonSaveFile);
     }
 
     public AudioClip GetNext()
@@ -57,7 +50,7 @@ public class PlayList : ScriptableObject
         return clips[_currentTrack];
     }
 
-    public string getCurrentTrackName()
+    public string GetCurrentTrackName()
     {
         return clips[_currentTrack].name;
     }

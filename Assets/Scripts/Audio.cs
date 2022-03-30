@@ -24,7 +24,7 @@ public class Audio : MonoBehaviour
         _playtime = 0;
         _pauseFade = sceneStatus.GetPauseFade();
         sceneStatus.SetCurrentTrackID(playList.GetCurrentTrackID());
-        sceneStatus.SetCurrentTrackName(playList.getCurrentTrackName());
+        sceneStatus.SetCurrentTrackName(playList.GetCurrentTrackName());
     }
     
     private void Update()
@@ -96,7 +96,7 @@ public class Audio : MonoBehaviour
         _currentTrackLength = audioSource.clip.length;
         _playtime = 0;
         sceneStatus.SetCurrentTrackID(playList.GetCurrentTrackID());
-        sceneStatus.SetCurrentTrackName(playList.getCurrentTrackName());
+        sceneStatus.SetCurrentTrackName(playList.GetCurrentTrackName());
 
         StartCoroutine(Play());
     }
