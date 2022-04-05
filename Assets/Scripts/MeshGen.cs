@@ -15,8 +15,8 @@ public class MeshGen : MonoBehaviour
     private Vector2[] _uv;
     private float[] _sound = new float[64];
     private bool _pauseToggle = true;
-    private bool _isPaused;
-    private float _pauseScale = 0;
+    private bool _isPaused = false;
+    private float _pauseScale = 1f;
     private float _pauseFade;
     private float _speed;
 
@@ -108,7 +108,7 @@ public class MeshGen : MonoBehaviour
             return;
 
         _counter += Time.deltaTime * _pauseScale * _speed;
-        //counter *= _pauseScale;
+        
         if(_counter >= 1)
         {
             _counter = frac(_counter);
@@ -116,7 +116,6 @@ public class MeshGen : MonoBehaviour
             _gridMesh.RecalculateBounds();
         }
         MoveGrid();
-        //rebuildTris();  
     }
 
     private void RebuildVerts(float shift)
@@ -160,11 +159,6 @@ public class MeshGen : MonoBehaviour
             _verts[i] = new Vector3(_verts[i].x, _verts[i].y, _verts[i].z + Time.deltaTime * _pauseScale * _speed);
         }
         _gridMesh.vertices = _verts.ToArray();
-        /*
-        for (short i = 0; i < _length * 2; i++)
-        {
-            _tunnel[i].transform.position = new Vector3(_tunnel[i].transform.position.x, _tunnel[i].transform.position.y, fmod(_tunnel[i].transform.position.z + Time.deltaTime * _pauseScale * _speed, _width * 2f));
-        }*/
     }
 
     private void RebuildTris()
@@ -208,8 +202,6 @@ public class MeshGen : MonoBehaviour
         meshRenderer.GetPropertyBlock(propertyBlock);
         propertyBlock.SetTexture("_MainTex", _texture);
         meshRenderer.SetPropertyBlock(propertyBlock);
-        //GetComponent<MeshRenderer>().material.SetFloat("_UseTexture", 1);
-        //GetComponent<MeshRenderer>().material.mainTexture = texture;
     }
 
     private Color FloatToColor(float value)

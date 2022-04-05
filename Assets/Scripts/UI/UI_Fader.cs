@@ -22,7 +22,6 @@ public class UI_Fader : MonoBehaviour
         canvasGroup = GetComponent<CanvasGroup>();
         timeBeforeHide = hideDelay;
         images = GetComponentsInChildren<UnityEngine.UI.Image>();
-        timer = AliveTimer();
         //Hide();
     }
 
@@ -55,6 +54,7 @@ public class UI_Fader : MonoBehaviour
         if(isUnhide)
         {
             timeBeforeHide = hideDelay;
+            timer = AliveTimer();
             StartCoroutine(timer);
         }
 

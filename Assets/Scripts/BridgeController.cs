@@ -21,8 +21,8 @@ public class BridgeController : MonoBehaviour
     private GameObject[] _bridgesPool;
 
     private short _bridgeLength;
-    private float _timer;
-    private float _speed;
+    private float _timer, _speed, _pauseScale, _pauseFade;
+    private bool _pauseToggle, _isPaused;
 
     private void Awake()
     {
@@ -31,6 +31,10 @@ public class BridgeController : MonoBehaviour
         _bridgeMaterial.SetColor("_ElementsColor", _colorPalette.getDefaultGridColor());
         _bridgeLength = GetComponent<MeshGen>().GetWidth();
         _speed = 8f;
+        _pauseToggle = true;
+        _isPaused = false;
+        _pauseFade = _sceneStatus.GetPauseFade();
+        _pauseScale = 1f;
     }
 
     // Start is called before the first frame update
@@ -50,7 +54,16 @@ public class BridgeController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(_timer <= 0)
+        if (_pauseToggle != _sceneStatus.IsPaused())
+        {
+            _pauseToggle = _sceneStatus.IsPaused();
+            PlayPause();
+        }
+
+        if (_isPaused)
+            return;
+
+        if (_timer <= 0)
         {
             ActivateNewObject(_bridgesPool);
             _timer = Random.Range(5f, 15f);
@@ -125,7 +138,7 @@ public class BridgeController : MonoBehaviour
         {
             if(gameObjects[i].activeSelf)
             {
-                gameObjects[i].transform.position = new Vector3(0f, 0f, gameObjects[i].transform.position.z + Time.deltaTime * _speed);
+                gameObjects[i].transform.position = new Vector3(0f, 0f, gameObjects[i].transform.position.z + Time.deltaTime * _speed * _pauseScale);
                 if (gameObjects[i].transform.position.z > 100f)
                 {
                     gameObjects[i].SetActive(false);
@@ -137,12 +150,39 @@ public class BridgeController : MonoBehaviour
 
     private IEnumerator UnfakeSpeed()
     {
-        float timer = 6f;
-        while(timer > 0f)
+        yield return new WaitForSeconds(6f);
+        _speed = _sceneStatus.GetSpeed();
+    }
+
+    IEnumerator Pause()
+    {
+        while (_pauseScale > 0)
         {
-            timer -= Time.deltaTime;
+            _pauseScale -= Time.deltaTime / _pauseFade;
             yield return null;
         }
-        _speed = _sceneStatus.GetSpeed();
+        _pauseScale = 0;
+        _isPaused = true;
+    }
+
+    IEnumerator Play()
+    {
+        _isPaused = false;
+        while (_pauseScale < 1)
+        {
+            _pauseScale += Time.deltaTime / _pauseFade;
+            yield return null;
+        }
+        _pauseScale = 1;
+    }
+
+    public void PlayPause()
+    {
+        StopCoroutine(Pause());
+        StopCoroutine(Play());
+        if (_sceneStatus.IsPaused())
+            StartCoroutine(Pause());
+        else
+            StartCoroutine(Play());
     }
 }
