@@ -22,6 +22,7 @@ public class UI_Fader : MonoBehaviour
         canvasGroup = GetComponent<CanvasGroup>();
         timeBeforeHide = hideDelay;
         images = GetComponentsInChildren<UnityEngine.UI.Image>();
+        ToggleRaycastTarget(false);
         //Hide();
     }
 
@@ -58,13 +59,17 @@ public class UI_Fader : MonoBehaviour
             StartCoroutine(timer);
         }
 
-        foreach (var image in images)
-        {
-            image.raycastTarget = isUnhide;
-        }
-        images[0].raycastTarget = true;
+        ToggleRaycastTarget(isUnhide);
 
         yield return null;
+    }
+
+    private void ToggleRaycastTarget(bool toggle)
+    {
+        for(short i = 1; i < images.Length; i++)
+        {
+            images[i].raycastTarget = toggle;
+        }
     }
 
     public void ToggleActive()
