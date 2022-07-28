@@ -1,5 +1,5 @@
 {
-    "m_SGVersion": 2,
+    "m_SGVersion": 3,
     "m_Type": "UnityEditor.ShaderGraph.GraphData",
     "m_ObjectId": "8dc50a8fca8f4b15acd9b652dc4f09b8",
     "m_Properties": [
@@ -17,6 +17,12 @@
         }
     ],
     "m_Keywords": [],
+    "m_Dropdowns": [],
+    "m_CategoryData": [
+        {
+            "m_Id": "b86d99fc36814ded99409b746281b2c2"
+        }
+    ],
     "m_Nodes": [
         {
             "m_Id": "c6f61bff12b9487b973f2aa398971816"
@@ -916,10 +922,11 @@
         "serializedMesh": {
             "m_SerializedMesh": "{\"mesh\":{\"instanceID\":0}}",
             "m_Guid": ""
-        }
+        },
+        "preventRotation": false
     },
     "m_Path": "Shader Graphs",
-    "m_ConcretePrecision": 0,
+    "m_GraphPrecision": 0,
     "m_PreviewMode": 2,
     "m_OutputNode": {
         "m_Id": ""
@@ -1035,14 +1042,6 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     }
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.CategoryData",
-    "m_ObjectId": "0913e472c2514dc38dcd7938ea18d290",
-    "m_Name": "",
-    "m_ChildObjectList": []
 }
 
 {
@@ -1524,9 +1523,13 @@
         "m_GuidSerialized": "aca13a02-a2be-44bd-9064-beabb90f9a1a"
     },
     "m_Name": "Fade",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_1983f1ac7514409985bdce50dc1b52fc",
     "m_OverrideReferenceName": "_Fade",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -4112,11 +4115,17 @@
     "m_ActiveSubTarget": {
         "m_Id": "19b843a4c59343268f6ec11869228062"
     },
+    "m_AllowMaterialOverride": false,
     "m_SurfaceType": 0,
+    "m_ZTestMode": 4,
+    "m_ZWriteControl": 0,
     "m_AlphaMode": 0,
-    "m_TwoSided": true,
+    "m_RenderFace": 2,
     "m_AlphaClip": true,
-    "m_CustomEditorGUI": ""
+    "m_CastShadows": true,
+    "m_ReceiveShadows": true,
+    "m_CustomEditorGUI": "",
+    "m_SupportVFX": false
 }
 
 {
@@ -4359,6 +4368,27 @@
         "z": 0.0
     },
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.CategoryData",
+    "m_ObjectId": "b86d99fc36814ded99409b746281b2c2",
+    "m_Name": "",
+    "m_ChildObjectList": [
+        {
+            "m_Id": "1983f1ac7514409985bdce50dc1b52fc"
+        },
+        {
+            "m_Id": "cd03774d9d2f4c59a68bd6ca4dab79ad"
+        },
+        {
+            "m_Id": "d492d0d2c4ff43aab55e10e27e64104a"
+        },
+        {
+            "m_Id": "e0afba23b4d74bf5a706210e89fa813a"
+        }
+    ]
 }
 
 {
@@ -4755,9 +4785,13 @@
         "m_GuidSerialized": "4adbb003-27c5-4652-9084-cb56063ff8d0"
     },
     "m_Name": "MainSkyColor",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_cd03774d9d2f4c59a68bd6ca4dab79ad",
     "m_OverrideReferenceName": "_MainSkyColor",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -4768,6 +4802,7 @@
         "b": 0.0,
         "a": 0.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -4904,9 +4939,13 @@
         "m_GuidSerialized": "4308f5ae-eeef-4a1e-9708-7b466b788540"
     },
     "m_Name": "FadeSkyColor",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_d492d0d2c4ff43aab55e10e27e64104a",
     "m_OverrideReferenceName": "_FadeSkyColor",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -4917,6 +4956,7 @@
         "b": 0.772549033164978,
         "a": 0.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -5185,9 +5225,13 @@
         "m_GuidSerialized": "56727cbf-c932-4d11-a043-c6daec5021e9"
     },
     "m_Name": "SunRise",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_e0afba23b4d74bf5a706210e89fa813a",
     "m_OverrideReferenceName": "_SunRise",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -5629,7 +5673,8 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     },
-    "m_Space": 0
+    "m_Space": 0,
+    "m_PositionSource": 0
 }
 
 {

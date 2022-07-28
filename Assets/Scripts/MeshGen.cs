@@ -180,20 +180,19 @@ public class MeshGen : MonoBehaviour
     private void GenerateGridTexture()
     {
         float value = (float) 1 / _texture.width;
-        float modW;
-        float modH;
+        float modW, modH;
         for(short height = 0; height < _texture.height; height++)
         {
             modH = abs(((float)height * 2) - _texture.height) * value;
-            modH = pow(modH, 10);
+            modH = pow(modH, 12);
             modH = 1 - modH;
             for (short width = 0; width < _texture.width; width++)
             {
                 modW = abs(((float)width * 2) - _texture.width) * value;
-                modW = pow(modW, 10);
+                modW = pow(modW, 12);
                 modW = 1 - modW;
                 
-                _texture.SetPixel(height, width, FloatToColor(smoothstep(0.65f, 0.8f, 1 - (modH * modW))));
+                _texture.SetPixel(height, width, FloatToColor(smoothstep(0.65f, 0.95f, 1 - (modH * modW))));
             }
         }
         _texture.Apply();
