@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4cf4c0b4eea971418cdc0df2d7f31b3, type: 3}
+  m_Name: TrafficSounds
+  m_EditorClassIdentifier: 
+  mixer: {fileID: 24300002, guid: 1b831f0ab1cc2d84eb634fc3503e2ec1, type: 2}
+  clips:
+  - {fileID: 8300000, guid: 5996aaf514899de438f93b73df38e009, type: 3}
+  - {fileID: 8300000, guid: d74737f416904734690b3b8b6045f1b3, type: 3}
+  - {fileID: 8300000, guid: 738d44619e1a74a4ea4fb0e22790b470, type: 3}
+  - {fileID: 8300000, guid: 5a51a4bf67f15684fad0e7ecf54b3759, type: 3}
+  - {fileID: 8300000, guid: 2ee709a1084739a40b66a6280bc26e9d, type: 3}
+  - {fileID: 8300000, guid: 8ed230f848f5f8d4fa5f62f4c7b68d0b, type: 3}
+  - {fileID: 8300000, guid: a04d6571a947b744c9ca5213352e36d9, type: 3}
+  _currentTrack: 2
