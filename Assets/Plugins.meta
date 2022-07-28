@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Plugins.meta
 guid: 95a6cdc705224624eb9d7da6877242b6
 folderAsset: yes
+========
+guid: 54da47045d430d5479a810cd47f95c9c
+>>>>>>>> 1d05a15d122f689b5251c7aaa18ee35a54c98f4e:Assets/Plugins/Android/gradleTemplate.properties.DISABLED.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

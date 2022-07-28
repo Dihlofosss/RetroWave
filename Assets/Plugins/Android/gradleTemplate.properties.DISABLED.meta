@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Plugins/Android/gradleTemplate.properties.DISABLED.meta
 guid: 54da47045d430d5479a810cd47f95c9c
+========
+guid: 7accd5212ad92494f95b18ac5dbe84e1
+folderAsset: yes
+>>>>>>>> 1d05a15d122f689b5251c7aaa18ee35a54c98f4e:Assets/VFX.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
