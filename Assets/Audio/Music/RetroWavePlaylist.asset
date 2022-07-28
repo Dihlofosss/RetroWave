@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c4cf4c0b4eea971418cdc0df2d7f31b3, type: 3}
-  m_Name: RetroWave
+  m_Name: RetroWavePlaylist
   m_EditorClassIdentifier: 
   mixer: {fileID: 24300002, guid: 5422bc3f0b5b54d46a3ad7405ab92221, type: 2}
   clips:
@@ -26,4 +26,4 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b80b5293a6f2ccd4fb93d7a1eaf854b1, type: 3}
   - {fileID: 8300000, guid: 0011237b17d15ac42ac1d781750ad692, type: 3}
   - {fileID: 8300000, guid: 174264e96822de54e91f23147d28fbcc, type: 3}
-  _currentTrack: 1
+  - {fileID: 8300000, guid: 218a6d9b2ff9ac348a23babb23b60388, type: 3}

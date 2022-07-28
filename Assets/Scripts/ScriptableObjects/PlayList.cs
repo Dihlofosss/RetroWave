@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
-//[System.Serializable]
 [CreateAssetMenu(fileName = "Playlist", menuName = "ScriptableObjects/Audio/Playlist", order = 1)]
 public class PlayList : ScriptableObject
 {
@@ -10,7 +9,6 @@ public class PlayList : ScriptableObject
 
     public List<AudioClip> clips;
 
-    [SerializeField]
     private short _currentTrack;
 
     private string _jsonSaveFile;

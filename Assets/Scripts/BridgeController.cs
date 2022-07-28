@@ -16,6 +16,8 @@ public class BridgeController : MonoBehaviour
     private Mesh _bridgeBlock, _pillar, _lamps;
     [SerializeField]
     private short _bridgeBlockSize;
+    [SerializeField]
+    private Cubemap reflectionProbe;
 
     private GameObject _bridgeTile;
     private GameObject[] _bridgesPool;
@@ -87,8 +89,12 @@ public class BridgeController : MonoBehaviour
                 GetGameobject(_pillar, xPosition).transform.SetParent(_bridgeTile.transform);
             }
             GetGameobject(_bridgeBlock, xPosition).transform.SetParent(_bridgeTile.transform);
-            GetGameobject(_lamps, xPosition).transform.SetParent(_bridgeTile.transform);
+            if (i % 2 == 0)
+            {
+                GetGameobject(_lamps, xPosition).transform.SetParent(_bridgeTile.transform);
+            }
         }
+
         _bridgeTile.transform.SetPositionAndRotation(new Vector3(0f, 0f, -10f), Quaternion.Euler(-90f, 0f, 0f));
         _bridgeTile.AddComponent<AudioSource>();
         AudioSource audio = _bridgeTile.GetComponent<AudioSource>();
@@ -104,6 +110,19 @@ public class BridgeController : MonoBehaviour
             audio.outputAudioMixerGroup = _sfx.GetMixer();
             audio.clip = _sfx.GetNext();
         }
+        /*
+        _bridgeTile.AddComponent<ReflectionProbe>();
+        ReflectionProbe probe = _bridgeTile.GetComponent<ReflectionProbe>();
+        {
+            probe.mode = UnityEngine.Rendering.ReflectionProbeMode.Custom;
+            probe.customBakedTexture = reflectionProbe;
+            probe.boxProjection = true;
+            probe.hdr = true;
+            probe.size = new Vector3(10f, 2f, 50f);
+            probe.blendDistance = 2f;
+            probe.intensity = 2f;
+        }
+        */
         return _bridgeTile;
     }
 
