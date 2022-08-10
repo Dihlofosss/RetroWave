@@ -9,6 +9,7 @@ public class PlayList : ScriptableObject
 
     public List<AudioClip> clips;
 
+    [SerializeField]
     private short _currentTrack;
 
     private string _jsonSaveFile;

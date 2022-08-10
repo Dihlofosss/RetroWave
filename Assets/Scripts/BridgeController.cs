@@ -11,13 +11,39 @@ public class BridgeController : MonoBehaviour
     [SerializeField]
     private SceneStatus _sceneStatus;
     [SerializeField]
-    private Material _bridgeMaterial;
+    private Material _bridgeMaterial, _carsMaterial;
     [SerializeField]
     private Mesh _bridgeBlock, _pillar, _lamps;
+
+    [SerializeField]
+    private Mesh _policeCar;
+    [SerializeField]
+    private Mesh[] _ambientCars;
     [SerializeField]
     private short _bridgeBlockSize;
     [SerializeField]
     private Cubemap reflectionProbe;
+    [SerializeField]
+    private GameObject _laserShotsParticles;
+
+    [HideInInspector]
+    public GameObject LaserShots
+    {
+        get;
+        set;
+    }
+    [HideInInspector]
+    public GameObject PolicePresuit
+    {
+        get;
+        set;
+    }
+    [HideInInspector]
+    public GameObject RoadTrafic
+    {
+        get;
+        set;
+    }
 
     private GameObject _bridgeTile;
     private GameObject[] _bridgesPool;
@@ -25,6 +51,8 @@ public class BridgeController : MonoBehaviour
     private short _bridgeLength;
     private float _timer, _speed, _pauseScale, _pauseFade;
     private bool _pauseToggle, _isPaused;
+
+    private Vector3 _carsSpawnPosition_01, _carsSpawnPosition_02;
 
     private void Awake()
     {
@@ -37,9 +65,10 @@ public class BridgeController : MonoBehaviour
         _isPaused = false;
         _pauseFade = _sceneStatus.GetPauseFade();
         _pauseScale = 1f;
+        _carsSpawnPosition_01 = new(-_bridgeLength, 1f, 2.8f);
+        _carsSpawnPosition_02 = new(_bridgeLength, -1f, 2.8f);
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         for (short i = 0; i < _bridgesPool.Length; i++)
@@ -50,10 +79,9 @@ public class BridgeController : MonoBehaviour
         }
         _timer = 2.5f;
         ActivateNewObject(_bridgesPool);
-        StartCoroutine(UnfakeSpeed());
+        StartCoroutine(BringSpeedToNormal());
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (_pauseToggle != _sceneStatus.IsPaused())
@@ -80,20 +108,67 @@ public class BridgeController : MonoBehaviour
         {
             name = "BridgeTile"
         };
+        MeshFilter filter = _bridgeTile.AddComponent<MeshFilter>();
+        MeshRenderer renderer = _bridgeTile.AddComponent<MeshRenderer>();
+        renderer.material = _bridgeMaterial;
+
         int xPosition;
-        for(short i = 0; i < _bridgeLength / 2; i++)
+        for (short i = 0; i < _bridgeLength / 2; i++)
         {
             xPosition = ((i - _bridgeLength / 4) * 4) + 2;
-            if (i%3 == 0)
+            //add flat bridge block
+            GetGameObject(_bridgeBlock, _bridgeMaterial, xPosition).transform.SetParent(_bridgeTile.transform);
+            //add pillar
+            if (i % _bridgeBlockSize == 0)
             {
-                GetGameobject(_pillar, xPosition).transform.SetParent(_bridgeTile.transform);
+                GetGameObject(_pillar, _bridgeMaterial, xPosition).transform.SetParent(_bridgeTile.transform);
             }
-            GetGameobject(_bridgeBlock, xPosition).transform.SetParent(_bridgeTile.transform);
+            //add lamps
             if (i % 2 == 0)
             {
-                GetGameobject(_lamps, xPosition).transform.SetParent(_bridgeTile.transform);
+                GetGameObject(_lamps, _bridgeMaterial, xPosition).transform.SetParent(_bridgeTile.transform);
             }
         }
+        /*
+        MeshFilter[] bridgeTiles = _bridgeTile.GetComponentsInChildren<MeshFilter>();
+        CombineInstance[] combines = new CombineInstance[bridgeTiles.Length];
+        for (int i = 0; i < bridgeTiles.Length; i++)
+        {
+            Debug.Log(bridgeTiles[i].sharedMesh);
+            combines[i].mesh = bridgeTiles[i].sharedMesh;
+            combines[i].transform = bridgeTiles[i].gameObject.transform.localToWorldMatrix;
+            //Destroy(bridgeTiles[i]);
+        }
+
+        filter.mesh = new();
+        //_bridgeTile.GetComponent<MeshFilter>().mesh = new();
+        filter.mesh.CombineMeshes(combines);
+        //_bridgeTile.GetComponent<MeshFilter>().mesh.CombineMeshes(combines);
+
+
+        //GameObject policeCar = GetGameObject(_policeCar, _carsMaterial, -_bridgeLength, 10f, 1f);
+        //policeCar.transform.SetParent(_bridgeTile.transform);
+        */
+        GameObject laserShotsParent = new()
+        {
+            name = "Laser Shots"
+        };
+
+        laserShotsParent.transform.SetParent(_bridgeTile.transform);
+
+        GameObject[] laserShots = new GameObject[2]
+        {
+            Instantiate(_laserShotsParticles, laserShotsParent.transform),
+            Instantiate(_laserShotsParticles, laserShotsParent.transform)
+
+        };
+        laserShots[0].transform.SetPositionAndRotation(new Vector3(-_bridgeLength, 0, 3.2f), Quaternion.Euler(90,0,0));
+        laserShots[1].transform.SetPositionAndRotation(new Vector3(_bridgeLength, 0, 3.2f), Quaternion.Euler(90, 180, 0));
+        laserShots[1].GetComponent<ParticleSystem>().startColor = Color.red;
+        laserShotsParent.SetActive(false);
+        LaserShots = laserShotsParent;
+
+        
 
         _bridgeTile.transform.SetPositionAndRotation(new Vector3(0f, 0f, -10f), Quaternion.Euler(-90f, 0f, 0f));
         _bridgeTile.AddComponent<AudioSource>();
@@ -110,6 +185,7 @@ public class BridgeController : MonoBehaviour
             audio.outputAudioMixerGroup = _sfx.GetMixer();
             audio.clip = _sfx.GetNext();
         }
+
         /*
         _bridgeTile.AddComponent<ReflectionProbe>();
         ReflectionProbe probe = _bridgeTile.GetComponent<ReflectionProbe>();
@@ -126,15 +202,21 @@ public class BridgeController : MonoBehaviour
         return _bridgeTile;
     }
 
-    private GameObject GetGameobject(Mesh mesh, float offset)
+    private GameObject GetGameObject(Mesh mesh, Material material , float offset)
     {
-        GameObject gameObject = new GameObject()
+        return GetGameObject(mesh, material, offset, 0f, 0f);
+    }
+
+    private GameObject GetGameObject(Mesh mesh, Material material, float offsetX, float offsetY, float offsetZ)
+    {
+        GameObject gameObject = new()
         {
             name = mesh.name
         };
+
         gameObject.AddComponent<MeshFilter>().mesh = mesh;
-        gameObject.AddComponent<MeshRenderer>().material = _bridgeMaterial;
-        gameObject.transform.position = new Vector3(offset, 0f, 0f);
+        gameObject.AddComponent<MeshRenderer>().material = material;
+        gameObject.transform.position = new Vector3(offsetX, offsetY, offsetZ);
         return gameObject;
     }
 
@@ -167,7 +249,7 @@ public class BridgeController : MonoBehaviour
         }
     }
 
-    private IEnumerator UnfakeSpeed()
+    private IEnumerator BringSpeedToNormal()
     {
         yield return new WaitForSeconds(6f);
         _speed = _sceneStatus.GetSpeed();
