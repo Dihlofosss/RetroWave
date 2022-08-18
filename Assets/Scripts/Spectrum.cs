@@ -57,11 +57,21 @@ public class Spectrum : MonoBehaviour
             mBlock.SetTexture(textureID, texture);
             renderers[i].SetPropertyBlock(mBlock);
         }
+
+        for (short i = 0; i < 128; i++)
+        {
+            texture.SetPixel(0, i, GetColor(0));
+            texture.SetPixel(0, 255 - i, GetColor(0));
+        }
+        texture.Apply();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (sceneStatus.IsPaused())
+            return;
+
         float soft = fade * Mathf.Clamp01(1 - Time.deltaTime);
 
         //AudioListener.GetSpectrumData(rt_spectrum_L, 0, FFTWindow.Rectangular);

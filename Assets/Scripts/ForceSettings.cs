@@ -40,18 +40,17 @@ public class ForceSettings : MonoBehaviour
     {
         _avarageFrameTime += Time.deltaTime;
         _framesCounter += 1;
-        if(_framesCounter >= 10)
+        if(_framesCounter >= 5f)
         {
-            _avarageFrameTime /= 10f;
-            _avarageFps = 1f / _avarageFrameTime;
+            //_avarageFrameTime /= 5f;
+            _avarageFps = (_framesCounter + 1) / _avarageFrameTime;
 
-            if(_avarageFps < minFPS - 3 && asset.renderScale > 0.2f)
+            bool conditionOne = _avarageFps < minFPS - 3 && asset.renderScale > 0.2f;
+            bool conditionTwo = _avarageFps > minFPS + 3 && asset.renderScale < 1.5f;
+
+            if (conditionOne || conditionTwo)
             {
-                asset.renderScale -= renderScaleStep;
-            }
-            else if (_avarageFps > minFPS + 3 && asset.renderScale < 1f)
-            {
-                asset.renderScale += renderScaleStep;
+                asset.renderScale += renderScaleStep * Mathf.Round((_avarageFps - minFPS) * 0.5f);
             }
 
             _framesCounter = 0;

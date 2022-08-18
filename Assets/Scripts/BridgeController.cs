@@ -154,6 +154,7 @@ public class BridgeController : MonoBehaviour
             name = "Laser Shots"
         };
 
+        laserShotsParent.SetActive(false);
         laserShotsParent.transform.SetParent(_bridgeTile.transform);
 
         GameObject[] laserShots = new GameObject[2]
@@ -165,7 +166,7 @@ public class BridgeController : MonoBehaviour
         laserShots[0].transform.SetPositionAndRotation(new Vector3(-_bridgeLength, 0, 3.2f), Quaternion.Euler(90,0,0));
         laserShots[1].transform.SetPositionAndRotation(new Vector3(_bridgeLength, 0, 3.2f), Quaternion.Euler(90, 180, 0));
         laserShots[1].GetComponent<ParticleSystem>().startColor = Color.red;
-        laserShotsParent.SetActive(false);
+        //laserShotsParent.SetActive(false);
         LaserShots = laserShotsParent;
 
         
@@ -199,6 +200,11 @@ public class BridgeController : MonoBehaviour
             probe.intensity = 2f;
         }
         */
+
+        _bridgeTile.SetActive(false);
+        RandomBridgeEvent bEvent = _bridgeTile.AddComponent<RandomBridgeEvent>();
+        bEvent.laserShots = laserShotsParent;
+
         return _bridgeTile;
     }
 
