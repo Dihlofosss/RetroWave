@@ -31,7 +31,7 @@ public class ForceSettings : MonoBehaviour
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         //QualitySettings.vSyncCount = 0;
         //QualitySettings.maxQueuedFrames = 2;
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 72;
         //QualitySettings.antiAliasing = 0;
         //asset.msaaSampleCount = 1;
     }
@@ -40,13 +40,13 @@ public class ForceSettings : MonoBehaviour
     {
         _avarageFrameTime += Time.deltaTime;
         _framesCounter += 1;
-        if(_framesCounter >= 5f)
+        if(_framesCounter >= 10f)
         {
             //_avarageFrameTime /= 5f;
             _avarageFps = (_framesCounter + 1) / _avarageFrameTime;
 
             bool conditionOne = _avarageFps < minFPS - 3 && asset.renderScale > 0.2f;
-            bool conditionTwo = _avarageFps > minFPS + 3 && asset.renderScale < 1.5f;
+            bool conditionTwo = _avarageFps > minFPS + 6 && asset.renderScale < 1.5f;
 
             if (conditionOne || conditionTwo)
             {

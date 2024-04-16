@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 using UnityEngine;
+using Newtonsoft.Json;
 
 public class SoundStream : MonoBehaviour
 {
@@ -16,36 +17,62 @@ public class SoundStream : MonoBehaviour
     public bool streamable;
     
 
-    private string _client_id = "?client_id=qmXWU1yUsrcP4HnYUegkRIvVYARqxR16";
+    public string client_id;
+
+    private AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(GetRequest("https://api-v2.soundcloud.com/tracks/1233088231"));
-        //StartCoroutine(GetRequest("https://api-v2.soundcloud.com/tracks/1233088231/related"));
+        StartCoroutine(GetRequest("https://api-v2.soundcloud.com/tracks/"));
+        audioSource = GetComponent<AudioSource>();
     }
 
     IEnumerator GetRequest(string uri)
     {
-        UnityWebRequest webRequest = UnityWebRequest.Get(uri + _client_id);
+        UnityWebRequest webRequest = UnityWebRequest.Get(uri + id + "?client_id=" + client_id);
         yield return webRequest.SendWebRequest();
+
+        var values = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(webRequest.downloadHandler.text);
+
+        webRequest = UnityWebRequest.Get((string)values["media"]["transcodings"][1]["url"] + "?client_id=" + client_id);
+        yield return webRequest.SendWebRequest();
+        var streamURL = JsonConvert.DeserializeObject<Dictionary<string, string>>(webRequest.downloadHandler.text);
+
+        using (var uwr = UnityWebRequestMultimedia.GetAudioClip(streamURL["url"], AudioType.MPEG))
+        {
+            DownloadHandlerAudioClip dHandler = (DownloadHandlerAudioClip)uwr.downloadHandler;
+            dHandler.streamAudio = true;
+            var downloadAudio = uwr.SendWebRequest();
+            yield return downloadAudio;
+
+            while (uwr.downloadedBytes < 10000)
+                yield return null;
+            AudioClip clip = dHandler.audioClip;
+            {
+                name = "Soundcloud Stream";
+            }
+
+            Debug.Log("Clip load state: " + clip.loadState);
+            //if(clip.loadState == AudioDataLoadState.Loading) 
+            //{
+            //    yield return new WaitWhile(() => clip.loadState == AudioDataLoadState.Loading);
+            //}
+            //Debug.Log("Clip state: " + clip.loadState);
+            Debug.Log("Downloaded audis size: " + uwr.downloadedBytes + " bytes");
+            audioSource.clip = clip;
+            audioSource.Play();
+            yield return downloadAudio;
+        }
         
-        if(webRequest.isNetworkError)
-        {
-            Debug.Log("Error: " + webRequest.error);
-        }
-        else
-        {
-            Debug.Log("Recieved: " + webRequest.result + "\n" + "Message: " + webRequest.downloadHandler.text);
-        }
 
-        JsonUtility.FromJsonOverwrite(webRequest.downloadHandler.text, this);
-
+        /*
         Debug.Log("ArtworkURL: " + artwork_url);
         Debug.Log("Duration: " + duration);
         Debug.Log("Track ID: " + id);
         Debug.Log("Label name: " + label_name);
         Debug.Log("Title: " + title);
         Debug.Log("Stream URL: " + stream_url);
+        */
     }
 }
