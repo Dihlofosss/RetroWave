@@ -150,6 +150,7 @@ public class MeshGen : MonoBehaviour
         //_verts.TrimExcess();
         _gridMesh.vertices = _verts.ToArray();
         _gridMesh.colors = _colors.ToArray();
+        _gridMesh.RecalculateNormals();
     }
 
     private void MoveGrid()

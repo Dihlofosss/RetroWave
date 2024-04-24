@@ -20,12 +20,14 @@ public class SoundStream : MonoBehaviour
     public string client_id;
 
     private AudioSource audioSource;
+    private Audio audio;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         StartCoroutine(GetRequest("https://api-v2.soundcloud.com/tracks/"));
         audioSource = GetComponent<AudioSource>();
+        audio = GetComponent<Audio>();
     }
 
     IEnumerator GetRequest(string uri)
@@ -34,6 +36,10 @@ public class SoundStream : MonoBehaviour
         yield return webRequest.SendWebRequest();
 
         var values = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(webRequest.downloadHandler.text);
+        foreach (KeyValuePair<string, dynamic> value in values)
+        {
+            Debug.Log(value);
+        }    
 
         webRequest = UnityWebRequest.Get((string)values["media"]["transcodings"][1]["url"] + "?client_id=" + client_id);
         yield return webRequest.SendWebRequest();
@@ -49,9 +55,7 @@ public class SoundStream : MonoBehaviour
             while (uwr.downloadedBytes < 10000)
                 yield return null;
             AudioClip clip = dHandler.audioClip;
-            {
-                name = "Soundcloud Stream";
-            }
+
 
             Debug.Log("Clip load state: " + clip.loadState);
             //if(clip.loadState == AudioDataLoadState.Loading) 
@@ -60,8 +64,18 @@ public class SoundStream : MonoBehaviour
             //}
             //Debug.Log("Clip state: " + clip.loadState);
             Debug.Log("Downloaded audis size: " + uwr.downloadedBytes + " bytes");
-            audioSource.clip = clip;
-            audioSource.Play();
+            clip.name = values["publisher_metadata"]["artist"] + " - " + values["title"];
+
+            PlayList playList = audio.GetPlaylist();
+            playList.clips.Clear();
+            playList.clips.Add(clip);
+            audio.PlayListUpdate();
+            //audio.SetPlayList(playList);
+            //audioSource.clip = clip;
+            Debug.Log(clip.name);
+
+
+            //audioSource.Play();
             yield return downloadAudio;
         }
         

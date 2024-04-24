@@ -14,17 +14,17 @@ public class Audio : MonoBehaviour
     private float _currentTrackLength;
     private float _playtime;
 
-    void Awake()
+    void Start()
     {
         audioSource = GetComponent<AudioSource>();
         audioSource.volume = 0;
         audioSource.clip = playList.GetCurrentTrack();
         audioSource.outputAudioMixerGroup = playList.GetMixer();
-        _currentTrackLength = audioSource.clip.length;
+        //_currentTrackLength = audioSource.clip.length;
         _playtime = 0;
         _pauseFade = sceneStatus.GetPauseFade();
-        sceneStatus.SetCurrentTrackID(playList.GetCurrentTrackID());
-        sceneStatus.SetCurrentTrackName(playList.GetCurrentTrackName());
+        //sceneStatus.SetCurrentTrackID(playList.GetCurrentTrackID());
+        //sceneStatus.SetCurrentTrackName(playList.GetCurrentTrackName());
     }
     
     private void Update()
@@ -32,7 +32,7 @@ public class Audio : MonoBehaviour
         if (audioSource.isPlaying)
         {
             _playtime += Time.deltaTime;
-            sceneStatus.UpdatePlaybackTime(_playtime / _currentTrackLength);
+            //sceneStatus.UpdatePlaybackTime(_playtime / _currentTrackLength);
         }
         else if (sceneStatus.GetPlaybackTime() > 0.95f)
         {
@@ -59,6 +59,21 @@ public class Audio : MonoBehaviour
         else
             StartCoroutine(Play());
         sceneStatus.PauseToggle();
+    }
+
+    public PlayList GetPlaylist()
+    {
+        return this.playList;
+    }
+
+    public void SetPlayList(PlayList newPlaylist)
+    {
+        this.playList = newPlaylist;
+    }
+
+    public void PlayListUpdate()
+    {
+        audioSource.clip = playList.GetCurrentTrack();
     }
 
     IEnumerator Play()
