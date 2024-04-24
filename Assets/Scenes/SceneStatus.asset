@@ -16,8 +16,8 @@ MonoBehaviour:
   pauseFade: 0.3
   isPaused: 1
   isSpectrumDivided: 0
-  _currentTrackID: 6
-  _currentTrackPlayback: 0.06537576
-  _currentTrackName: Extra Terra & Rogue VHS - Trinity
+  _currentTrackID: 0
+  _currentTrackPlayback: 0
+  _currentTrackName: Marvel83' - Atlantis
   _trackDisplayTime: 3
   _sunRise: 0
