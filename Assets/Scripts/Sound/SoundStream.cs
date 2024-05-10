@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 public class SoundStream : MonoBehaviour
 {
-    private string _soundCloudAPI_url = "https://api-v2.soundcloud.com/";
+    private readonly string _soundCloudAPI_url = "https://api-v2.soundcloud.com/";
     public string artwork_url;
     public int duration;
     public int id;
