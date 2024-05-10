@@ -17,7 +17,7 @@ public class Audio : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        audioSource.volume = 0;
+        //audioSource.volume = 0;
         audioSource.clip = playList.GetCurrentTrack();
         audioSource.outputAudioMixerGroup = playList.GetMixer();
         //_currentTrackLength = audioSource.clip.length;
@@ -74,6 +74,7 @@ public class Audio : MonoBehaviour
     public void PlayListUpdate()
     {
         audioSource.clip = playList.GetCurrentTrack();
+        sceneStatus.SetCurrentTrackName(playList.GetCurrentTrackName());
     }
 
     IEnumerator Play()

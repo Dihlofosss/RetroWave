@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneSpeed: 3
   pauseFade: 0.3
-  isPaused: 1
+  isPaused: 0
   isSpectrumDivided: 0
   _currentTrackID: 0
   _currentTrackPlayback: 0
-  _currentTrackName: Marvel83' - Atlantis
+  _currentTrackName: ' - Marvel83'' @ Roxy Prague w/ Pablo Bozzi 29.9. 2023 (DJ Set)'
   _trackDisplayTime: 3
-  _sunRise: 0
+  _sunRise: 1
