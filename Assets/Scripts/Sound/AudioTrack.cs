@@ -9,6 +9,8 @@ public class AudioTrack : MonoBehaviour
     public int trackDuration { get; }
     public string trackName { get; }
     public string artistName { get; }
+    public string mediaURL { get; }
+
     public AudioClip audioClip
     {
         get
@@ -26,12 +28,13 @@ public class AudioTrack : MonoBehaviour
     }
     public Texture2D trackCover { get; }
 
-    public AudioTrack(int trackID, int trackDuration, string trackName, string artistName, Texture2D trackCover)
+    public AudioTrack(int trackID, int trackDuration, string trackName, string artistName, Texture2D trackCover, string mediaURL)
     {
         this.trackID = trackID;
         this.trackDuration = trackDuration;
         this.trackName = trackName;
         this.artistName = artistName;
         this.trackCover = trackCover;
+        this.mediaURL = mediaURL;
     }
 }

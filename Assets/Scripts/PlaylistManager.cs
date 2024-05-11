@@ -10,6 +10,47 @@ public class PlaylistManager : MonoBehaviour
     
     public string clientID { get; set; }
 
+    private void FillPlaylist(int relatedTrack, PlayList playList = null)
+    {
+        if (!playList)
+            playList = new PlayList();
+    }
+
+    IEnumerator AudioClipWebRequest(int TrackID, System.Action<AudioTrack> audioTrack)
+    {
+        string uri = _soundCloudAPI_url + "/tracks/" + TrackID;
+        Dictionary<string, dynamic> trackData = null;
+        StartCoroutine(JsonWebRequest(uri,value => trackData = value));
+        yield return trackData;
+        AudioTrack newTrack = null;
+        StartCoroutine(AudioClipWebRequest(trackData, value => newTrack = value));
+        audioTrack(newTrack);        
+    }
+
+    IEnumerator AudioClipWebRequest(Dictionary<string, dynamic> trackData, System.Action<AudioTrack> audioTrack)
+    {
+        Texture2D artwork = null;
+        StartCoroutine(GetWebTexture(trackData["artwork_url"] as string, value => artwork = value));
+        int duration = trackData["duration"];
+        string title = trackData["title"];
+        // transcodings:
+        // 0 - HLS - MP3
+        // 1 - Progressive MP3
+        // 2 - HLS - OGG
+        string mediaURL = trackData["media"]["transcodings"][1]["url"];
+        string artistName = trackData["user"]["username"];
+        yield return artwork;
+    }
+
+    IEnumerator PrepareTrackForPlay(AudioTrack track)
+    {
+        AudioClip audioClip = null;
+        StartCoroutine(AudioClipWebRequest(track.mediaURL, value => audioClip = value));
+        yield return audioClip;
+        track.audioClip = audioClip;
+        yield return null;
+    }
+
     IEnumerator JsonWebRequest(string uri, System.Action<Dictionary<string, dynamic>> json)
     {
         Debug.Log("Starting webRequest coroutine");
@@ -22,6 +63,13 @@ public class PlaylistManager : MonoBehaviour
             json(null);
         else
             json(JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(webRequest.downloadHandler.text));
+    }
+
+    IEnumerator GetWebTexture(string uri, System.Action<Texture2D> texture)
+    {
+        UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(uri);
+        yield return webRequest.SendWebRequest();
+        texture(DownloadHandlerTexture.GetContent(webRequest));
     }
 
     IEnumerator AudioClipWebRequest(string uri, System.Action<AudioClip> audioClip)
