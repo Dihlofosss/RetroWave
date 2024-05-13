@@ -23,7 +23,6 @@ public class AudioTrack
         {
             if(value != _audioClip)
             {
-                Debug.Log(value.name);
                 _audioClip = value;
                 isReadyForPlay = true;
             }            

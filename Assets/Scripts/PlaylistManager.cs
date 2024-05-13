@@ -32,12 +32,12 @@ public class PlaylistManager : MonoBehaviour
         StartCoroutine(PrepareTrackForPlay(track));
     }
 
-    public void PreparePlaylistForPlayback(int relatedTrack)
+    public void PreparePlaylistForPlayback(long relatedTrack)
     {
         StartCoroutine(FillPlaylist(relatedTrack, playList, 30));
     }
 
-    IEnumerator FillPlaylist(int relatedTrack, PlayList playList, int tracksAmount)
+    IEnumerator FillPlaylist(long relatedTrack, PlayList playList, int tracksAmount)
     {
         string uri = _soundCloudAPI_url + "/tracks/" + relatedTrack + "/related?client_id=" + _clientID + "&limit=" + tracksAmount;
         Dictionary<string, dynamic> relatedTracksData = null;
@@ -85,7 +85,7 @@ public class PlaylistManager : MonoBehaviour
         Texture2D artwork = null;
         StartCoroutine(GetWebTexture((string)trackData["artwork_url"], value => artwork = value));
         long trackID = trackData["id"];
-        float duration = ((float)trackData["duration"]) * 0.01f;
+        float duration = ((float)trackData["duration"]) * 0.001f;
         string title = trackData["title"];
         // transcodings:
         // 0 - HLS - MP3
@@ -100,7 +100,6 @@ public class PlaylistManager : MonoBehaviour
 
     IEnumerator PrepareTrackForPlay(AudioTrack track)
     {
-        Debug.Log("Starting track download " + track.trackName);
         AudioClip audioClip = null;
         yield return StartCoroutine(AudioClipWebRequest(track.mediaURL, value => audioClip = value));
         yield return audioClip;
@@ -113,8 +112,6 @@ public class PlaylistManager : MonoBehaviour
     {
         UnityWebRequest webRequest = UnityWebRequest.Get(uri);
         yield return webRequest.SendWebRequest();
-        Debug.Log(webRequest.result);
-        Debug.Log(uri);
         //TODO:
         //Add normal error check
         if (webRequest.result != UnityWebRequest.Result.Success)
@@ -153,8 +150,7 @@ public class PlaylistManager : MonoBehaviour
             //of creating AudiClip via DownloadHandlerAudioClip 
             ((DownloadHandlerAudioClip)uwrm.downloadHandler).compressed = false;
             ((DownloadHandlerAudioClip)uwrm.downloadHandler).streamAudio = true;
-            uwrm.SendWebRequest();
-            yield return new WaitWhile(() => !uwrm.downloadHandler.isDone);
+            yield return uwrm.SendWebRequest();
             audioClip(((DownloadHandlerAudioClip)uwrm.downloadHandler).audioClip);
         }
     }

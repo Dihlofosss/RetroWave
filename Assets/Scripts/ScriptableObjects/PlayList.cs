@@ -48,7 +48,6 @@ public class PlayList : ScriptableObject
 
     public AudioTrack GetCurrentTrack()
     {
-        Debug.Log(_currentTrack);
         return tracks.Count == 0 || _currentTrack >= tracks.Count ? null : tracks[_currentTrack];
     }
 

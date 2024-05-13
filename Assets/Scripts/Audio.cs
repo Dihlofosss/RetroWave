@@ -9,6 +9,8 @@ public class Audio : MonoBehaviour
     public PlayList playList;
     [SerializeField]
     private SceneStatus sceneStatus;
+    [SerializeField]
+    private long _relatedTrack;
 
     private AudioSource audioSource;
     private PlaylistManager playlistManager;
@@ -24,7 +26,7 @@ public class Audio : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         playlistManager = GetComponent<PlaylistManager>();
-        playlistManager.PreparePlaylistForPlayback(1247896225);
+        playlistManager.PreparePlaylistForPlayback(_relatedTrack);
         yield return new WaitWhile(() => playList.GetCurrentTrack() == null);
         playlistManager.DownloadTrack(playList.GetCurrentTrack());
         yield return new WaitWhile(() => !playList.GetCurrentTrack().isReadyForPlay);
@@ -52,9 +54,9 @@ public class Audio : MonoBehaviour
         if (audioSource.isPlaying)
         {
             _playtime += Time.deltaTime;
-            //sceneStatus.UpdatePlaybackTime(_playtime / _currentTrackLength);
+            sceneStatus.UpdatePlaybackTime(_playtime / _currentTrackLength);
         }
-        else if (sceneStatus.GetPlaybackTime() > 0.95f)
+        else if (sceneStatus.GetPlaybackTime() > 0.99f)
         {
             StartCoroutine(SwitchTrack(true));
         }
@@ -79,6 +81,9 @@ public class Audio : MonoBehaviour
         else
             StartCoroutine(Play());
         sceneStatus.PauseToggle();
+
+        Debug.Log(playList.GetCurrentTrack().trackDuration);
+        Debug.Log(playList.GetCurrentTrack().AudioClip.length);
     }
 
     public PlayList GetPlaylist()
@@ -130,7 +135,7 @@ public class Audio : MonoBehaviour
         yield return new WaitUntil(() => track.isReadyForPlay);
 
         audioSource.clip = track.AudioClip;
-        _currentTrackLength = audioSource.clip.length;
+        _currentTrackLength = track.trackDuration;
         _playtime = 0;
         sceneStatus.SetCurrentTrackID(playList.GetCurrentTrackNumber());
         sceneStatus.SetCurrentTrackName(playList.GetCurrentTrackName());

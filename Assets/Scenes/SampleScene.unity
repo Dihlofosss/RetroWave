@@ -629,6 +629,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 33153704372367084, guid: 9800bcdf4964f964c96e29fe903a9b23, type: 3}
+      propertyPath: _relatedTrack
+      value: 1204953553
+      objectReference: {fileID: 0}
     - target: {fileID: 33153704372367086, guid: 9800bcdf4964f964c96e29fe903a9b23, type: 3}
       propertyPath: m_PlayOnAwake
       value: 0
@@ -748,6 +752,10 @@ PrefabInstance:
     - target: {fileID: 3939735147590165384, guid: 9800bcdf4964f964c96e29fe903a9b23, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4122010111487465169, guid: 9800bcdf4964f964c96e29fe903a9b23, type: 3}
+      propertyPath: minFPS
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5425303841395192726, guid: 9800bcdf4964f964c96e29fe903a9b23, type: 3}
       propertyPath: m_Name
