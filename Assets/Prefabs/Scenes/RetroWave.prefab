@@ -368,7 +368,7 @@ GameObject:
   - component: {fileID: 33153704372367085}
   - component: {fileID: 33153704372367086}
   - component: {fileID: 33153704372367084}
-  - component: {fileID: 2290944387237164760}
+  - component: {fileID: 8510515445818318612}
   m_Layer: 0
   m_Name: AudioSource
   m_TagString: Untagged
@@ -502,7 +502,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playList: {fileID: 11400000, guid: 0d108bea536fcef468d0ef2d2f3b77eb, type: 2}
   sceneStatus: {fileID: 11400000, guid: 9c06aae9973875944961130cbd0bf83e, type: 2}
---- !u!114 &2290944387237164760
+--- !u!114 &8510515445818318612
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -511,19 +511,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 33153704372367087}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d17e6f38c89751a4da0ce42246ae3203, type: 3}
+  m_Script: {fileID: 11500000, guid: 5dd8d5a03a9922b45aefae159c7fc2d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  artwork_url: 
-  duration: 0
-  id: 1247896225
-  label_name: 
-  title: 
-  uri: 
-  stream_url: 
-  streamable: 0
-  client_id: 13dlrtjfx7d3OLEsFzbjJztO2G0U38DK
-  log: {fileID: 0}
+  _clientID: 13dlrtjfx7d3OLEsFzbjJztO2G0U38DK
 --- !u!1 &33153704400916934
 GameObject:
   m_ObjectHideFlags: 0
@@ -1268,7 +1259,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1

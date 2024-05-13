@@ -6,25 +6,45 @@ public class Audio : MonoBehaviour
 {
     private float _pauseFade;
     [SerializeField]
-    private PlayList playList;
+    public PlayList playList;
     [SerializeField]
     private SceneStatus sceneStatus;
 
     private AudioSource audioSource;
+    private PlaylistManager playlistManager;
     private float _currentTrackLength;
     private float _playtime;
 
     void Start()
     {
+        StartCoroutine(Init());
+    }
+
+    IEnumerator Init()
+    {
         audioSource = GetComponent<AudioSource>();
-        //audioSource.volume = 0;
-        audioSource.clip = playList.GetCurrentTrack();
+        playlistManager = GetComponent<PlaylistManager>();
+        playlistManager.PreparePlaylistForPlayback(1247896225);
+        yield return new WaitWhile(() => playList.GetCurrentTrack() == null);
+        playlistManager.DownloadTrack(playList.GetCurrentTrack());
+        yield return new WaitWhile(() => !playList.GetCurrentTrack().isReadyForPlay);
+        //just in case
+        DownloadTracks();
+
+        audioSource.volume = 0;
+        audioSource.clip = playList.GetCurrentTrack().AudioClip;
         audioSource.outputAudioMixerGroup = playList.GetMixer();
-        //_currentTrackLength = audioSource.clip.length;
+        _currentTrackLength = audioSource.clip.length;
         _playtime = 0;
         _pauseFade = sceneStatus.GetPauseFade();
-        //sceneStatus.SetCurrentTrackID(playList.GetCurrentTrackID());
-        //sceneStatus.SetCurrentTrackName(playList.GetCurrentTrackName());
+        sceneStatus.SetCurrentTrackID(playList.GetCurrentTrackNumber());
+        sceneStatus.SetCurrentTrackName(playList.GetCurrentTrackName());
+    }
+
+    private void DownloadTracks()
+    {
+        playlistManager.DownloadTrack(playList.GetCurrentTrack());
+        playlistManager.DownloadTrack(playList.GetNextTrack());
     }
     
     private void Update()
@@ -71,14 +91,11 @@ public class Audio : MonoBehaviour
         this.playList = newPlaylist;
     }
 
-    public void PlayListUpdate()
-    {
-        audioSource.clip = playList.GetCurrentTrack();
-        sceneStatus.SetCurrentTrackName(playList.GetCurrentTrackName());
-    }
-
     IEnumerator Play()
     {
+        if (!playList.GetCurrentTrack().isReadyForPlay)
+            DownloadTracks();
+
         audioSource.Play();
         while (audioSource.volume < 1f)
         {
@@ -108,11 +125,16 @@ public class Audio : MonoBehaviour
         }
         audioSource.Stop();
 
-        audioSource.clip = isForward ? playList.GetNext() : playList.GetPrevious();
+        AudioTrack track = isForward ? playList.SwitchToNextAudio() : playList.SwitchToPreviousAudio();
+        DownloadTracks();
+        yield return new WaitUntil(() => track.isReadyForPlay);
+
+        audioSource.clip = track.AudioClip;
         _currentTrackLength = audioSource.clip.length;
         _playtime = 0;
-        sceneStatus.SetCurrentTrackID(playList.GetCurrentTrackID());
+        sceneStatus.SetCurrentTrackID(playList.GetCurrentTrackNumber());
         sceneStatus.SetCurrentTrackName(playList.GetCurrentTrackName());
+        DownloadTracks();
 
         StartCoroutine(Play());
     }

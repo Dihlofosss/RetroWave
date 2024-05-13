@@ -13,6 +13,4 @@ MonoBehaviour:
   m_Name: RetroWavePlaylist
   m_EditorClassIdentifier: 
   mixer: {fileID: 24300002, guid: 5422bc3f0b5b54d46a3ad7405ab92221, type: 2}
-  clips:
-  - {fileID: 0}
   _currentTrack: 0

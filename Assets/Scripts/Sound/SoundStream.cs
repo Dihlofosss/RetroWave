@@ -135,9 +135,9 @@ public class SoundStream : MonoBehaviour
             textlog += "Asigning dHandler as clip\n";
             log.text = textlog;
 
-            AudioClip clip = dHandler.audioClip;
+            AudioClip clip = dHandler.AudioClip;
             */
-            //AudioClip clip = ((DownloadHandlerAudioClip)uwr.downloadHandler).audioClip;
+            //AudioClip clip = ((DownloadHandlerAudioClip)uwr.downloadHandler).AudioClip;
 
             //Debug.LogError("Clip load state: " + clip.loadState);
             //if(clip.loadState == AudioDataLoadState.Loading) 

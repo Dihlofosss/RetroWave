@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneSpeed: 3
   pauseFade: 0.3
-  isPaused: 0
+  isPaused: 1
   isSpectrumDivided: 0
   _currentTrackID: 0
   _currentTrackPlayback: 0
-  _currentTrackName: ' - Marvel83'' @ Roxy Prague w/ Pablo Bozzi 29.9. 2023 (DJ Set)'
+  _currentTrackName: 
   _trackDisplayTime: 3
-  _sunRise: 1
+  _sunRise: 0

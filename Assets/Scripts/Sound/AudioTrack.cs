@@ -2,33 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioTrack : MonoBehaviour
+public class AudioTrack
 {
     public bool isReadyForPlay { get; private set; } = false;
-    public int trackID { get; }
-    public int trackDuration { get; }
+    public long trackID { get; }
+    public float trackDuration { get; }
     public string trackName { get; }
     public string artistName { get; }
     public string mediaURL { get; }
 
-    public AudioClip audioClip
+    private AudioClip _audioClip;
+
+    public AudioClip AudioClip
     {
         get
         {
-            return audioClip;
+            return _audioClip;
         }
         set
         {
-            if(value != audioClip)
+            if(value != _audioClip)
             {
-                audioClip = value;
+                Debug.Log(value.name);
+                _audioClip = value;
                 isReadyForPlay = true;
             }            
         }
     }
     public Texture2D trackCover { get; }
 
-    public AudioTrack(int trackID, int trackDuration, string trackName, string artistName, Texture2D trackCover, string mediaURL)
+    public AudioTrack(long trackID, float trackDuration, string trackName, string artistName, Texture2D trackCover, string mediaURL)
     {
         this.trackID = trackID;
         this.trackDuration = trackDuration;
