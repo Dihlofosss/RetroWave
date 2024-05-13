@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneSpeed: 3
   pauseFade: 0.3
-  isPaused: 1
+  isPaused: 0
   isSpectrumDivided: 0
-  _currentTrackID: 0
+  _currentTrackID: 2
   _currentTrackPlayback: 0
-  _currentTrackName: Marvel83' - Atlantis
+  _currentTrackName: 
   _trackDisplayTime: 3
   _sunRise: 0

@@ -184,7 +184,7 @@ public class BridgeController : MonoBehaviour
             audio.maxDistance = 3f;
             audio.spatialBlend = 1f;
             audio.outputAudioMixerGroup = _sfx.GetMixer();
-            audio.clip = _sfx.GetNext();
+            //audio.clip = _sfx.SwitchToNextAudio();
         }
 
         /*
