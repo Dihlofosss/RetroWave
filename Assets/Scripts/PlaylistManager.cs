@@ -54,6 +54,7 @@ public class PlaylistManager : MonoBehaviour
         }
 
         yield return relatedTracksData;
+        yield return new WaitWhile(() => relatedTracksData == null);
 
         for(int i = 0; i < relatedTracksData["collection"].Count; i++)
         {
