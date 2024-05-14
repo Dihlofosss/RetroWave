@@ -9,8 +9,6 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Spectrum
   m_Shader: {fileID: -6465566751694194690, guid: ac16ba8457bd3f149a1a7e48edb3e7dc, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -20,7 +18,6 @@ Material:
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
-  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -86,7 +83,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - BarsCount: 128
+    - BarsCount: 96
     - Vector1_422813024c9a4e0499ba6a5255e2b457: 0
     - Vector1_746cee7579bc4b33bb91573da5b0753e: 1
     - _AlphaClip: 0
@@ -132,7 +129,6 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!114 &8956327795216041497
 MonoBehaviour:
   m_ObjectHideFlags: 11

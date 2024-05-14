@@ -37,7 +37,7 @@ public class Spectrum : MonoBehaviour
         baseColor = Shader.PropertyToID("_Color_Base");
         peakColor = Shader.PropertyToID("_Color_Peak");
         mRender = GetComponent<Renderer>();
-        texture = new Texture2D(1, 256, TextureFormat.R8, true);
+        texture = new Texture2D(1, 256, TextureFormat.RHalf, true);
         mBlock = new MaterialPropertyBlock();
         
         //mRender.GetPropertyBlock(mBlock);
@@ -93,6 +93,9 @@ public class Spectrum : MonoBehaviour
 
             texture.SetPixel(0, i, GetColor(draw_spectrum_R[i]));
             texture.SetPixel(0, 255 - i, GetColor(draw_spectrum_L[i]));
+
+            //texture.SetPixel(0, i, GetColor(Mathf.Sqrt(draw_spectrum_R[i])));
+            //texture.SetPixel(0, 255 - i, GetColor(Mathf.Sqrt(draw_spectrum_L[i])));
         }
         texture.Apply();
         for (short i = 0; i < 2; i++)

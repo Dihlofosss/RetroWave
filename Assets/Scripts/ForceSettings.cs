@@ -45,7 +45,7 @@ public class ForceSettings : MonoBehaviour
             //_avarageFrameTime /= 5f;
             _avarageFps = (_framesCounter + 1) / _avarageFrameTime;
 
-            bool conditionOne = _avarageFps < minFPS - 3 && asset.renderScale > 0.2f;
+            bool conditionOne = _avarageFps < minFPS - 3 && asset.renderScale > 0.5f;
             bool conditionTwo = _avarageFps > minFPS + 6 && asset.renderScale < 1.0f;
 
             if (conditionOne || conditionTwo)
