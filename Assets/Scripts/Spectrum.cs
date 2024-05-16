@@ -20,8 +20,8 @@ public class Spectrum : MonoBehaviour
     private MaterialPropertyBlock mBlock;
     private Texture2D texture;
     private int textureID, boolID, baseColor, peakColor;
-    [SerializeField, Range(0,1)]
-    private float fade = 0.9f;
+    [SerializeField, Range(.85f,1f)]
+    private float fade = 0.95f;
 
     private GameObject[] spectrumParts;
     private Renderer[] renderers;
@@ -76,10 +76,13 @@ public class Spectrum : MonoBehaviour
 
         //AudioListener.GetSpectrumData(rt_spectrum_L, 0, FFTWindow.Rectangular);
         //AudioListener.GetSpectrumData(rt_spectrum_R, 1, FFTWindow.Rectangular);
-        source.GetSpectrumData(rt_spectrum_L, 0, FFTWindow.Rectangular);
-        source.GetSpectrumData(rt_spectrum_R, 1, FFTWindow.Rectangular);
+        source.GetSpectrumData(rt_spectrum_L, 0, FFTWindow.Triangle);
+        source.GetSpectrumData(rt_spectrum_R, 1, FFTWindow.Triangle);
 
-        for (short i = 0; i < 128; i++)
+
+        //dont ask me why its 0-253 range instead of max 255 like the texture size
+        //no idea why but with 0-255 range two spectrupms parts overlapping each other
+        for (short i = 0; i < 127; i++)
         {
             if (rt_spectrum_L[i] > draw_spectrum_L[i])
                 draw_spectrum_L[i] = rt_spectrum_L[i];
@@ -92,10 +95,7 @@ public class Spectrum : MonoBehaviour
                 draw_spectrum_R[i] *= soft;
 
             texture.SetPixel(0, i, GetColor(draw_spectrum_R[i]));
-            texture.SetPixel(0, 255 - i, GetColor(draw_spectrum_L[i]));
-
-            //texture.SetPixel(0, i, GetColor(Mathf.Sqrt(draw_spectrum_R[i])));
-            //texture.SetPixel(0, 255 - i, GetColor(Mathf.Sqrt(draw_spectrum_L[i])));
+            texture.SetPixel(0, 253 - i, GetColor(draw_spectrum_L[i]));
         }
         texture.Apply();
         for (short i = 0; i < 2; i++)
