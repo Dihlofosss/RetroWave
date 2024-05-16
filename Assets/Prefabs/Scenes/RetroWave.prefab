@@ -617,7 +617,7 @@ MonoBehaviour:
   palette: {fileID: 11400000, guid: 3c5cc53c39241c84ca9fcf48b5339a8c, type: 2}
   sceneStatus: {fileID: 11400000, guid: 9c06aae9973875944961130cbd0bf83e, type: 2}
   material: {fileID: 2100000, guid: b9c313ebb914d61409a42f309ea0abbd, type: 2}
-  fade: 0.97
+  fade: 0.94
 --- !u!1 &33153704613780302
 GameObject:
   m_ObjectHideFlags: 0
