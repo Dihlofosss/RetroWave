@@ -54,7 +54,7 @@ public class PlaylistManager : MonoBehaviour
         }
 
         yield return relatedTracksData;
-        yield return new WaitWhile(() => relatedTracksData == null);
+        //yield return new WaitWhile(() => relatedTracksData == null);
 
         for(int i = 0; i < relatedTracksData["collection"].Count; i++)
         {
@@ -123,11 +123,14 @@ public class PlaylistManager : MonoBehaviour
 
     IEnumerator GetWebTexture(string uri, System.Action<Texture2D> texture)
     {
+        if (uri == null)
+        {
+            texture(null);
+            yield break;
+        }
         UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(uri);
         yield return webRequest.SendWebRequest();
-        Texture2D texture2D = DownloadHandlerTexture.GetContent(webRequest);
-        yield return texture2D;
-        texture(texture2D);
+        texture(DownloadHandlerTexture.GetContent(webRequest));
     }
 
     IEnumerator AudioClipWebRequest(string uri, System.Action<AudioClip> audioClip)
