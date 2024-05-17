@@ -36,7 +36,7 @@ public class Audio : MonoBehaviour
         audioSource.volume = 0;
         audioSource.clip = playList.GetCurrentTrack().AudioClip;
         audioSource.outputAudioMixerGroup = playList.GetMixer();
-        _currentTrackLength = audioSource.clip.length;
+        _currentTrackLength = playList.GetCurrentTrack().trackDuration;
         _playtime = 0;
         _pauseFade = sceneStatus.GetPauseFade();
         sceneStatus.SetCurrentTrackID(playList.GetCurrentTrackNumber());
@@ -58,6 +58,7 @@ public class Audio : MonoBehaviour
         }
         else if (sceneStatus.GetPlaybackTime() > 0.99f)
         {
+            sceneStatus.UpdatePlaybackTime(0);
             StartCoroutine(SwitchTrack(true));
         }
     }
