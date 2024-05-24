@@ -29,6 +29,16 @@ public class SceneStatus : ScriptableObject
         isSpectrumDivided = false;
     }
 
+    private void OnEnable()
+    {
+        PlayerEvents.PlayPauseTrack += PauseToggle;
+    }
+
+    private void OnDisable()
+    {
+        PlayerEvents.PlayPauseTrack -= PauseToggle;
+    }
+
     public short GetCurrentTrackID()
     {
         return _currentTrackID;
@@ -74,7 +84,7 @@ public class SceneStatus : ScriptableObject
         return pauseFade;
     }
 
-    public void SetPuase(bool value)
+    public void SetPause(bool value)
     {
         isPaused = value;
     }

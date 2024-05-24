@@ -153,7 +153,7 @@ public class SoundStream : MonoBehaviour
 
             log.text = textlog;
 
-            PlayList playList = audio.GetPlaylist();
+            OnlinePlayList playList = audio.GetPlaylist();
             //playList.clips.Clear();
             //playList.clips.Add(clip);
             //audio.PlayListUpdate();

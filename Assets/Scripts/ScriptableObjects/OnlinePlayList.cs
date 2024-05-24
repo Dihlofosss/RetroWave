@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
-[CreateAssetMenu(fileName = "Playlist", menuName = "ScriptableObjects/Audio/Playlist", order = 1)]
-public class PlayList : ScriptableObject
+[CreateAssetMenu(fileName = "OnlinePlaylist", menuName = "ScriptableObjects/AudioPlaylist/OnlinePlaylist", order = 1)]
+public class OnlinePlayList : ScriptableObject
 {
     public UnityEngine.Audio.AudioMixerGroup mixer;
 

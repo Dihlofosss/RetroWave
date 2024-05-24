@@ -12,8 +12,12 @@ public class DisplayTrack : MonoBehaviour
     private bool _isPaused = true;
 
     private short _currentTrack;
-    private float _displayTime, _fadeTime, _countdown;
+    [SerializeField]
+    private float _displayTime, _fadeTime;
+    private float _countdown;
     private bool _isHidden;
+
+    private IEnumerator _switchTrack;
 
     private void Awake()
     {
@@ -23,38 +27,45 @@ public class DisplayTrack : MonoBehaviour
     }
     void Start()
     {
+        _switchTrack = SwitchTrackname();
         _displayTime = sceneStatus.GetTrackDisplayTime();
-        _fadeTime = 1f;
-        _displayTime = 3f;
         _textMesh.text = sceneStatus.GetCurrentTrackName();
         _currentTrack = sceneStatus.GetCurrentTrackID();
         _isHidden = true;
         _isPaused = sceneStatus.IsPaused();
     }
 
-    void Update()
+    private void OnEnable()
     {
-        if (_countdown > 0)
-        {
-            _countdown -= Time.deltaTime;
-            if (_currentTrack != sceneStatus.GetCurrentTrackID() || _isPaused != sceneStatus.IsPaused())
-            {
-                _currentTrack = sceneStatus.GetCurrentTrackID();
-                _isPaused = sceneStatus.IsPaused();
-                _textMesh.text = sceneStatus.GetCurrentTrackName();
-                _countdown = _displayTime;
-                return;
-            }
-        }
+        PlayerEvents.TrackNameUpdate += UpdateTrackName;
+        PlayerEvents.PlayPauseTrack += ShowTrackName;
+    }
 
-        if (_currentTrack != sceneStatus.GetCurrentTrackID() || _isPaused != sceneStatus.IsPaused())
+    private void OnDisable()
+    {
+        PlayerEvents.TrackNameUpdate -= UpdateTrackName;
+        PlayerEvents.PlayPauseTrack -= ShowTrackName;
+    }
+
+    private void ShowTrackName()
+    {
+        Debug.Log("Display track toggle");
+        if(!sceneStatus.IsPaused())
         {
-            _countdown = _displayTime;
-            _currentTrack = sceneStatus.GetCurrentTrackID();
-            _isPaused = sceneStatus.IsPaused();
-            _textMesh.text = sceneStatus.GetCurrentTrackName();
+            if(!_isHidden) StopAllCoroutines();
+            Debug.Log("Playback is paused: " + sceneStatus.IsPaused());
+            //
             StartCoroutine(SwitchTrackname());
-        }    
+        }
+    }
+
+    private void UpdateTrackName()
+    {
+        _textMesh.text = sceneStatus.GetCurrentTrackName();
+        //StopCoroutine(_switchTrack);
+        //_switchTrack.Reset();
+        StopAllCoroutines();
+        StartCoroutine(SwitchTrackname());
     }
 
     IEnumerator SwitchTrackname()
@@ -62,14 +73,14 @@ public class DisplayTrack : MonoBehaviour
         if(_isHidden)
         {
             _countdown = _displayTime;
-            StartCoroutine(TrackNameFade(_isHidden));
+            yield return StartCoroutine(TrackNameFade(_isHidden, value => _isHidden = value));
         }
-        yield return new WaitWhile(() => _countdown > 0);
+        yield return new WaitForSeconds(_displayTime);
 
-        StartCoroutine(TrackNameFade(_isHidden));
+        yield return StartCoroutine(TrackNameFade(_isHidden, value => _isHidden = value));
     }
 
-    IEnumerator TrackNameFade(bool isHidden)
+    IEnumerator TrackNameFade(bool isHidden, System.Action<bool> callback)
     {
         float fade = _fadeTime;
         while(fade > 0)
@@ -78,6 +89,6 @@ public class DisplayTrack : MonoBehaviour
             _canvasGroup.alpha = isHidden ? 1 - fade : fade;
             yield return null;
         }
-        _isHidden = !_isHidden;
+        callback(!isHidden);
     }
 }

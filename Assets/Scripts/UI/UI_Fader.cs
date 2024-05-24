@@ -4,7 +4,7 @@ using System.Collections;
 public class UI_Fader : MonoBehaviour
 {
     [SerializeField]
-    private PlayList playList;
+    private OnlinePlayList playList;
     [SerializeField]
     private float hideDelay, transitionSpeed;
     private bool isActive = false;

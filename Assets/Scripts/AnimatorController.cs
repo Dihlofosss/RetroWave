@@ -16,9 +16,19 @@ public class AnimatorController : MonoBehaviour
         _audio = GetComponentInChildren<Audio>();
         _animator = GetComponent<Animator>();
         _animator.enabled = false;
-        sceneStatus.SetPuase(true);
+        sceneStatus.SetPause(true);
         sceneStatus.SetSunrise(0f);
         _animator.runtimeAnimatorController = _controller;
+    }
+
+    private void OnEnable()
+    {
+        PlayerEvents.DivideSpectrum += DivideTrigger;
+    }
+
+    private void OnDisable()
+    {
+        PlayerEvents.DivideSpectrum -= DivideTrigger;
     }
 
     private void Start()
@@ -28,30 +38,17 @@ public class AnimatorController : MonoBehaviour
 
     private void Update()
     {
-        if(_isSpectrumDivided != sceneStatus.IsSpectrumDivided())
-        {
-            DivideTrigger();
-            _isSpectrumDivided = !_isSpectrumDivided;
-        }
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
         }
     }
 
-    public void PlayPause()
+    public void AnimatorStartPlayback()
     {
-        _audio.PlayPause();
-    }
-
-    public void NextTrack()
-    {
-        _audio.PlayNext();
-    }
-
-    public void PreviousTrack()
-    {
-        _audio.PlayPrevious();
+        //_audio.PlayPause();
+        //sceneStatus.PauseToggle();
+        PlayerEvents.OnPlayPauseTrack();
     }
 
     public void DivideTrigger()

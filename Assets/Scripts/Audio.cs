@@ -6,7 +6,7 @@ public class Audio : MonoBehaviour
 {
     private float _pauseFade;
     [SerializeField]
-    public PlayList playList;
+    public OnlinePlayList playList;
     [SerializeField]
     private SceneStatus sceneStatus;
     [SerializeField]
@@ -20,6 +20,18 @@ public class Audio : MonoBehaviour
     void Start()
     {
         StartCoroutine(Init());
+    }
+
+    private void OnEnable()
+    {
+        PlayerEvents.PlayPauseTrack += PlayPause;
+        PlayerEvents.SwitchTrack += PlayNewTrack;
+    }
+
+    private void OnDisable()
+    {
+        PlayerEvents.PlayPauseTrack -= PlayPause;
+        PlayerEvents.SwitchTrack -= PlayNewTrack;
     }
 
     IEnumerator Init()
@@ -59,40 +71,28 @@ public class Audio : MonoBehaviour
         else if (sceneStatus.GetPlaybackTime() > 0.99f)
         {
             sceneStatus.UpdatePlaybackTime(0);
-            StartCoroutine(SwitchTrack(true));
+            PlayerEvents.OnSwitchTrack(true);
         }
     }
 
-    public void PlayNext()
+    public void PlayNewTrack(bool nextTrack)
     {
-        StartCoroutine(SwitchTrack(true));
-    }
-
-    public void PlayPrevious()
-    {
-        StartCoroutine(SwitchTrack(false));
+        StartCoroutine(SwitchTrack(nextTrack));
     }
 
     public void PlayPause()
     {
         StopCoroutine(Pause());
         StopCoroutine(Play());
-        if (audioSource.isPlaying)
-            StartCoroutine(Pause());
-        else
-            StartCoroutine(Play());
-        sceneStatus.PauseToggle();
-
-        Debug.Log(playList.GetCurrentTrack().trackDuration);
-        Debug.Log(playList.GetCurrentTrack().AudioClip.length);
+        StartCoroutine(audioSource.isPlaying ? Pause() : Play());
     }
 
-    public PlayList GetPlaylist()
+    public OnlinePlayList GetPlaylist()
     {
         return this.playList;
     }
 
-    public void SetPlayList(PlayList newPlaylist)
+    public void SetPlayList(OnlinePlayList newPlaylist)
     {
         this.playList = newPlaylist;
     }
@@ -140,6 +140,7 @@ public class Audio : MonoBehaviour
         _playtime = 0;
         sceneStatus.SetCurrentTrackID(playList.GetCurrentTrackNumber());
         sceneStatus.SetCurrentTrackName(playList.GetCurrentTrackName());
+        PlayerEvents.OnTrackNameUpdate();
         DownloadTracks();
 
         StartCoroutine(Play());
