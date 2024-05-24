@@ -10,7 +10,7 @@ public class PlaylistManager : MonoBehaviour
 
     [SerializeField]
     private string _clientID;
-    public PlayList playList { get; private set; }
+    public OnlinePlayList playList { get; private set; }
 
 
     private void Awake()
@@ -37,7 +37,7 @@ public class PlaylistManager : MonoBehaviour
         StartCoroutine(FillPlaylist(relatedTrack, playList, 30));
     }
 
-    IEnumerator FillPlaylist(long relatedTrack, PlayList playList, int tracksAmount)
+    IEnumerator FillPlaylist(long relatedTrack, OnlinePlayList playList, int tracksAmount)
     {
         string uri = _soundCloudAPI_url + "/tracks/" + relatedTrack + "/related?client_id=" + _clientID + "&limit=" + tracksAmount;
         Dictionary<string, dynamic> relatedTracksData = null;

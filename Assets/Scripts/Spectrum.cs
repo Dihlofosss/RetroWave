@@ -107,12 +107,12 @@ public class Spectrum : MonoBehaviour
         if (!_isDivided && sceneStatus.GetSunrise() > 0.85f)
         {
             _isDivided = !_isDivided;
-            sceneStatus.DivideTrigger();
+            PlayerEvents.OnDivideSpectrum();
         }
         else if(_isDivided && sceneStatus.GetSunrise() < 0.7f)
         {
             _isDivided = !_isDivided;
-            sceneStatus.DivideTrigger();
+            PlayerEvents.OnDivideSpectrum();
         }
     }
 

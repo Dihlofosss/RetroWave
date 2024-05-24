@@ -5,7 +5,7 @@ using UnityEngine;
 public class BridgeController : MonoBehaviour
 {
     [SerializeField]
-    private PlayList _sfx;
+    private OfflinePlaylist _sfx;
     [SerializeField]
     private ColorPalette _colorPalette;
     [SerializeField]
@@ -96,7 +96,7 @@ public class BridgeController : MonoBehaviour
         if (_timer <= 0)
         {
             ActivateNewObject(_bridgesPool);
-            _timer = Random.Range(5f, 15f);
+            _timer = Random.Range(10f, 30f);
         }
         MoveObjects(_bridgesPool);
         _timer -= Time.deltaTime;
@@ -129,7 +129,7 @@ public class BridgeController : MonoBehaviour
                 GetGameObject(_lamps, _bridgeMaterial, xPosition).transform.SetParent(_bridgeTile.transform);
             }
         }
-        /*
+        
         MeshFilter[] bridgeTiles = _bridgeTile.GetComponentsInChildren<MeshFilter>();
         CombineInstance[] combines = new CombineInstance[bridgeTiles.Length];
         for (int i = 0; i < bridgeTiles.Length; i++)
@@ -137,18 +137,15 @@ public class BridgeController : MonoBehaviour
             Debug.Log(bridgeTiles[i].sharedMesh);
             combines[i].mesh = bridgeTiles[i].sharedMesh;
             combines[i].transform = bridgeTiles[i].gameObject.transform.localToWorldMatrix;
-            //Destroy(bridgeTiles[i]);
         }
 
         filter.mesh = new();
-        //_bridgeTile.GetComponent<MeshFilter>().mesh = new();
         filter.mesh.CombineMeshes(combines);
-        //_bridgeTile.GetComponent<MeshFilter>().mesh.CombineMeshes(combines);
 
 
         //GameObject policeCar = GetGameObject(_policeCar, _carsMaterial, -_bridgeLength, 10f, 1f);
         //policeCar.transform.SetParent(_bridgeTile.transform);
-        */
+        /*
         GameObject laserShotsParent = new()
         {
             name = "Laser Shots"
@@ -166,10 +163,12 @@ public class BridgeController : MonoBehaviour
         laserShots[0].transform.SetPositionAndRotation(new Vector3(-_bridgeLength, 0, 3.2f), Quaternion.Euler(90,0,0));
         laserShots[1].transform.SetPositionAndRotation(new Vector3(_bridgeLength, 0, 3.2f), Quaternion.Euler(90, 180, 0));
         laserShots[1].GetComponent<ParticleSystem>().startColor = Color.red;
-        //laserShotsParent.SetActive(false);
+        laserShotsParent.SetActive(false);
         LaserShots = laserShotsParent;
+        RandomBridgeEvent bEvent = _bridgeTile.AddComponent<RandomBridgeEvent>();
+        bEvent.laserShots = laserShotsParent;
+        */
 
-        
 
         _bridgeTile.transform.SetPositionAndRotation(new Vector3(0f, 0f, -10f), Quaternion.Euler(-90f, 0f, 0f));
         _bridgeTile.AddComponent<AudioSource>();
@@ -184,7 +183,7 @@ public class BridgeController : MonoBehaviour
             audio.maxDistance = 3f;
             audio.spatialBlend = 1f;
             audio.outputAudioMixerGroup = _sfx.GetMixer();
-            //audio.clip = _sfx.SwitchToNextAudio();
+            audio.clip = _sfx.SwitchToNextAudio();
         }
 
         /*
@@ -202,8 +201,7 @@ public class BridgeController : MonoBehaviour
         */
 
         _bridgeTile.SetActive(false);
-        RandomBridgeEvent bEvent = _bridgeTile.AddComponent<RandomBridgeEvent>();
-        bEvent.laserShots = laserShotsParent;
+
 
         return _bridgeTile;
     }
