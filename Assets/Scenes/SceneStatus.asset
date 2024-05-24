@@ -16,8 +16,8 @@ MonoBehaviour:
   pauseFade: 0.3
   isPaused: 0
   isSpectrumDivided: 0
-  _currentTrackID: 2
-  _currentTrackPlayback: 0
-  _currentTrackName: 
+  _currentTrackID: 3
+  _currentTrackPlayback: 0.015381811
+  _currentTrackName: Lazerdiscs Records - Stilz - 02 - Test Pilot (Feat. The Encounter)
   _trackDisplayTime: 3
-  _sunRise: 0
+  _sunRise: 0.0041394895
