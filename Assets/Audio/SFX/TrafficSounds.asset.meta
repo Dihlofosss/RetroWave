@@ -1,12 +1,8 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Scenes/SampleScene/LightingData.asset.meta
-guid: 8255658a3af1ebf4c9c508cc9e583e76
-========
-guid: 9bbfd2819e66d7f459a7e341f63c9f28
->>>>>>>> 1d05a15d122f689b5251c7aaa18ee35a54c98f4e:Assets/Audio/SFX/TrafficSounds.asset.meta
+guid: 940d1dd0eeda69a46938093617201a22
 NativeFormatImporter:
   externalObjects: {}
-  mainObjectFileID: 112000000
+  mainObjectFileID: 11400000
   userData: 
   assetBundleName: 
   assetBundleVariant: 
