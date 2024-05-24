@@ -14,7 +14,6 @@ public class MeshGen : MonoBehaviour
     private int[] _tris;
     private Vector2[] _uv;
     private float[] _sound = new float[64];
-    private bool _pauseToggle = true;
     private bool _isPaused = false;
     private float _pauseScale = 1f;
     private float _pauseFade;
@@ -31,6 +30,16 @@ public class MeshGen : MonoBehaviour
     [SerializeField]
     private short _width, _length;
     private float _counter;
+
+    private void OnEnable()
+    {
+        PlayerEvents.PlayPauseTrack += PlayPause;
+    }
+
+    private void OnDisable()
+    {
+        PlayerEvents.PlayPauseTrack -= PlayPause;
+    }
 
     private void Awake()
     {
@@ -73,7 +82,7 @@ public class MeshGen : MonoBehaviour
         _gridMesh.uv = _uv;
         _gridMesh.colors = _colors.ToArray();
         
-        RebuildTris();
+        BuildTris();
         GenerateGridTexture();
 
         StartCoroutine(Play());
@@ -98,12 +107,6 @@ public class MeshGen : MonoBehaviour
 
     void Update()
     {
-        if (_pauseToggle != _sceneStatus.IsPaused())
-        {
-            _pauseToggle = _sceneStatus.IsPaused();
-            PlayPause();
-        }
-
         if (_isPaused)
             return;
 
@@ -112,57 +115,58 @@ public class MeshGen : MonoBehaviour
         if(_counter >= 1)
         {
             _counter = frac(_counter);
-            RebuildVerts(_counter);
-            _gridMesh.RecalculateBounds();
+            UpdateGrid(_counter);
+            //_gridMesh.RecalculateBounds();
         }
         MoveGrid();
     }
 
-    private void RebuildVerts(float shift)
+    private void UpdateGrid(float shift)
     {
-        float height;
-        AudioListener.GetSpectrumData(_sound, 0, FFTWindow.Rectangular);
-        //remove last poly row
-        int initialSize = _verts.Count;
-        for (int i = initialSize - 1; i >= initialSize - (2 * _width) - 1; i--)
+        Vector3[] grid = _gridMesh.vertices;
+        Color[] colors = _gridMesh.colors;
+        for (int i = grid.Length - 1; i > (2 * _width); i--)
         {
-            _verts.RemoveAt(i);
-            _colors.RemoveAt(i);
+            grid[i].Set(grid[i - (2 * _width + 1)].x, grid[i - (2 * _width + 1)].y, grid[i - (2 * _width + 1)].z);
+            colors[i] = colors[i - (2 * _width + 1)];
         }
-        //add vert for 1st poly row
-        for(int i = _width; i >= -_width; i--)
+        
+        AudioListener.GetSpectrumData(_sound, 0, FFTWindow.Rectangular);
+        float height;
+        
+        for (int i = -_width; i < _width; i++)
         {
             height = Mathf.Abs(i) - _width / 4;
-            height = 1 - Mathf.Pow(1 - _sound[Mathf.Abs(Mathf.Abs((int)height) - (_width / 2))], 3);
+            height = 1 - Mathf.Pow(1 - _sound[Mathf.Abs(Mathf.Abs((int)height) - (_width / 2))], 4);
             height *= 4f;
-            if(_sceneStatus.IsPaused())
+            //generate random grid height before playback
+            if (_sceneStatus.IsPaused())
             {
                 height = (Mathf.Abs(i) / ((float)_width));
                 height = (1f - Mathf.Abs((height - 0.5f) * 2f)) * Random.Range(0f, 4f);
             }
 
             if (i > -2 && i < 2)
-                height *= 0.05f;
-            _verts.Insert(0, new Vector3(i, height , shift - _length));
-            
-            _colors.Insert(0, Color.Lerp(_colorPalette.getDefaultGridColor(), _colorPalette.getPeakGridColor(), height / 4f));
+                height = 0f;
+
+            grid[i + _width].Set(i, height, shift - _length);
+            colors[i + _width] = Color.Lerp(_colorPalette.getDefaultGridColor(), _colorPalette.getPeakGridColor(), height / 4f);
         }
-        //_verts.TrimExcess();
-        _gridMesh.vertices = _verts.ToArray();
-        _gridMesh.colors = _colors.ToArray();
-        _gridMesh.RecalculateNormals();
+        _gridMesh.vertices = grid;
+        _gridMesh.colors = colors;
     }
 
     private void MoveGrid()
     {
-        for(int i = 0; i < _verts.Count; i++)
+        Vector3[] grid = _gridMesh.vertices;
+        for (int i = 0; i < grid.Length; i++)
         {
-            _verts[i] = new Vector3(_verts[i].x, _verts[i].y, _verts[i].z + Time.deltaTime * _pauseScale * _speed);
+            grid[i].Set(grid[i].x, grid[i].y, grid[i].z + Time.deltaTime * _pauseScale * _speed);
         }
-        _gridMesh.vertices = _verts.ToArray();
+        _gridMesh.vertices = grid;
     }
 
-    private void RebuildTris()
+    private void BuildTris()
     {
         for (int ti = 0, vi = 0, y = 0; y < _length * 2; y++, vi++)
         {
@@ -178,6 +182,7 @@ public class MeshGen : MonoBehaviour
         _gridMesh.RecalculateNormals();
     }
 
+    //draw tile texture
     private void GenerateGridTexture()
     {
         float value = (float) 1 / _texture.width;
@@ -235,10 +240,7 @@ public class MeshGen : MonoBehaviour
     {
         StopCoroutine(Pause());
         StopCoroutine(Play());
-        if (_sceneStatus.IsPaused())
-            StartCoroutine(Pause());
-        else
-            StartCoroutine(Play());
+        StartCoroutine(_sceneStatus.IsPaused() ? Pause() : Play());
     }
 
     public short GetWidth()
