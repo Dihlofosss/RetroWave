@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class AudioTrack
 {
-    public bool isReadyForPlay { get; private set; } = false;
-    public long trackID { get; }
-    public float trackDuration { get; }
-    public string trackName { get; }
-    public string artistName { get; }
-    public string mediaURL { get; }
+    public bool IsReadyForPlay { get; private set; } = false;
+    public long TrackID { get; }
+    public long TrackDurationMS { get; }
+    public string TrackName { get; }
+    public string ArtistName { get; }
+    public string MediaURL { get; }
+    public long PlaybackCount { get; private set; }
+    public TrackView TrackView { get; set; }
 
     private AudioClip _audioClip;
 
@@ -24,19 +26,34 @@ public class AudioTrack
             if(value != _audioClip)
             {
                 _audioClip = value;
-                isReadyForPlay = true;
+                IsReadyForPlay = true;
             }            
         }
     }
-    public Texture2D trackCover { get; }
+    public Sprite TrackCover { get; }
 
-    public AudioTrack(long trackID, float trackDuration, string trackName, string artistName, Texture2D trackCover, string mediaURL)
+    public AudioTrack(long trackID, long trackDuration, long playbackCount, string trackName, string artistName, Sprite trackCover, string mediaURL)
     {
-        this.trackID = trackID;
-        this.trackDuration = trackDuration;
-        this.trackName = trackName;
-        this.artistName = artistName;
-        this.trackCover = trackCover;
-        this.mediaURL = mediaURL;
+        this.TrackID = trackID;
+        this.PlaybackCount = playbackCount;
+        this.TrackDurationMS = trackDuration;
+        this.TrackName = trackName;
+        this.ArtistName = artistName;
+        this.TrackCover = trackCover;
+        this.MediaURL = mediaURL;
+    }
+
+    public override bool Equals(object obj)
+    {
+        if (obj == null)
+            return false;
+        AudioTrack track = obj as AudioTrack;
+
+        return this.TrackID == track.TrackID;
+    }
+
+    public override int GetHashCode()
+    {
+        return (int)(this.TrackID * this.TrackDurationMS);
     }
 }

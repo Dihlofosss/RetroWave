@@ -27,7 +27,7 @@ public class PlaylistManager : MonoBehaviour
 
     public void DownloadTrack(AudioTrack track)
     {
-        if (track == null || track.isReadyForPlay)
+        if (track == null || track.IsReadyForPlay)
             return;
         StartCoroutine(PrepareTrackForPlay(track));
     }
@@ -49,7 +49,7 @@ public class PlaylistManager : MonoBehaviour
         {
             foreach(AudioTrack track in playList.tracks)
             {
-                tracksIDsList.Add(track.trackID);
+                tracksIDsList.Add(track.TrackID);
             }
         }
 
@@ -63,11 +63,11 @@ public class PlaylistManager : MonoBehaviour
                 continue;
             
             AudioTrack newTrack = null;
-            StartCoroutine(AudioTrackWebRequest(trackData, value => newTrack = value));
-            yield return newTrack;
+            yield return StartCoroutine(AudioTrackWebRequest(trackData, value => newTrack = value));
             tracksIDsList.Add(trackData["id"]);
             playList.tracks.Add(newTrack);
         }
+        PlayerEvents.OnPlaylistReady();
     }
 
     IEnumerator AudioTrackWebRequest(long TrackID, System.Action<AudioTrack> audioTrack)
@@ -83,10 +83,11 @@ public class PlaylistManager : MonoBehaviour
 
     IEnumerator AudioTrackWebRequest(Dictionary<string, dynamic> trackData, System.Action<AudioTrack> audioTrack)
     {
-        Texture2D artwork = null;
-        StartCoroutine(GetWebTexture((string)trackData["artwork_url"], value => artwork = value));
+        Sprite artwork = null;
+        yield return StartCoroutine(GetWebTexture((string)trackData["artwork_url"], value => artwork = value));
         long trackID = trackData["id"];
-        float duration = ((float)trackData["duration"]) * 0.001f;
+        long duration = trackData["duration"];
+        long playbackCount = trackData["playback_count"];
         string title = trackData["title"];
         // transcodings:
         // 0 - HLS - MP3
@@ -94,17 +95,15 @@ public class PlaylistManager : MonoBehaviour
         // 2 - HLS - OGG
         string mediaURL = trackData["media"]["transcodings"][1]["url"];
         string artistName = trackData["user"]["username"];
-        yield return artwork;
-        AudioTrack newTrack = new(trackID, duration, title, artistName, artwork, mediaURL);
+        AudioTrack newTrack = new(trackID, duration, playbackCount, title, artistName, artwork, mediaURL);
         audioTrack(newTrack);
     }
 
     IEnumerator PrepareTrackForPlay(AudioTrack track)
     {
         AudioClip audioClip = null;
-        yield return StartCoroutine(AudioClipWebRequest(track.mediaURL, value => audioClip = value));
-        yield return audioClip;
-        audioClip.name = track.trackID.ToString();
+        yield return StartCoroutine(AudioClipWebRequest(track.MediaURL, value => audioClip = value));
+        audioClip.name = track.TrackID.ToString();
         track.AudioClip = audioClip;
         yield return null;
     }
@@ -121,16 +120,18 @@ public class PlaylistManager : MonoBehaviour
             json(JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(webRequest.downloadHandler.text));
     }
 
-    IEnumerator GetWebTexture(string uri, System.Action<Texture2D> texture)
+    IEnumerator GetWebTexture(string url, System.Action<Sprite> sprite)
     {
-        if (uri == null)
+        if (url == null)
         {
-            texture(null);
+            sprite(Sprite.Create(Texture2D.blackTexture, Rect.zero, Vector2.zero));
             yield break;
         }
-        UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(uri);
+        UnityWebRequest webRequest = UnityWebRequestTexture.GetTexture(url);
         yield return webRequest.SendWebRequest();
-        texture(DownloadHandlerTexture.GetContent(webRequest));
+        Texture2D artwork = DownloadHandlerTexture.GetContent(webRequest);
+        yield return artwork;
+        sprite(Sprite.Create(artwork, new(0f, 0f, artwork.width, artwork.height), Vector2.zero));
     }
 
     IEnumerator AudioClipWebRequest(string uri, System.Action<AudioClip> audioClip)
@@ -147,7 +148,7 @@ public class PlaylistManager : MonoBehaviour
             //thus making FMOD going crazy attempting to use seek on not fully downloaded clip
             //
             //hope it will be fixed in next unity version(s)
-            //cuz it was working in unity 2018
+            //cuz it was working in unity 2018 but since 2020 its broken
 
             //TODO:
             //implement MP3 files download locally and stream data from local storage instead

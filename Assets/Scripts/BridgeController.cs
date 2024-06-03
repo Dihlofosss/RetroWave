@@ -134,7 +134,6 @@ public class BridgeController : MonoBehaviour
         CombineInstance[] combines = new CombineInstance[bridgeTiles.Length];
         for (int i = 0; i < bridgeTiles.Length; i++)
         {
-            Debug.Log(bridgeTiles[i].sharedMesh);
             combines[i].mesh = bridgeTiles[i].sharedMesh;
             combines[i].transform = bridgeTiles[i].gameObject.transform.localToWorldMatrix;
         }

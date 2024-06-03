@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f301533153c521408d721a307db8e0d, type: 3}
-  m_Name: RetroWave
+  m_Name: RetroWave_Purple
   m_EditorClassIdentifier: 
-  defaultRingColor: {r: 95.87451, g: 0, b: 93.36471, a: 0}
-  peakRingColor: {r: 95.87451, g: 17.568628, b: 0, a: 0}
-  defaultGridColor: {r: 0, g: 2.0078433, b: 2.9960785, a: 0}
-  peakGridColor: {r: 5.992157, g: 2.0078433, b: 0, a: 0}
+  defaultRingColor: {r: 47.937256, g: 0, b: 46.682354, a: 0}
+  peakRingColor: {r: 47.937256, g: 8.784314, b: 0, a: 0}
+  defaultGridColor: {r: 2.1262183, g: 0, b: 3.4415908, a: 0}
+  peakGridColor: {r: 5.992157, g: 0.5564897, b: 0, a: 0}
   mainSkyColor: {r: 1, g: 0.3529412, b: 0, a: 0}
-  fadeSkyColor: {r: 0.3825863, g: 0, b: 0.77254903, a: 0}
+  fadeSkyColor: {r: 0.5372549, g: 0, b: 0.78431374, a: 0}
   sunColor: {r: 95.87451, g: 0, b: 0, a: 0}

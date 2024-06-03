@@ -10,7 +10,7 @@ public class OnlinePlayList : ScriptableObject
     public List<AudioTrack> tracks;
 
     [SerializeField]
-    private short _currentTrack;
+    public short CurrentTrackNo { get; set; }
 
     private string _jsonSaveFile;
 
@@ -28,42 +28,34 @@ public class OnlinePlayList : ScriptableObject
 
     }
 
-    public AudioTrack SwitchToNextAudio()
-    {
-        _currentTrack++;
-        if (_currentTrack >= tracks.Count)
-            _currentTrack = 0;
-        File.WriteAllText(_jsonSaveFile, JsonUtility.ToJson(this));
-        return tracks[_currentTrack];
-    }
-
-    public AudioTrack SwitchToPreviousAudio()
-    {
-        _currentTrack--;
-        if (_currentTrack < 0)
-            _currentTrack = (short)(tracks.Count - 1);
-        File.WriteAllText(_jsonSaveFile, JsonUtility.ToJson(this));
-        return tracks[_currentTrack];
-    }
-
     public AudioTrack GetCurrentTrack()
     {
-        return tracks.Count == 0 || _currentTrack >= tracks.Count ? null : tracks[_currentTrack];
+        return tracks.Count == 0 || CurrentTrackNo >= tracks.Count ? null : tracks[CurrentTrackNo];
+    }
+
+    public AudioTrack GetPreviousTrack()
+    {
+        return CurrentTrackNo - 1 < 0 ? tracks[tracks.Count - 1] : tracks[CurrentTrackNo - 1];
     }
 
     public AudioTrack GetNextTrack()
     {
-        return _currentTrack + 1 >= tracks.Count ? tracks[0] : tracks[_currentTrack + 1];
+        return CurrentTrackNo + 1 >= tracks.Count ? tracks[0] : tracks[CurrentTrackNo + 1];
+    }
+
+    public AudioTrack GetTrackByNo(int trackNo)
+    {
+        return tracks[trackNo];
     }
 
     public string GetCurrentTrackName()
     {
-        return tracks[_currentTrack].artistName + " - " + tracks[_currentTrack].trackName;
+        return tracks[CurrentTrackNo].ArtistName + " - " + tracks[CurrentTrackNo].TrackName;
     }
 
     public short GetCurrentTrackNumber()
     {
-        return _currentTrack;
+        return CurrentTrackNo;
     }
 
     public UnityEngine.Audio.AudioMixerGroup GetMixer()
