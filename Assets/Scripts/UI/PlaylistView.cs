@@ -48,8 +48,9 @@ public class PlaylistView : MonoBehaviour
     private void SwitchActiveTrack(AudioTrack newTrack)
     {
         Debug.Log("SwitchActiveTrack");
-        if(_selectedTrack != null || !_selectedTrack.Equals(newTrack))
+        if(_selectedTrack != null && !_selectedTrack.Equals(newTrack))
         {
+            Debug.Log(_selectedTrack.Equals(newTrack));
             //_tvList[_playlist.tracks.IndexOf(_selectedTrack)].IsActiveTrack = false;
             _selectedTrack.TrackView.IsActiveTrack = false;
         }

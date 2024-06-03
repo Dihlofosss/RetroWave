@@ -85,13 +85,10 @@ public class Audio : MonoBehaviour
 
     public void SelectTrack(AudioTrack newTrack)
     {
+        if (newTrack.Equals(playList.GetCurrentTrack()))
+            return;
         playList.CurrentTrackNo = (short)playList.tracks.IndexOf(newTrack);
         StartCoroutine(PlaySelectedTrack(newTrack));
-    }
-
-    public void PlayTrack(AudioTrack newTrack)
-    {
-
     }
 
     public void PlayPause()
