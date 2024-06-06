@@ -26,14 +26,14 @@ public class Audio : MonoBehaviour
     {
         PlayerEvents.PlayPauseTrack += PlayPause;
         PlayerEvents.SwitchTrack += SelectNextPrevTrack;
-        PlayerEvents.SelectTrack += SelectTrack;
+        PlayerEvents.SelectTrack += SelectAndPlayTrack;
     }
 
     private void OnDisable()
     {
         PlayerEvents.PlayPauseTrack -= PlayPause;
         PlayerEvents.SwitchTrack -= SelectNextPrevTrack;
-        PlayerEvents.SelectTrack -= SelectTrack;
+        PlayerEvents.SelectTrack -= SelectAndPlayTrack;
     }
 
     IEnumerator Init()
@@ -43,6 +43,7 @@ public class Audio : MonoBehaviour
         playlistManager.PreparePlaylistForPlayback(_relatedTrack);
         yield return new WaitWhile(() => playList.GetCurrentTrack() == null);
         playlistManager.DownloadTrack(playList.GetCurrentTrack());
+        PlayerEvents.OnTrackUpdate(playList.GetCurrentTrack());
         yield return new WaitWhile(() => !playList.GetCurrentTrack().IsReadyForPlay);
         //just in case
         DownloadTracks();
@@ -53,8 +54,6 @@ public class Audio : MonoBehaviour
         _currentTrackLength = playList.GetCurrentTrack().TrackDurationMS * 0.001f;
         _playtime = 0;
         _pauseFade = sceneStatus.GetPauseFade();
-        sceneStatus.SetCurrentTrackID(playList.GetCurrentTrackNumber());
-        sceneStatus.SetCurrentTrackName(playList.GetCurrentTrackName());
     }
 
     private void DownloadTracks()
@@ -83,7 +82,7 @@ public class Audio : MonoBehaviour
         PlayerEvents.OnSelectTrack(newTrack);
     }
 
-    public void SelectTrack(AudioTrack newTrack)
+    public void SelectAndPlayTrack(AudioTrack newTrack)
     {
         if (newTrack.Equals(playList.GetCurrentTrack()))
             return;
@@ -142,15 +141,13 @@ public class Audio : MonoBehaviour
         {
             StartCoroutine(Pause());
             yield return new WaitWhile(() => audioSource.isPlaying);
+            audioSource.Stop();
         }
-        audioSource.Stop();
         yield return new WaitUntil(() => newTrack.IsReadyForPlay);
+        PlayerEvents.OnTrackUpdate(newTrack);
         audioSource.clip = newTrack.AudioClip;
         _currentTrackLength = newTrack.TrackDurationMS * 0.001f;
         _playtime = 0;
-        sceneStatus.SetCurrentTrackID(playList.GetCurrentTrackNumber());
-        sceneStatus.SetCurrentTrackName(playList.GetCurrentTrackName());
-        PlayerEvents.OnTrackNameUpdate();
         StartCoroutine(Play());
     }
 }

@@ -87,7 +87,7 @@ public class PlaylistManager : MonoBehaviour
         yield return StartCoroutine(GetWebTexture((string)trackData["artwork_url"], value => artwork = value));
         long trackID = trackData["id"];
         long duration = trackData["duration"];
-        long playbackCount = trackData["playback_count"];
+        long playbackCount = trackData["playback_count"] ?? 0;
         string title = trackData["title"];
         // transcodings:
         // 0 - HLS - MP3

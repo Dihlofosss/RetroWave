@@ -5,18 +5,17 @@ using UnityEngine;
 public class SceneStatus : ScriptableObject
 {
     [SerializeField]
-    private float sceneSpeed;
+    private float _sceneSpeed;
     [SerializeField]
-    private float pauseFade;
+    private float _pauseFade;
     [SerializeField]
-    private bool isPaused, isSpectrumDivided;
+    private bool _isPaused, _isSpectrumDivided;
+    [SerializeField]
+    public bool IsUIShown { get; set; }
 
-    [SerializeField]
-    private short _currentTrackID;
+    public AudioTrack CurrentTrack { get; private set; }
     [SerializeField]
     private float _currentTrackPlayback;
-    [SerializeField]
-    private string _currentTrackName;
     [SerializeField]
     private float _trackDisplayTime;
     [SerializeField]
@@ -26,27 +25,20 @@ public class SceneStatus : ScriptableObject
     {
         _sunRise = 0f;
         _currentTrackPlayback = 0f;
-        isSpectrumDivided = false;
+        _isSpectrumDivided = false;
+        IsUIShown = false;
     }
 
     private void OnEnable()
     {
         PlayerEvents.PlayPauseTrack += PauseToggle;
+        PlayerEvents.TrackUpdate += UpdateCurrentTrack;
     }
 
     private void OnDisable()
     {
         PlayerEvents.PlayPauseTrack -= PauseToggle;
-    }
-
-    public short GetCurrentTrackID()
-    {
-        return _currentTrackID;
-    }
-
-    public void SetCurrentTrackID(short value)
-    {
-        _currentTrackID = value;
+        PlayerEvents.TrackUpdate -= UpdateCurrentTrack;
     }
 
     public float GetTrackDisplayTime()
@@ -54,49 +46,39 @@ public class SceneStatus : ScriptableObject
         return _trackDisplayTime;
     }
 
-    public string GetCurrentTrackName()
-    {
-        return _currentTrackName;
-    }
-
-    public void SetCurrentTrackName(string value)
-    {
-        _currentTrackName = value;
-    }
-
     public void DivideTrigger()
     {
-        isSpectrumDivided = !isSpectrumDivided;
+        _isSpectrumDivided = !_isSpectrumDivided;
     }
 
     public bool IsSpectrumDivided()
     {
-        return isSpectrumDivided;
+        return _isSpectrumDivided;
     }
 
     public float GetSpeed()
     {
-        return sceneSpeed;
+        return _sceneSpeed;
     }
 
     public float GetPauseFade()
     {
-        return pauseFade;
+        return _pauseFade;
     }
 
     public void SetPause(bool value)
     {
-        isPaused = value;
+        _isPaused = value;
     }
 
-    public void PauseToggle()
+    private void PauseToggle()
     {
-        isPaused = !isPaused;
+        _isPaused = !_isPaused;
     }
 
     public bool IsPaused()
     {
-        return isPaused;
+        return _isPaused;
     }
 
     public void SetSunrise(float value)
@@ -117,5 +99,10 @@ public class SceneStatus : ScriptableObject
     public float GetPlaybackTime()
     {
         return _currentTrackPlayback;
+    }
+
+    private void UpdateCurrentTrack(AudioTrack newTrack)
+    {
+        CurrentTrack = newTrack;
     }
 }

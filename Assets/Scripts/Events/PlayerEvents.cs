@@ -7,7 +7,7 @@ public class PlayerEvents : MonoBehaviour
 {  
     public static event Action PlaylistReady;
     public static event Action DivideSpectrum;
-    public static event Action TrackNameUpdate;
+    public static event Action<AudioTrack> TrackUpdate;
     public static event Action PlayPauseTrack;
     public static event Action PauseTrack;
 
@@ -34,9 +34,9 @@ public class PlayerEvents : MonoBehaviour
         SwitchTrack?.Invoke(isNextTrack);
     }
 
-    public static void OnTrackNameUpdate()
+    public static void OnTrackUpdate(AudioTrack newTrack)
     {
-        TrackNameUpdate?.Invoke();
+        TrackUpdate?.Invoke(newTrack);
     }
 
     public static void OnDivideSpectrum()

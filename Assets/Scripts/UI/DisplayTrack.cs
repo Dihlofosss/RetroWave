@@ -9,15 +9,10 @@ public class DisplayTrack : MonoBehaviour
 
     private CanvasGroup _canvasGroup;
     private TMPro.TextMeshProUGUI _textMesh;
-    private bool _isPaused = true;
-
-    private short _currentTrack;
     [SerializeField]
     private float _displayTime, _fadeTime;
-    private float _countdown;
+    private float _delay;
     private bool _isHidden;
-
-    private IEnumerator _switchTrack;
 
     private void Awake()
     {
@@ -27,23 +22,20 @@ public class DisplayTrack : MonoBehaviour
     }
     void Start()
     {
-        _switchTrack = SwitchTrackname();
         _displayTime = sceneStatus.GetTrackDisplayTime();
-        _textMesh.text = sceneStatus.GetCurrentTrackName();
-        _currentTrack = sceneStatus.GetCurrentTrackID();
+        //_textMesh.text = sceneStatus.CurrentTrack.TrackName + " - " + sceneStatus.CurrentTrack.ArtistName;
         _isHidden = true;
-        _isPaused = sceneStatus.IsPaused();
     }
 
     private void OnEnable()
     {
-        PlayerEvents.TrackNameUpdate += UpdateTrackName;
+        PlayerEvents.TrackUpdate += UpdateTrackName;
         PlayerEvents.PlayPauseTrack += ShowTrackName;
     }
 
     private void OnDisable()
     {
-        PlayerEvents.TrackNameUpdate -= UpdateTrackName;
+        PlayerEvents.TrackUpdate -= UpdateTrackName;
         PlayerEvents.PlayPauseTrack -= ShowTrackName;
     }
 
@@ -53,17 +45,20 @@ public class DisplayTrack : MonoBehaviour
         if(!sceneStatus.IsPaused())
         {
             if(!_isHidden) StopAllCoroutines();
-            Debug.Log("Playback is paused: " + sceneStatus.IsPaused());
-            //
             StartCoroutine(SwitchTrackname());
         }
     }
 
-    private void UpdateTrackName()
+    private void UpdateTrackName(AudioTrack newTrack)
     {
-        _textMesh.text = sceneStatus.GetCurrentTrackName();
-        //StopCoroutine(_switchTrack);
-        //_switchTrack.Reset();
+        _textMesh.text = newTrack.TrackName + " - " + newTrack.ArtistName;
+        if (sceneStatus.IsPaused() || sceneStatus.IsUIShown)
+            return;
+        if(!_isHidden)
+        {
+            _delay = _fadeTime;
+            return;
+        }
         StopAllCoroutines();
         StartCoroutine(SwitchTrackname());
     }
@@ -72,15 +67,12 @@ public class DisplayTrack : MonoBehaviour
     {
         if(_isHidden)
         {
-            _countdown = _displayTime;
-            yield return StartCoroutine(TrackNameFade(_isHidden, value => _isHidden = value));
+            yield return StartCoroutine(FadeInOut(_isHidden, value => _isHidden = value));
         }
-        yield return new WaitForSeconds(_displayTime);
-
-        yield return StartCoroutine(TrackNameFade(_isHidden, value => _isHidden = value));
+        yield return DisplayTimer(_displayTime);
     }
 
-    IEnumerator TrackNameFade(bool isHidden, System.Action<bool> callback)
+    IEnumerator FadeInOut(bool isHidden, System.Action<bool> callback)
     {
         float fade = _fadeTime;
         while(fade > 0)
@@ -90,5 +82,16 @@ public class DisplayTrack : MonoBehaviour
             yield return null;
         }
         callback(!isHidden);
+    }
+
+    IEnumerator DisplayTimer(float time)
+    {
+        _delay = time;
+        while (_delay > 0)
+        {
+            _delay -= Time.deltaTime;
+            yield return null;
+        }
+        yield return StartCoroutine(FadeInOut(_isHidden, value => _isHidden = value));
     }
 }

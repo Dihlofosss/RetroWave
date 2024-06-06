@@ -12,12 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b42b6dd88540d724d99b8de67a8d5526, type: 3}
   m_Name: SceneStatus
   m_EditorClassIdentifier: 
-  sceneSpeed: 3
-  pauseFade: 0.3
-  isPaused: 0
-  isSpectrumDivided: 0
-  _currentTrackID: 3
-  _currentTrackPlayback: 0.015381811
-  _currentTrackName: Lazerdiscs Records - Stilz - 02 - Test Pilot (Feat. The Encounter)
+  _sceneSpeed: 3
+  _pauseFade: 0.3
+  _isPaused: 1
+  _isSpectrumDivided: 0
+  _currentTrackPlayback: 0
   _trackDisplayTime: 3
-  _sunRise: 0.0041394895
+  _sunRise: 0
