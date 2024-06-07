@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DisplayTrack : MonoBehaviour
@@ -23,38 +22,27 @@ public class DisplayTrack : MonoBehaviour
     void Start()
     {
         _displayTime = sceneStatus.GetTrackDisplayTime();
-        //_textMesh.text = sceneStatus.CurrentTrack.TrackName + " - " + sceneStatus.CurrentTrack.ArtistName;
         _isHidden = true;
     }
 
     private void OnEnable()
     {
-        PlayerEvents.TrackUpdate += UpdateTrackName;
         PlayerEvents.PlayPauseTrack += ShowTrackName;
     }
 
     private void OnDisable()
     {
-        PlayerEvents.TrackUpdate -= UpdateTrackName;
         PlayerEvents.PlayPauseTrack -= ShowTrackName;
     }
 
     private void ShowTrackName()
     {
-        Debug.Log("Display track toggle");
-        if(!sceneStatus.IsPaused())
-        {
-            if(!_isHidden) StopAllCoroutines();
-            StartCoroutine(SwitchTrackname());
-        }
-    }
-
-    private void UpdateTrackName(AudioTrack newTrack)
-    {
-        _textMesh.text = newTrack.TrackName + " - " + newTrack.ArtistName;
-        if (sceneStatus.IsPaused() || sceneStatus.IsUIShown)
+        if (sceneStatus.IsUIShown || sceneStatus.IsPaused())
             return;
-        if(!_isHidden)
+
+        _textMesh.text = sceneStatus.CurrentTrack.TrackName + " - " + sceneStatus.CurrentTrack.ArtistName;
+
+        if (!_isHidden)
         {
             _delay = _fadeTime;
             return;
@@ -65,7 +53,7 @@ public class DisplayTrack : MonoBehaviour
 
     IEnumerator SwitchTrackname()
     {
-        if(_isHidden)
+        if (_isHidden)
         {
             yield return StartCoroutine(FadeInOut(_isHidden, value => _isHidden = value));
         }
@@ -75,7 +63,7 @@ public class DisplayTrack : MonoBehaviour
     IEnumerator FadeInOut(bool isHidden, System.Action<bool> callback)
     {
         float fade = _fadeTime;
-        while(fade > 0)
+        while (fade > 0)
         {
             fade -= Time.deltaTime / _fadeTime;
             _canvasGroup.alpha = isHidden ? 1 - fade : fade;

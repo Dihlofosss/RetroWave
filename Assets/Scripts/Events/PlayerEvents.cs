@@ -7,10 +7,11 @@ public class PlayerEvents : MonoBehaviour
 {  
     public static event Action PlaylistReady;
     public static event Action DivideSpectrum;
-    public static event Action<AudioTrack> TrackUpdate;
     public static event Action PlayPauseTrack;
     public static event Action PauseTrack;
+    public static event Action<float> AudioSeek;
 
+    public static event Action<AudioTrack> TrackUpdate;
     public static event Action<AudioTrack> SelectTrack;
     public static event Action<bool> SwitchTrack;
 
@@ -27,6 +28,11 @@ public class PlayerEvents : MonoBehaviour
     public static void OnPlayPauseTrack()
     {
         PlayPauseTrack?.Invoke();
+    }
+
+    public static void OnAudioSeek(float seek)
+    {
+        AudioSeek?.Invoke(seek);
     }
 
     public static void OnSwitchTrack(bool isNextTrack = true)

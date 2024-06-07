@@ -25,6 +25,7 @@ public class Audio : MonoBehaviour
     private void OnEnable()
     {
         PlayerEvents.PlayPauseTrack += PlayPause;
+        PlayerEvents.AudioSeek += SeekAudio;
         PlayerEvents.SwitchTrack += SelectNextPrevTrack;
         PlayerEvents.SelectTrack += SelectAndPlayTrack;
     }
@@ -32,6 +33,7 @@ public class Audio : MonoBehaviour
     private void OnDisable()
     {
         PlayerEvents.PlayPauseTrack -= PlayPause;
+        PlayerEvents.AudioSeek -= SeekAudio;
         PlayerEvents.SwitchTrack -= SelectNextPrevTrack;
         PlayerEvents.SelectTrack -= SelectAndPlayTrack;
     }
@@ -61,7 +63,7 @@ public class Audio : MonoBehaviour
         playlistManager.DownloadTrack(playList.GetCurrentTrack());
         playlistManager.DownloadTrack(playList.GetNextTrack());
     }
-    
+
     private void Update()
     {
         if (audioSource.isPlaying)
@@ -95,6 +97,13 @@ public class Audio : MonoBehaviour
         StopCoroutine(Pause());
         StopCoroutine(Play());
         StartCoroutine(audioSource.isPlaying ? Pause() : Play());
+    }
+
+    private void SeekAudio(float seek)
+    {
+        _playtime = seek * audioSource.clip.length;
+        audioSource.time = _playtime;
+        sceneStatus.UpdatePlaybackTime(seek);
     }
 
     public OnlinePlayList GetPlaylist()
