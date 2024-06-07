@@ -609,7 +609,7 @@ MonoBehaviour:
   palette: {fileID: 11400000, guid: 3c5cc53c39241c84ca9fcf48b5339a8c, type: 2}
   sceneStatus: {fileID: 11400000, guid: 9c06aae9973875944961130cbd0bf83e, type: 2}
   material: {fileID: 2100000, guid: b9c313ebb914d61409a42f309ea0abbd, type: 2}
-  fade: 0.94
+  fade: 0.88
 --- !u!1 &33153704613780302
 GameObject:
   m_ObjectHideFlags: 0
@@ -2165,7 +2165,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 160}
+  m_AnchoredPosition: {x: 0, y: 110}
   m_SizeDelta: {x: 0, y: 80}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!225 &3844892298575629679

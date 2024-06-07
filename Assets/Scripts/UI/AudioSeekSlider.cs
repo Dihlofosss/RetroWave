@@ -11,14 +11,14 @@ public class AudioSeekSlider : UnityEngine.UI.Slider
     private SceneStatus _sceneStatus;
     private bool _isInterracted = false;
 
-    private void OnEnable()
+    private new void OnEnable()
     {
         PlayerEvents.PlaylistReady += Init;
         PlayerEvents.SelectTrack += OnTrackChange;
         base.OnEnable();
     }
 
-    private void OnDisable()
+    private new void OnDisable()
     {
         PlayerEvents.PlaylistReady -= Init;
         PlayerEvents.SelectTrack -= OnTrackChange;
@@ -43,14 +43,14 @@ public class AudioSeekSlider : UnityEngine.UI.Slider
         return string.Format("{0:D2}:{1:D2}", t.Minutes, t.Seconds);
     }
 
-    private void Update()
+    private new void Update()
     {
         if (!_isInterracted)
             base.value = _sceneStatus.GetPlaybackTime();
 
         if (_sceneStatus.CurrentTrack == null)
             return;
-        _currentTime.text = LongToTime((long)(_sceneStatus.CurrentTrack.TrackDurationMS * _sceneStatus.GetPlaybackTime()));
+        _currentTime.text = LongToTime((long)(_sceneStatus.CurrentTrack.TrackDurationMS * base.value));
         base.Update();
     }
 

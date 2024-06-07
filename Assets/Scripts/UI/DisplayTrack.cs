@@ -11,8 +11,7 @@ public class DisplayTrack : MonoBehaviour
     [SerializeField]
     private float _displayTime, _fadeTime;
     private float _delay;
-    private bool _isHidden;
-
+    public bool isHidden { get; private set; }
     private void Awake()
     {
         _canvasGroup = GetComponent<CanvasGroup>();
@@ -22,27 +21,35 @@ public class DisplayTrack : MonoBehaviour
     void Start()
     {
         _displayTime = sceneStatus.GetTrackDisplayTime();
-        _isHidden = true;
+        isHidden = true;
     }
 
     private void OnEnable()
     {
         PlayerEvents.PlayPauseTrack += ShowTrackName;
+        PlayerEvents.SelectTrack += ShowTrackName;
     }
 
     private void OnDisable()
     {
         PlayerEvents.PlayPauseTrack -= ShowTrackName;
+        PlayerEvents.SelectTrack -= ShowTrackName;
     }
 
     private void ShowTrackName()
     {
+        ShowTrackName(sceneStatus.CurrentTrack);
+    }
+
+
+    private void ShowTrackName(AudioTrack track)
+    {
         if (sceneStatus.IsUIShown || sceneStatus.IsPaused())
             return;
 
-        _textMesh.text = sceneStatus.CurrentTrack.TrackName + " - " + sceneStatus.CurrentTrack.ArtistName;
+        _textMesh.text = track.TrackName + " - " + track.ArtistName;
 
-        if (!_isHidden)
+        if (!isHidden)
         {
             _delay = _fadeTime;
             return;
@@ -53,9 +60,9 @@ public class DisplayTrack : MonoBehaviour
 
     IEnumerator SwitchTrackname()
     {
-        if (_isHidden)
+        if (isHidden)
         {
-            yield return StartCoroutine(FadeInOut(_isHidden, value => _isHidden = value));
+            yield return StartCoroutine(FadeInOut(isHidden, value => isHidden = value));
         }
         yield return DisplayTimer(_displayTime);
     }
@@ -80,6 +87,6 @@ public class DisplayTrack : MonoBehaviour
             _delay -= Time.deltaTime;
             yield return null;
         }
-        yield return StartCoroutine(FadeInOut(_isHidden, value => _isHidden = value));
+        yield return StartCoroutine(FadeInOut(isHidden, value => isHidden = value));
     }
 }
