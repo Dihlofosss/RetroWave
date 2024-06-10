@@ -49,6 +49,12 @@ bash git clone https://github.com/Dihlofosss/RetroWave.git
  - Select the cloned repository folder.
  - Open the project.
 
+### APK to install
+ - You can always grab a compiled APK file and install on you device. File located in the "Builds" folder.
+```
+https://github.com/Dihlofosss/RetroWave/tree/master/Builds
+```
+
 ## Usage
 
 ### Build and Run:
