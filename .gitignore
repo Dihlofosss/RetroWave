@@ -1,5 +1,4 @@
 ﻿Library
-Builds
 Logs
 .vs
 obj
@@ -10,3 +9,4 @@ UserSettings
 *.sln
 MemoryCaptures
 .utmp
+Builds/Daily
