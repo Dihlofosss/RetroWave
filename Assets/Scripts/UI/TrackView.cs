@@ -59,6 +59,9 @@ public class TrackView : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (!UI_Fader.IsUIActive)
+            return;
+
         if (!eventData.dragging)
             PlayerEvents.OnSelectTrack(Track);
     }

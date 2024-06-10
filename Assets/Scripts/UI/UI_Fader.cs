@@ -6,7 +6,7 @@ public class UI_Fader : MonoBehaviour, IPointerDownHandler, IPointerMoveHandler
 {
     [SerializeField]
     private float _delayBeforeHide, _fadeSpeed;
-    private bool _isActive = false;
+    public static bool IsUIActive { get; private set; } = false;
     private float _displayTime;
     private CanvasGroup _canvasGroup;
     [SerializeField]
@@ -21,14 +21,35 @@ public class UI_Fader : MonoBehaviour, IPointerDownHandler, IPointerMoveHandler
         _canvasGroup.alpha = 0;
     }
 
-    private void UIFadeInOut(bool showUI)
+    private void OnEnable()
     {
-        if(_isActive)
+        PlayerEvents.UITrigger += UIToggle;
+    }
+
+    private void OnDisable()
+    {
+        PlayerEvents.UITrigger -= UIToggle;
+    }
+
+    public void UIToggle(bool showUI)
+    {
+        if(showUI)
         {
-            _displayTime = _delayBeforeHide;
-            return;
+            if(IsUIActive)
+            {
+                _displayTime = _delayBeforeHide;
+                return;
+            }
+            else
+            {
+                StartCoroutine(HideUnhide(true));
+            }
         }
-        StartCoroutine(HideUnhide(showUI));
+        else
+        {
+            StopAllCoroutines();
+            StartCoroutine(HideUnhide(false));
+        }
     }
 
     
@@ -41,7 +62,7 @@ public class UI_Fader : MonoBehaviour, IPointerDownHandler, IPointerMoveHandler
             _displayTime -= Time.deltaTime;
             yield return null;
         }
-        StartCoroutine(HideUnhide(false));
+        PlayerEvents.OnUITrigger(false);
     }
 
     private IEnumerator HideUnhide(bool isUnhide)
@@ -57,8 +78,8 @@ public class UI_Fader : MonoBehaviour, IPointerDownHandler, IPointerMoveHandler
             yield return null;
         }
         _canvasGroup.alpha = isUnhide ? 1f : 0f;
-        _isActive = !_isActive;
-        _sceneStatus.IsUIShown = _isActive;
+        IsUIActive = !IsUIActive;
+        _sceneStatus.IsUIShown = IsUIActive;
 
         if (isUnhide)
         {
@@ -69,8 +90,7 @@ public class UI_Fader : MonoBehaviour, IPointerDownHandler, IPointerMoveHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        UIFadeInOut(true);
-        Debug.Log(_isActive);
+        PlayerEvents.OnUITrigger(true);
     }
 
     public void OnPointerMove(PointerEventData eventData)

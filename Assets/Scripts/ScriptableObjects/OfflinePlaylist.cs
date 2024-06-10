@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
+//using System.IO;
 
 [CreateAssetMenu(fileName = "OfflinePlaylist", menuName = "ScriptableObjects/AudioPlaylist/OfflinePlaylist", order = 1)]
 public class OfflinePlaylist : ScriptableObject
@@ -11,7 +11,7 @@ public class OfflinePlaylist : ScriptableObject
 
     [SerializeField]
     private short _currentTrack;
-
+    /*
     private string _jsonSaveFile;
 
     private void Awake()
@@ -27,13 +27,13 @@ public class OfflinePlaylist : ScriptableObject
         }
 
     }
-
+    */
     public AudioClip SwitchToNextAudio()
     {
         _currentTrack++;
         if (_currentTrack >= tracks.Count)
             _currentTrack = 0;
-        File.WriteAllText(_jsonSaveFile, JsonUtility.ToJson(this));
+        //File.WriteAllText(_jsonSaveFile, JsonUtility.ToJson(this));
         return tracks[_currentTrack];
     }
 
@@ -42,7 +42,7 @@ public class OfflinePlaylist : ScriptableObject
         _currentTrack--;
         if (_currentTrack < 0)
             _currentTrack = (short)(tracks.Count - 1);
-        File.WriteAllText(_jsonSaveFile, JsonUtility.ToJson(this));
+        //File.WriteAllText(_jsonSaveFile, JsonUtility.ToJson(this));
         return tracks[_currentTrack];
     }
 

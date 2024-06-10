@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerEvents : MonoBehaviour
@@ -14,6 +12,13 @@ public class PlayerEvents : MonoBehaviour
     public static event Action<AudioTrack> TrackUpdate;
     public static event Action<AudioTrack> SelectTrack;
     public static event Action<bool> SwitchTrack;
+
+    public static event Action<bool> UITrigger;
+
+    public static void OnUITrigger(bool showUI)
+    {
+        UITrigger?.Invoke(showUI);
+    }
 
     public static void OnSelectTrack(AudioTrack newTrack)
     {

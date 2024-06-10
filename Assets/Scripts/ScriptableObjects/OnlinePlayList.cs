@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
+//using System.IO;
 
 [CreateAssetMenu(fileName = "OnlinePlaylist", menuName = "ScriptableObjects/AudioPlaylist/OnlinePlaylist", order = 1)]
 public class OnlinePlayList : ScriptableObject
@@ -11,7 +11,7 @@ public class OnlinePlayList : ScriptableObject
 
     [SerializeField]
     public short CurrentTrackNo { get; set; }
-
+    /*
     private string _jsonSaveFile;
 
     private void Awake()
@@ -27,7 +27,7 @@ public class OnlinePlayList : ScriptableObject
         }
 
     }
-
+    */
     public AudioTrack GetCurrentTrack()
     {
         return tracks.Count == 0 || CurrentTrackNo >= tracks.Count ? null : tracks[CurrentTrackNo];

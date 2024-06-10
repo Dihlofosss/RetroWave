@@ -11,7 +11,7 @@ public class DisplayTrack : MonoBehaviour
     [SerializeField]
     private float _displayTime, _fadeTime;
     private float _delay;
-    public bool isHidden { get; private set; }
+    public bool isHidden { get; private set; } = true;
     private void Awake()
     {
         _canvasGroup = GetComponent<CanvasGroup>();
@@ -21,7 +21,6 @@ public class DisplayTrack : MonoBehaviour
     void Start()
     {
         _displayTime = sceneStatus.GetTrackDisplayTime();
-        isHidden = true;
     }
 
     private void OnEnable()
