@@ -56,7 +56,6 @@ public class ForceSettings : MonoBehaviour
             ((UnityEngine.Rendering.MinFloatParameter)dof.parameters[1]).value = _nearBlur;
             ((UnityEngine.Rendering.MinFloatParameter)dof.parameters[2]).value = _farBlur;
             ((UnityEngine.Rendering.ClampedFloatParameter)dof.parameters[3]).value = _blurSize;
-            ((UnityEngine.Rendering.ClampedFloatParameter)dof.parameters[3]).max = 4;
         }
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         //QualitySettings.vSyncCount = 0;
@@ -70,7 +69,7 @@ public class ForceSettings : MonoBehaviour
     {
         _avarageFrameTime += Time.deltaTime;
         _framesCounter += 1;
-        if(_framesCounter >= 10f)
+        if (_framesCounter >= 10f)
         {
             float renderScale = URP_Asset.renderScale;
             //_avarageFrameTime /= 5f;
@@ -95,14 +94,14 @@ public class ForceSettings : MonoBehaviour
     private IEnumerator DoFTransition(bool state)
     {
         float transitionTime = 0;
-        while(transitionTime < 1)
+        while (transitionTime < 1)
         {
             transitionTime += Time.deltaTime * _transitionScale;
             if (transitionTime > 1) transitionTime = 1;
 
             ((UnityEngine.Rendering.MinFloatParameter)dof.parameters[1]).value = FloatRemap(_nearBlur, 0.1f, state ? transitionTime : 1 - transitionTime);
             ((UnityEngine.Rendering.MinFloatParameter)dof.parameters[2]).value = FloatRemap(_farBlur, 0.2f, state ? transitionTime : 1 - transitionTime);
-            ((UnityEngine.Rendering.ClampedFloatParameter)dof.parameters[3]).value = FloatRemap(_blurSize, 4f, state ? transitionTime : 1 - transitionTime);
+            ((UnityEngine.Rendering.ClampedFloatParameter)dof.parameters[3]).value = FloatRemap(_blurSize, 1.5f, state ? transitionTime : 1 - transitionTime);
             yield return null;
         }
     }
@@ -110,10 +109,12 @@ public class ForceSettings : MonoBehaviour
     private float FloatRemap(float min, float max, float value)
     {
         return value * (max - min) + min;
-    }    
+    }
 
     private void TriggerMaxBlur(bool maxBlur)
     {
+        if (maxBlur == UI_Fader.IsUIActive)
+            return;
         StopAllCoroutines();
         StartCoroutine(DoFTransition(maxBlur));
     }
