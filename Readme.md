@@ -23,8 +23,8 @@ Made for coding practice without any monetization purposes.
 - Retro-wave styled UI with neon colors and glowing effects.
 - Play, pause, and seek audio tracks.
 - Navigate through a playlist of songs.
-- Volume control with a rotary knob.
 - Visual waveform display synchronized with the music.
+- Procedural grid synchronized with the music.
 
 ## Screenshots
 
@@ -39,7 +39,7 @@ Made for coding practice without any monetization purposes.
 
 ### Clone the Repository
 ```
-bash git clone https://github.com/yourusername/retro-wave-audio-player.git
+bash git clone https://github.com/Dihlofosss/RetroWave.git
 ```
 
 ### Open in Unity
@@ -71,6 +71,7 @@ bash git clone https://github.com/yourusername/retro-wave-audio-player.git
 - [ ] Feature: save track to favorites.
 - [ ] Feature: save playlist, use favorite tracks for custom playlist.
 - [ ] Feature: use desired track for a new related tracks playlist generation.
+- [ ] Feature: Volume control with a rotary knob.
 - [ ] Assets: add enviroment assets (palms, buildings, cars).
 
 ## Contributing
