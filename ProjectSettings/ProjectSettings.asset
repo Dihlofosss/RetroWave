@@ -263,7 +263,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 1
   AndroidTargetDevices: 1
   AndroidSplashScreenScale: 2
-  androidSplashScreen: {fileID: 2800000, guid: 5462fbc6838175c4caf123783a20ef0f, type: 3}
+  androidSplashScreen: {fileID: 2800000, guid: 84b61b6efbf9ec2478d7f682f7e29b82, type: 3}
   AndroidKeystoreName: 
   AndroidKeyaliasName: 
   AndroidEnableArmv9SecurityFeatures: 0
@@ -353,7 +353,7 @@ PlayerSettings:
       m_SubKind: 
     - m_Textures:
       - {fileID: 0}
-      - {fileID: 2800000, guid: df17d0055d16b704f84b67415417604f, type: 3}
+      - {fileID: 2800000, guid: 84b61b6efbf9ec2478d7f682f7e29b82, type: 3}
       m_Width: 432
       m_Height: 432
       m_Kind: 2
@@ -399,7 +399,11 @@ PlayerSettings:
   - m_BuildTarget: WebGL
     m_StaticBatching: 0
     m_DynamicBatching: 0
-  m_BuildTargetShaderSettings: []
+  m_BuildTargetShaderSettings:
+  - m_BuildTarget: Android
+    m_ChunkSizeInMB: 16
+    m_MaxChunks: 0
+    m_OverrideDefaultSettings: 0
   m_BuildTargetGraphicsJobs:
   - m_BuildTarget: MacStandaloneSupport
     m_GraphicsJobs: 0
@@ -704,7 +708,7 @@ PlayerSettings:
   ps4IncludedModules: []
   ps4attribVROutputEnabled: 0
   monoEnv: 
-  splashScreenBackgroundSourceLandscape: {fileID: 21300000, guid: 5462fbc6838175c4caf123783a20ef0f, type: 3}
+  splashScreenBackgroundSourceLandscape: {fileID: 21300000, guid: 84b61b6efbf9ec2478d7f682f7e29b82, type: 3}
   splashScreenBackgroundSourcePortrait: {fileID: 0}
   blurSplashScreenBackground: 1
   spritePackerPolicy: 

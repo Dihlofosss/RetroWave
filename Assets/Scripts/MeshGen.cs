@@ -134,7 +134,7 @@ public class MeshGen : MonoBehaviour
         AudioListener.GetSpectrumData(_sound, 0, FFTWindow.Rectangular);
         float height;
         
-        for (int i = -_width; i < _width; i++)
+        for (int i = -_width; i <= _width; i++)
         {
             height = Mathf.Abs(i) - _width / 4;
             height = 1 - Mathf.Pow(1 - _sound[Mathf.Abs(Mathf.Abs((int)height) - (_width / 2))], 4);

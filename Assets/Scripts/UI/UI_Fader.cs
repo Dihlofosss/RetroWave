@@ -1,91 +1,100 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
-public class UI_Fader : MonoBehaviour
+public class UI_Fader : MonoBehaviour, IPointerDownHandler, IPointerMoveHandler
 {
     [SerializeField]
-    private OnlinePlayList playList;
+    private float _delayBeforeHide, _fadeSpeed;
+    public static bool IsUIActive { get; private set; } = false;
+    private float _displayTime;
+    private CanvasGroup _canvasGroup;
     [SerializeField]
-    private float hideDelay, transitionSpeed;
-    private bool isActive = false;
-    private float timeBeforeHide;
-    private CanvasGroup canvasGroup;
-    private UnityEngine.UI.Image[] images;
-    [SerializeField]
-    //private UnityEngine.Audio.AudioMixerGroup _mixerGroup;
     private UnityEngine.Audio.AudioMixerSnapshot[] _snapshots;
-    private IEnumerator timer;
-
-    void Start()
+    [SerializeField]
+    private SceneStatus _sceneStatus;
+    
+    private void Awake()
     {
-        //_mixerGroup = playList.GetMixer();
-        canvasGroup = GetComponent<CanvasGroup>();
-        timeBeforeHide = hideDelay;
-        images = GetComponentsInChildren<UnityEngine.UI.Image>();
-        ToggleRaycastTarget(false);
-        //Hide();
+        _canvasGroup = GetComponent<CanvasGroup>();
+        _displayTime = _delayBeforeHide;
+        _canvasGroup.alpha = 0;
     }
 
-    private IEnumerator AliveTimer()
+    private void OnEnable()
+    {
+        PlayerEvents.UITrigger += UIToggle;
+    }
+
+    private void OnDisable()
+    {
+        PlayerEvents.UITrigger -= UIToggle;
+    }
+
+    public void UIToggle(bool showUI)
+    {
+        if(showUI)
+        {
+            if(IsUIActive)
+            {
+                _displayTime = _delayBeforeHide;
+                return;
+            }
+            else
+            {
+                StartCoroutine(HideUnhide(true));
+            }
+        }
+        else
+        {
+            StopAllCoroutines();
+            StartCoroutine(HideUnhide(false));
+        }
+    }
+
+    
+
+    private IEnumerator DisplayTimer()
     {
         //timeBeforeHide = hideDelay;
-        while(timeBeforeHide > 0)
+        while(_displayTime > 0)
         {
-            timeBeforeHide -= Time.deltaTime;
+            _displayTime -= Time.deltaTime;
             yield return null;
         }
-        isActive = !isActive;
-        StartCoroutine(HideUnhide(isActive));
+        PlayerEvents.OnUITrigger(false);
     }
 
     private IEnumerator HideUnhide(bool isUnhide)
     {
         if (isUnhide)
-            _snapshots[1].TransitionTo(transitionSpeed);
+            _snapshots[1].TransitionTo(_fadeSpeed);
         else
-            _snapshots[0].TransitionTo(transitionSpeed);
+            _snapshots[0].TransitionTo(_fadeSpeed);
 
-        for(float transition = 0f; transition < 1f; transition += Time.deltaTime / transitionSpeed)
+        for(float transition = 0f; transition < 1f; transition += Time.deltaTime / _fadeSpeed)
         {
-            canvasGroup.alpha = isUnhide ? transition : 1f - transition;
+            _canvasGroup.alpha = isUnhide ? transition : 1f - transition;
             yield return null;
         }
-        canvasGroup.alpha = isUnhide ? 1f : 0f;
+        _canvasGroup.alpha = isUnhide ? 1f : 0f;
+        IsUIActive = !IsUIActive;
+        _sceneStatus.IsUIShown = IsUIActive;
 
-        if(isUnhide)
+        if (isUnhide)
         {
-            timeBeforeHide = hideDelay;
-            timer = AliveTimer();
-            StartCoroutine(timer);
-        }
-
-        ToggleRaycastTarget(isUnhide);
-
-        yield return null;
-    }
-
-    private void ToggleRaycastTarget(bool toggle)
-    {
-        for(short i = 1; i < images.Length; i++)
-        {
-            images[i].raycastTarget = toggle;
+            _displayTime = _delayBeforeHide;
+            StartCoroutine(DisplayTimer());
         }
     }
 
-    public void ToggleActive()
+    public void OnPointerDown(PointerEventData eventData)
     {
-        isActive = !isActive;
-        if(!isActive)
-        {
-            StopCoroutine(timer);
-            Debug.Log("coroutineStop");
-        }
-        StartCoroutine(HideUnhide(isActive));
+        PlayerEvents.OnUITrigger(true);
     }
 
-    public void KeepActive()
+    public void OnPointerMove(PointerEventData eventData)
     {
-        isActive = true;
-        timeBeforeHide = hideDelay;
+        _displayTime = _delayBeforeHide;
     }
 }
