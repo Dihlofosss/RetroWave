@@ -39,7 +39,7 @@ Made for coding practice without any monetization purposes.
 
 ### Clone the Repository
 ```
-bash git clone https://github.com/yourusername/retro-wave-audio-player.git
+bash git clone https://github.com/Dihlofosss/RetroWave.git
 ```
 
 ### Open in Unity
