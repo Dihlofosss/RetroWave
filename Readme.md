@@ -71,7 +71,7 @@ https://github.com/Dihlofosss/RetroWave/tree/master/Builds
  - Seek: Drag the slider to seek through the track.
 
 ## TODO
-- [ ] UI: main/starting screen. (Work In Progress)
+- [x] UI: main/starting screen. (Work In Progress)
 - [ ] UI: loading screen.
 - [ ] UI: settings screen.
 - [ ] Feature: save track to favorites.
