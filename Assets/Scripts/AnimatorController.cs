@@ -15,21 +15,23 @@ public class AnimatorController : MonoBehaviour
         _animator.enabled = false;
         sceneStatus.SetPause(true);
         sceneStatus.SetSunrise(0f);
-        _animator.runtimeAnimatorController = _controller;
     }
 
     private void OnEnable()
     {
         PlayerEvents.DivideSpectrum += DivideTrigger;
+        PlayerEvents.AppStart += OnAppStart;
     }
 
     private void OnDisable()
     {
         PlayerEvents.DivideSpectrum -= DivideTrigger;
+        PlayerEvents.AppStart -= OnAppStart;
     }
 
-    private void Start()
+    private void OnAppStart()
     {
+        _animator.runtimeAnimatorController = _controller;
         _animator.enabled = true;
     }
 

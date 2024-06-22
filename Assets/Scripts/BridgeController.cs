@@ -50,7 +50,7 @@ public class BridgeController : MonoBehaviour
 
     private short _bridgeLength;
     private float _timer, _speed, _pauseScale, _pauseFade;
-    private bool _pauseToggle, _isPaused;
+    private bool _pauseToggle, _isPaused = true;
 
     private Vector3 _carsSpawnPosition_01, _carsSpawnPosition_02;
 
@@ -62,14 +62,31 @@ public class BridgeController : MonoBehaviour
         _bridgeLength = GetComponent<MeshGen>().GetWidth();
         _speed = 8f;
         _pauseToggle = true;
-        _isPaused = false;
         _pauseFade = _sceneStatus.GetPauseFade();
         _pauseScale = 1f;
         _carsSpawnPosition_01 = new(-_bridgeLength, 1f, 2.8f);
         _carsSpawnPosition_02 = new(_bridgeLength, -1f, 2.8f);
     }
 
-    void Start()
+    private void OnEnable()
+    {
+        PlayerEvents.AppStart += OnAppStart;
+    }
+
+    private void OnDisable()
+    {
+        PlayerEvents.AppStart -= OnAppStart;
+    }
+
+    private void OnAppStart()
+    {
+        _isPaused = false;
+        _timer = 2.5f;
+        ActivateNewObject(_bridgesPool);
+        StartCoroutine(BringSpeedToNormal());
+    }
+
+    private void Start()
     {
         for (short i = 0; i < _bridgesPool.Length; i++)
         {
@@ -77,9 +94,6 @@ public class BridgeController : MonoBehaviour
             _bridgesPool[i].transform.SetParent(transform);
             _bridgesPool[i].SetActive(false);
         }
-        _timer = 2.5f;
-        ActivateNewObject(_bridgesPool);
-        StartCoroutine(BringSpeedToNormal());
     }
 
     void Update()

@@ -14,7 +14,7 @@ public class MeshGen : MonoBehaviour
     private int[] _tris;
     private Vector2[] _uv;
     private float[] _sound = new float[64];
-    private bool _isPaused = false;
+    private bool _isPaused = true;
     private float _pauseScale = 1f;
     private float _pauseFade;
     private float _speed;
@@ -34,11 +34,13 @@ public class MeshGen : MonoBehaviour
     private void OnEnable()
     {
         PlayerEvents.PlayPauseTrack += PlayPause;
+        PlayerEvents.AppStart += OnAppStart;
     }
 
     private void OnDisable()
     {
         PlayerEvents.PlayPauseTrack -= PlayPause;
+        PlayerEvents.AppStart -= OnAppStart;
     }
 
     private void Awake()
@@ -84,8 +86,6 @@ public class MeshGen : MonoBehaviour
         
         BuildTris();
         GenerateGridTexture();
-
-        StartCoroutine(Play());
         /*
         _tunnel = new GameObject[_length * 2];
         Mesh mesh = _tunnelBlock.GetComponent<MeshFilter>().sharedMesh;
@@ -103,6 +103,12 @@ public class MeshGen : MonoBehaviour
             _tunnel[i].transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + i - _length);
             _tunnel[i].transform.SetParent(transform);
         }*/
+    }
+
+    private void OnAppStart()
+    {
+        _isPaused = false;
+        StartCoroutine(Play());
     }
 
     void Update()
