@@ -6,13 +6,13 @@ public class PlaylistView : MonoBehaviour
 {
     private void OnEnable()
     {
-        PlayerEvents.PlaylistReady += FillPlaylistWithTracks;
+        PlayerEvents.PlaylistReady += FillPlaylistView;
         PlayerEvents.SelectTrack += SwitchActiveTrack;
     }
 
     private void OnDisable()
     {
-        PlayerEvents.PlaylistReady -= FillPlaylistWithTracks;
+        PlayerEvents.PlaylistReady -= FillPlaylistView;
         PlayerEvents.SelectTrack -= SwitchActiveTrack;
     }
 
@@ -25,11 +25,16 @@ public class PlaylistView : MonoBehaviour
 
     private AudioTrack _selectedTrack;
 
-    private void FillPlaylistWithTracks()
+    private void FillPlaylistView()
+    {
+        StartCoroutine(FillPlaylist());
+    }
+
+    private IEnumerator FillPlaylist()
     {
         _trackPrefab.SetActive(false);
         int trackPosition = 1;
-        foreach(AudioTrack track in _playlist.tracks)
+        foreach (AudioTrack track in _playlist.tracks)
         {
             GameObject newTrack = Instantiate(_trackPrefab, _viewport.transform);
             TrackView tv = newTrack.GetComponent<TrackView>();
@@ -37,6 +42,7 @@ public class PlaylistView : MonoBehaviour
             track.TrackView = tv;
             tv.TrackPosition = trackPosition++;
             newTrack.SetActive(true);
+            yield return null;
         }
         _selectedTrack = _playlist.GetCurrentTrack();
         _selectedTrack.TrackView.IsActiveTrack = true;

@@ -2,18 +2,33 @@ using System;
 using UnityEngine;
 
 public class PlayerEvents : MonoBehaviour
-{  
+{
+    public static event Action AppStart;
     public static event Action PlaylistReady;
     public static event Action DivideSpectrum;
     public static event Action PlayPauseTrack;
-    public static event Action PauseTrack;
-    public static event Action<float> AudioSeek;
 
     public static event Action<AudioTrack> TrackUpdate;
     public static event Action<AudioTrack> SelectTrack;
+    public static event Action<float> AudioSeek;
     public static event Action<bool> SwitchTrack;
-
     public static event Action<bool> UITrigger;
+    public static event Action<bool> SceneFade;
+
+    public static void OnAppStart()
+    {
+        AppStart?.Invoke();
+    }
+
+    /// <summary>
+    /// Fading In or Out the scene transition background image, 
+    /// true states for fadein and False for fadeout
+    /// </summary>
+    /// <param name="condition"></param>
+    public static void OnSceneFade(bool condition)
+    {
+        SceneFade?.Invoke(condition);
+    }
 
     public static void OnUITrigger(bool showUI)
     {
