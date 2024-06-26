@@ -19,6 +19,8 @@ public class Audio : MonoBehaviour
 
     void Start()
     {
+        if (PlayerPrefs.GetInt("Track", 0) != 0)
+            _relatedTrack = PlayerPrefs.GetInt("Track");
         StartCoroutine(Init());
     }
 
@@ -158,5 +160,10 @@ public class Audio : MonoBehaviour
         _currentTrackLength = newTrack.TrackDurationMS * 0.001f;
         _playtime = 0;
         StartCoroutine(Play());
+    }
+
+    private void OnApplicationQuit()
+    {
+        PlayerPrefs.SetInt("Track", (int)sceneStatus.CurrentTrack.TrackID);
     }
 }

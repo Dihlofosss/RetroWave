@@ -44,6 +44,73 @@ MonoBehaviour:
   saturation:
     m_OverrideState: 1
     m_Value: -25
+--- !u!114 &-2108453635003275719
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06437c1ff663d574d9447842ba0a72e4, type: 3}
+  m_Name: ScreenSpaceLensFlare
+  m_EditorClassIdentifier: 
+  active: 1
+  intensity:
+    m_OverrideState: 1
+    m_Value: 1.5
+  tintColor:
+    m_OverrideState: 0
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+  bloomMip:
+    m_OverrideState: 0
+    m_Value: 1
+  firstFlareIntensity:
+    m_OverrideState: 0
+    m_Value: 1
+  secondaryFlareIntensity:
+    m_OverrideState: 1
+    m_Value: 2
+  warpedFlareIntensity:
+    m_OverrideState: 0
+    m_Value: 2
+  warpedFlareScale:
+    m_OverrideState: 0
+    m_Value: {x: 1, y: 1}
+  samples:
+    m_OverrideState: 0
+    m_Value: 1
+  sampleDimmer:
+    m_OverrideState: 0
+    m_Value: 0.5
+  vignetteEffect:
+    m_OverrideState: 0
+    m_Value: 1
+  startingPosition:
+    m_OverrideState: 0
+    m_Value: 1.25
+  scale:
+    m_OverrideState: 0
+    m_Value: 1.5
+  streaksIntensity:
+    m_OverrideState: 1
+    m_Value: 0.5
+  streaksLength:
+    m_OverrideState: 1
+    m_Value: 0.85
+  streaksOrientation:
+    m_OverrideState: 0
+    m_Value: 0
+  streaksThreshold:
+    m_OverrideState: 0
+    m_Value: 0.25
+  resolution:
+    m_OverrideState: 0
+    m_Value: 4
+  chromaticAbberationIntensity:
+    m_OverrideState: 1
+    m_Value: 0.5
 --- !u!114 &-613448475414210348
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -90,7 +157,7 @@ MonoBehaviour:
     m_Value: 0.95
   intensity:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 1.5
   scatter:
     m_OverrideState: 1
     m_Value: 0.85
@@ -137,6 +204,7 @@ MonoBehaviour:
   - {fileID: 3181702098062213551}
   - {fileID: -613448475414210348}
   - {fileID: 7787828179409045919}
+  - {fileID: -2108453635003275719}
 --- !u!114 &3181702098062213551
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -186,7 +254,7 @@ MonoBehaviour:
     m_Value: 2
   acesPreset:
     m_OverrideState: 0
-    m_Value: 3
+    m_Value: 4
   hueShiftAmount:
     m_OverrideState: 0
     m_Value: 0
@@ -272,7 +340,7 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.3
+    m_Value: 0.25
   smoothness:
     m_OverrideState: 1
     m_Value: 1

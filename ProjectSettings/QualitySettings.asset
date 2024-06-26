@@ -18,14 +18,14 @@ QualitySettings:
     shadowCascade2Split: 0.33333334
     shadowCascade4Split: {x: 0.06666667, y: 0.2, z: 0.46666667}
     shadowmaskMode: 0
-    skinWeights: 2
+    skinWeights: 1
     globalTextureMipmapLimit: 0
     textureMipmapLimitSettings: []
-    anisotropicTextures: 2
-    antiAliasing: 2
+    anisotropicTextures: 1
+    antiAliasing: 0
     softParticles: 0
     softVegetation: 0
-    realtimeReflectionProbes: 1
+    realtimeReflectionProbes: 0
     billboardsFaceCameraPosition: 0
     useLegacyDetailDistribution: 1
     adaptiveVsync: 0
@@ -58,7 +58,6 @@ QualitySettings:
     terrainFadeLength: 5
     terrainMaxTrees: 50
     excludedTargetPlatforms:
-    - Standalone
     - Server
   - serializedVersion: 4
     name: Ultra
@@ -114,6 +113,7 @@ QualitySettings:
     excludedTargetPlatforms:
     - Android
     - Server
+    - Standalone
   m_TextureMipmapLimitGroupNames: []
   m_PerPlatformDefaultQuality:
     Android: 0
@@ -124,7 +124,7 @@ QualitySettings:
     PSP2: 0
     Server: 0
     Stadia: 1
-    Standalone: 1
+    Standalone: 0
     WebGL: 0
     Windows Store Apps: 1
     XboxOne: 1
