@@ -71,13 +71,13 @@ https://github.com/Dihlofosss/RetroWave/tree/master/Builds
  - Seek: Drag the slider to seek through the track.
 
 ## TODO
-- [x] UI: main/starting screen. (Work In Progress)
-- [ ] UI: loading screen.
+- [x] UI: main/starting screen.
+- [ ] UI: loading screen. (in progress)
 - [ ] UI: settings screen.
+- [ ] Performance: convert grid update and audio spectrum functions into Jobs (in progress)
 - [ ] Feature: save track to favorites.
 - [ ] Feature: save playlist, use favorite tracks for custom playlist.
 - [ ] Feature: use desired track for a new related tracks playlist generation.
-- [ ] Feature: Volume control with a rotary knob.
 - [ ] Assets: add enviroment assets (palms, buildings, cars).
 
 ## Contributing
