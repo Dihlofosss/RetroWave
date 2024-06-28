@@ -34,7 +34,7 @@ public class PlaylistManager : MonoBehaviour
 
     public void PreparePlaylistForPlayback(long relatedTrack)
     {
-        StartCoroutine(FillPlaylist(relatedTrack, playList, 30));
+        StartCoroutine(FillPlaylist(relatedTrack, playList, 50));
     }
 
     IEnumerator FillPlaylist(long relatedTrack, OnlinePlayList playList, int tracksAmount)

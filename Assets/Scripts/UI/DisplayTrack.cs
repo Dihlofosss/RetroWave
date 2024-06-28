@@ -46,7 +46,7 @@ public class DisplayTrack : MonoBehaviour
         if (sceneStatus.IsUIShown || sceneStatus.IsPaused())
             return;
 
-        _textMesh.text = track.TrackName + " - " + track.ArtistName;
+        _textMesh.text = track.ArtistName + " - " + track.TrackName;
 
         if (!isHidden)
         {
